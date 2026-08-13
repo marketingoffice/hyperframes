@@ -54,6 +54,18 @@ client's own sample proposal data before this ships.
 npx hyperframes lint      # structure
 npx hyperframes check     # browser gate — runtime, layout, motion, contrast
 npx hyperframes preview   # Studio timeline
+npx hyperframes render --quality high --output out.mp4
 ```
 
-`render` additionally needs FFmpeg, which is not installed in the container this was authored in.
+`render` needs FFmpeg on PATH. Rendered `.mp4` output and `snapshots/` are both gitignored —
+they are regenerable build artifacts.
+
+Verified render: h264, 1080×1920, 30fps, 60.000s, ~5.2 MB. Encoded frames were sampled and
+match the `snapshot` frames, so the placeholders and the persistent logo composite correctly
+through the real pipeline.
+
+## Script deliverable
+
+`HomeEstimator-60s-GC-Cut-Script.docx` is the client-facing production script — scene
+breakdown, verbatim VO, style block, and the open-items list. Brand rules require `.docx`
+rather than markdown for finished content, so that file, not this README, is the deliverable.

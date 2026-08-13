@@ -28,6 +28,9 @@ videos/
 # Composition verification frames — regenerate with `hyperframes snapshot`.
 projects/**/snapshots/
 
+# Rendered composition output — regenerate with `hyperframes render`.
+projects/**/*.mp4
+
 # IDE
 .vscode/
 .idea/
