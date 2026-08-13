@@ -364,14 +364,6 @@
         max-width: 840px;
       }
 
-      .domain {
-        margin: 0;
-        font-size: 30px;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--gold-deep);
-      }
-
       /* ---------- chapter-break sweep ---------- */
       .sweep {
         position: absolute;
@@ -396,47 +388,20 @@
         );
       }
 
-      /* ---------- persistent logo lockup (bottom-left, every scene) ---------- */
-      /* SWAP POINT: replace .logo-mark with <img src="assets/logo/Transparent_Background.png">
-         once the real asset is dropped into assets/logo/. Keep position + scale. */
+      /* ---------- persistent logo lockup (bottom-left, every scene) ----------
+         The official transparent lockup, trimmed to its alpha bounding box so the
+         optical margin is set here rather than by the source file's padding. */
       .logo-lockup {
         position: absolute;
         left: 72px;
-        bottom: 84px;
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        opacity: 0.72;
+        bottom: 78px;
+        opacity: 0.82;
       }
 
-      .logo-mark {
-        width: 46px;
-        height: 46px;
-        border: 2px solid var(--gold);
-        border-radius: 5px;
-        position: relative;
-      }
-
-      .logo-mark::after {
-        content: "";
-        position: absolute;
-        left: 9px;
-        right: 9px;
-        bottom: 9px;
-        height: 18px;
-        border-left: 2px solid var(--gold);
-        border-top: 2px solid var(--gold);
-      }
-
-      .logo-word {
-        font-size: 25px;
-        letter-spacing: 0.06em;
-        color: #efe9da;
-      }
-
-      .logo-word b {
-        font-weight: 600;
-        color: var(--gold);
+      .logo-lockup img {
+        display: block;
+        width: 168px;
+        height: auto;
       }
     </style>
   </head>
@@ -599,7 +564,6 @@
           <p class="cta" id="s7-cta" style="margin-top: 52px">
             Start bidding like the job's already yours.
           </p>
-          <p class="domain" id="s7-domain" style="margin-top: 58px">homeestimator.ai</p>
         </div>
       </section>
 
@@ -653,8 +617,7 @@
       <!-- ============ persistent logo lockup — bottom-left, all 60s (track 3) ============ -->
       <div id="logo" class="clip" data-start="0" data-duration="60" data-track-index="3">
         <div class="logo-lockup" id="logo-lockup">
-          <div class="logo-mark"></div>
-          <span class="logo-word">Home<b>Estimator.ai</b></span>
+          <img id="logo-img" src="assets/logo/logo-lockup.png" alt="HomeEstimator.ai" />
         </div>
       </div>
     </div>
@@ -816,18 +779,12 @@
         { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
         53.0,
       );
-      tl.fromTo(
-        "#s7-domain",
-        { opacity: 0, y: 22 },
-        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
-        53.8,
-      );
 
       /* ---- persistent logo: settles in once, then holds for the full cut ---- */
       tl.fromTo(
         "#logo-lockup",
         { opacity: 0, x: -24 },
-        { opacity: 0.72, x: 0, duration: 0.8, ease: "power3.out" },
+        { opacity: 0.82, x: 0, duration: 0.8, ease: "power3.out" },
         0.5,
       );
 

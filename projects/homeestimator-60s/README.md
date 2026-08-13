@@ -23,17 +23,19 @@ logo lockup is track 3, spanning the full 60s.
 
 ## Open swap points
 
-Three things are stubbed and need real assets before this renders as final:
+Two things are still stubbed and need real footage before this is final:
 
-1. **Logo** — `assets/logo/` is empty. The brand rule is the transparent logo blended
-   bottom-left on every creative. Currently a CSS placeholder lockup stands in at the correct
-   position and scale; see the `SWAP POINT` comment on `.logo-lockup` in `index.html`.
-   Drop in `Transparent_Background.png` and replace `.logo-mark` with an `<img>`.
-2. **A-roll footage** — Scenes 1, 3, 6 render as framed avatar placeholders carrying the VO
+1. **A-roll footage** — Scenes 1, 3, 6 render as framed avatar placeholders carrying the VO
    line and the correct durations, so the timeline is complete and timed. Swap each
    `.aroll-frame` block for a `<video>` clip when the HeyGen renders exist.
-3. **Scene 2 stock plate** — a described placeholder, not footage. Needs the kitchen-table
+2. **Scene 2 stock plate** — a described placeholder, not footage. Needs the kitchen-table
    shot sourced and dropped in as a `<video>`.
+
+**Resolved:** the logo. `assets/logo/logo-lockup.png` is the official transparent lockup,
+trimmed to its alpha bounding box (the source was 2000×2000 with heavy padding) and scaled to
+600px wide. It sits bottom-left at 82% opacity on all seven scenes. Optical margin is set in
+CSS rather than by the source file's padding, so the asset can be re-exported without
+re-tuning the layout.
 
 The Scene 5 proposal total (`$186,400`) is **sample figure, not a claim** — swap it for the
 client's own sample proposal data before this ships.
