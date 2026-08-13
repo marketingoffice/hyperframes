@@ -25,6 +25,9 @@ docs/images/
 
 videos/
 
+# Composition verification frames — regenerate with `hyperframes snapshot`.
+projects/**/snapshots/
+
 # IDE
 .vscode/
 .idea/
