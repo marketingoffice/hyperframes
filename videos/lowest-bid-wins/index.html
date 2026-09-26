@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Lowest Bid Wins? That's How Contractors Lose Money</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 500;
+        src: url("assets/fonts/dm-sans-latin-500-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 700;
+        src: url("assets/fonts/dm-sans-latin-700-normal.woff2") format("woff2");
+      }
+      :root {
+        --ink: #0a0a0a;
+        --panel: #151310;
+        --line: #2a2519;
+        --gold: #d4af37;
+        --gold-deep: #c9a84c;
+        --gold-hi: #f9e076;
+        --cream: #f5f1e6;
+        --muted: #a39a86;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        color: var(--cream);
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+
+      /* ---------- persistent layers ---------- */
+      #bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 80% 55% at 50% 38%, rgba(212, 175, 55, 0.13), transparent 70%),
+          linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px) 0 0 / 90px 90px,
+          linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px) 0 0 / 90px 90px,
+          var(--ink);
+      }
+      #logo {
+        position: absolute;
+        inset: 0;
+      }
+      .logo-mark {
+        position: absolute;
+        left: 72px;
+        bottom: 84px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        opacity: 0.92;
+      }
+      .logo-mark svg {
+        width: 58px;
+        height: 58px;
+      }
+      .logo-mark span {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 38px;
+        color: var(--gold);
+        letter-spacing: 0.5px;
+      }
+
+      /* ---------- scene scaffolding ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+      .stage {
+        position: absolute;
+        inset: 0;
+        padding: 200px 80px 260px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .kicker {
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: 8px;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 48px;
+      }
+      .display {
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        line-height: 1.02;
+        text-transform: uppercase;
+      }
+      .row {
+        display: block;
+      }
+      .gold {
+        color: var(--gold-hi);
+      }
+
+      /* ---------- S1 hook ---------- */
+      #s1-stamp {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 30px;
+        border: 3px solid var(--gold);
+        border-radius: 8px;
+        color: var(--gold);
+        font-weight: 700;
+        font-size: 32px;
+        letter-spacing: 6px;
+        margin-bottom: 56px;
+      }
+      #s1-l1 {
+        font-size: 150px;
+        color: var(--cream);
+      }
+      #s1-l2 {
+        font-size: 124px;
+        margin-top: 40px;
+      }
+      #s1-meter {
+        width: 840px;
+        margin-top: 90px;
+      }
+      .meter-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: 4px;
+        color: var(--muted);
+        margin-bottom: 20px;
+      }
+      #s1-pct {
+        font-family: "Playfair Display", serif;
+        font-size: 72px;
+        color: var(--gold-hi);
+        letter-spacing: 0;
+      }
+      .meter-track {
+        height: 34px;
+        border-radius: 17px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      #s1-fill {
+        width: 100%;
+        height: 100%;
+        border-radius: 17px;
+        background: linear-gradient(90deg, var(--gold-deep), var(--gold-hi));
+      }
+
+      /* ---------- S2 problem ---------- */
+      .chain {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+      }
+      .pill {
+        width: 820px;
+        padding: 40px 0;
+        border: 4px solid var(--gold-deep);
+        border-radius: 22px;
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 84px;
+        line-height: 1;
+        text-transform: uppercase;
+        color: var(--cream);
+        background: rgba(21, 19, 16, 0.9);
+      }
+      #s2-p3 {
+        background: var(--gold);
+        border-color: var(--gold-hi);
+        color: var(--ink);
+      }
+      .arrow {
+        width: 60px;
+        height: 70px;
+      }
+      .chips {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: flex-start;
+        width: 820px;
+      }
+      .chip {
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--cream);
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .chip b {
+        color: var(--gold);
+        font-weight: 700;
+      }
+
+      /* ---------- S3 fix ---------- */
+      #s3 .stage {
+        justify-content: flex-start;
+        padding-top: 190px;
+      }
+      #s3-title {
+        font-size: 104px;
+        margin-bottom: 56px;
+      }
+      .steps {
+        width: 920px;
+        display: flex;
+        flex-direction: column;
+        gap: 26px;
+      }
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        padding: 26px 34px;
+        border-radius: 20px;
+        background: var(--panel);
+        border: 3px solid var(--line);
+        text-align: left;
+      }
+      .step .num {
+        flex: none;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--ink);
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .step .label {
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 58px;
+        line-height: 1.05;
+        text-transform: uppercase;
+      }
+      .visual {
+        position: relative;
+        width: 920px;
+        height: 620px;
+        margin-top: 50px;
+      }
+      .vis {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      /* V1 rooms */
+      .rooms {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+      }
+      .room {
+        height: 170px;
+        border: 3px solid var(--gold-deep);
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: left;
+        background: rgba(212, 175, 55, 0.07);
+      }
+      .room h4 {
+        font-size: 34px;
+        font-weight: 700;
+        color: var(--cream);
+      }
+      .room p {
+        font-size: 24px;
+        color: var(--gold);
+        font-weight: 500;
+      }
+      #v1-lump {
+        margin-top: 40px;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--muted);
+        letter-spacing: 3px;
+        position: relative;
+        padding: 0 10px;
+      }
+      #v1-strike {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 5px;
+        background: var(--gold-hi);
+      }
+      /* V2 tiers */
+      .tiers {
+        display: flex;
+        align-items: flex-end;
+        gap: 40px;
+        height: 460px;
+      }
+      .tier {
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .tier .bar {
+        width: 100%;
+        border-radius: 16px 16px 6px 6px;
+        background: linear-gradient(180deg, var(--gold-hi), var(--gold-deep));
+      }
+      .tier .t {
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 50px;
+        text-transform: uppercase;
+      }
+      #v2-cap {
+        margin-top: 34px;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--gold);
+        letter-spacing: 3px;
+      }
+      /* V3 margin */
+      .gauge {
+        width: 100%;
+      }
+      .gauge-track {
+        position: relative;
+        height: 90px;
+        border-radius: 45px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      #v3-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 78%;
+        border-radius: 45px;
+        background: linear-gradient(90deg, var(--gold-deep), var(--gold-hi));
+      }
+      .marks {
+        position: relative;
+        height: 150px;
+      }
+      .mark {
+        position: absolute;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+        margin-left: -150px;
+      }
+      .mark i {
+        display: block;
+        width: 6px;
+        height: 60px;
+        background: var(--cream);
+      }
+      .mark span {
+        margin-top: 12px;
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: 3px;
+      }
+      #v3-floor {
+        left: 40%;
+      }
+      #v3-target {
+        left: 78%;
+      }
+      #v3-target span {
+        color: var(--gold-hi);
+      }
+      #v3-cap {
+        margin-top: 20px;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--cream);
+      }
+
+      /* ---------- S4 product ---------- */
+      #s4-brand {
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 104px;
+        color: var(--gold-hi);
+      }
+      #s4-tag {
+        margin-top: 24px;
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--cream);
+        letter-spacing: 1px;
+      }
+      .feature-slot {
+        position: relative;
+        width: 920px;
+        height: 420px;
+        margin-top: 110px;
+      }
+      .feature {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid var(--gold-deep);
+        border-radius: 28px;
+        background: rgba(21, 19, 16, 0.92);
+      }
+      .feature .fnum {
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: 8px;
+        color: var(--gold);
+        margin-bottom: 22px;
+      }
+      .feature .ftext {
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 96px;
+        line-height: 1.02;
+        text-transform: uppercase;
+      }
+
+      /* ---------- S5 CTA ---------- */
+      #s5-l1 {
+        font-size: 118px;
+      }
+      #s5-brand {
+        margin-top: 90px;
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 104px;
+        color: var(--gold-hi);
+      }
+      #s5-badge {
+        margin-top: 56px;
+        display: inline-flex;
+        align-items: center;
+        gap: 22px;
+        padding: 30px 48px;
+        border-radius: 999px;
+        background: var(--gold);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 42px;
+        letter-spacing: 2px;
+      }
+      #s5-badge svg {
+        width: 52px;
+        height: 52px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="59"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- ground -->
+      <div id="bg" class="clip" data-start="0" data-duration="59" data-track-index="0"></div>
+
+      <!-- voiceover -->
+      <audio id="vo1" src="assets/vo1.mp3" data-start="0.2" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo2" src="assets/vo2.mp3" data-start="5.0" data-track-index="11" data-volume="1"></audio>
+      <audio id="vo3" src="assets/vo3.mp3" data-start="16.6" data-track-index="12" data-volume="1"></audio>
+      <audio id="vo4" src="assets/vo4.mp3" data-start="38.8" data-track-index="13" data-volume="1"></audio>
+      <audio id="vo5" src="assets/vo5.mp3" data-start="50.8" data-track-index="14" data-volume="1"></audio>
+
+      <!-- S1: HOOK 0–4.8 -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="4.8" data-track-index="1">
+        <div class="stage" id="s1-stage">
+          <div id="s1-stamp">&#10003; BID ACCEPTED</div>
+          <h1 id="s1-l1" class="display">
+            <span class="row">You won</span><span class="row">the bid.</span>
+          </h1>
+          <h2 id="s1-l2" class="display gold">
+            <span class="row">But lost</span><span class="row">the profit.</span>
+          </h2>
+          <div id="s1-meter">
+            <div class="meter-head"><span>PROFIT MARGIN</span><span id="s1-pct">18%</span></div>
+            <div class="meter-track"><div id="s1-fill"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S2: REAL PROBLEM 4.8–16.4 -->
+      <section id="s2" class="scene clip" data-start="4.8" data-duration="11.6" data-track-index="1">
+        <div class="stage" id="s2-stage">
+          <div class="kicker" id="s2-kicker">The real problem</div>
+          <div class="chain">
+            <div class="pill" id="s2-p1">Underbid</div>
+            <svg class="arrow" id="s2-a1" viewBox="0 0 60 70"><path d="M30 0v56M8 36l22 26 22-26" fill="none" stroke="#D4AF37" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <div class="pill" id="s2-p2">Missed scope</div>
+            <svg class="arrow" id="s2-a2" viewBox="0 0 60 70"><path d="M30 0v56M8 36l22 26 22-26" fill="none" stroke="#D4AF37" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <div class="pill" id="s2-p3">Margin gone</div>
+          </div>
+          <div class="chips">
+            <div class="chip" id="s2-c1"><b>&#10005;</b> Missed scope items</div>
+            <div class="chip" id="s2-c2"><b>&#10005;</b> Underestimated finishes</div>
+            <div class="chip" id="s2-c3"><b>&#10005;</b> Forgotten trade dependencies</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S3: 3-STEP FIX 16.4–38.6 -->
+      <section id="s3" class="scene clip" data-start="16.4" data-duration="22.2" data-track-index="1">
+        <div class="stage" id="s3-stage">
+          <div class="kicker" id="s3-kicker">A better estimate</div>
+          <h2 id="s3-title" class="display">The 3-step fix</h2>
+          <div class="steps">
+            <div class="step" id="s3-st1"><div class="num">1</div><div class="label">Price every room</div></div>
+            <div class="step" id="s3-st2"><div class="num">2</div><div class="label">Define finish levels</div></div>
+            <div class="step" id="s3-st3"><div class="num">3</div><div class="label">Protect your margin</div></div>
+          </div>
+          <div class="visual">
+            <div class="vis" id="v1">
+              <div class="rooms">
+                <div class="room" id="v1-r1"><h4>Kitchen</h4><p>Cabinets · Electrical</p></div>
+                <div class="room" id="v1-r2"><h4>Primary Bath</h4><p>Plumbing · Tile</p></div>
+                <div class="room" id="v1-r3"><h4>Basement</h4><p>Framing · Drywall</p></div>
+                <div class="room" id="v1-r4"><h4>Living Room</h4><p>Flooring · Paint</p></div>
+                <div class="room" id="v1-r5"><h4>Addition</h4><p>Foundation · Roofing</p></div>
+                <div class="room" id="v1-r6"><h4>Mechanicals</h4><p>HVAC · Electrical</p></div>
+              </div>
+              <div id="v1-lump">ONE GIANT NUMBER<div id="v1-strike"></div></div>
+            </div>
+            <div class="vis" id="v2">
+              <div class="tiers">
+                <div class="tier" id="v2-t1"><div class="bar" style="height: 170px"></div><div class="t">Good</div></div>
+                <div class="tier" id="v2-t2"><div class="bar" style="height: 260px"></div><div class="t">Better</div></div>
+                <div class="tier" id="v2-t3"><div class="bar" style="height: 350px"></div><div class="t">Best</div></div>
+              </div>
+              <div id="v2-cap">SEE WHAT CHANGES THE BUDGET</div>
+            </div>
+            <div class="vis" id="v3">
+              <div class="gauge">
+                <div class="gauge-track"><div id="v3-fill"></div></div>
+                <div class="marks">
+                  <div class="mark" id="v3-floor"><i></i><span>PROFIT FLOOR</span></div>
+                  <div class="mark" id="v3-target"><i></i><span>TARGET</span></div>
+                </div>
+              </div>
+              <div id="v3-cap">Locked in before the proposal goes out.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S4: HOMEESTIMATOR.AI 38.6–50.6 -->
+      <section id="s4" class="scene clip" data-start="38.6" data-duration="12" data-track-index="1">
+        <div class="stage" id="s4-stage">
+          <div id="s4-brand">HomeEstimator.ai</div>
+          <div id="s4-tag">Design Within Budget From Day One</div>
+          <div class="feature-slot">
+            <div class="feature" id="s4-f1"><div class="fnum">01</div><div class="ftext"><span class="row">Room-by-room</span><span class="row gold">pricing</span></div></div>
+            <div class="feature" id="s4-f2"><div class="fnum">02</div><div class="ftext"><span class="row">Good · Better</span><span class="row gold">· Best</span></div></div>
+            <div class="feature" id="s4-f3"><div class="fnum">03</div><div class="ftext"><span class="row">Margin</span><span class="row gold">protected</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S5: CTA 50.6–59 -->
+      <section id="s5" class="scene clip" data-start="50.6" data-duration="8.4" data-track-index="1">
+        <div class="stage" id="s5-stage">
+          <h2 id="s5-l1" class="display">
+            <span class="row">Stop winning</span><span class="row">jobs that</span><span class="row gold">lose money.</span>
+          </h2>
+          <div id="s5-brand">HomeEstimator.ai</div>
+          <div id="s5-badge">
+            <svg viewBox="0 0 52 52"><path d="M26 3l19 7v14c0 12-8 21-19 25C15 45 7 36 7 24V10z" fill="none" stroke="#0A0A0A" stroke-width="4" stroke-linejoin="round" /><path d="M17 26l7 7 12-13" fill="none" stroke="#0A0A0A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            3-DAY MONEY-BACK GUARANTEE
+          </div>
+        </div>
+      </section>
+
+      <!-- brand mark, bottom-left, whole video -->
+      <div id="logo" class="clip" data-start="0" data-duration="59" data-track-index="5">
+        <div class="logo-mark">
+          <svg viewBox="0 0 58 58"><path d="M6 28L29 8l23 20" fill="none" stroke="#D4AF37" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><path d="M13 23v27h32V23" fill="none" stroke="#D4AF37" stroke-width="5" stroke-linejoin="round" /><path d="M22 42l6-8 5 5 7-10" fill="none" stroke="#F9E076" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <span>HomeEstimator.ai</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const IN = "power3.out";
+      const OUT = "power2.in";
+
+      // Scene handoff: every scene exits up and the next enters from below (one vector).
+      function enter(sel, t) {
+        tl.fromTo(sel, { y: 90, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: IN }, t);
+      }
+      function exit(sel, t) {
+        tl.to(sel, { y: -90, opacity: 0, duration: 0.3, ease: OUT }, t);
+        tl.set(sel, { opacity: 0 }, t + 0.3);
+      }
+      function pop(sel, t, from) {
+        tl.fromTo(sel, Object.assign({ opacity: 0, y: 50 }, from || {}), { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: IN }, t);
+      }
+
+      // ---------- S1 HOOK (0–4.8) ----------
+      pop("#s1-stamp", 0.1, { scale: 1.4, y: 0 });
+      pop("#s1-l1", 0.3, { y: 70 });
+      pop("#s1-meter", 1.0);
+      pop("#s1-l2", 2.2, { y: 70 });
+      const margin = { v: 18 };
+      tl.to(margin, {
+        v: 0,
+        duration: 1.6,
+        ease: "power2.in",
+        onUpdate: () => {
+          document.getElementById("s1-pct").textContent = Math.round(margin.v) + "%";
+        },
+      }, 2.5);
+      tl.fromTo("#s1-fill", { scaleX: 1, transformOrigin: "0% 50%" }, { scaleX: 0, duration: 1.6, ease: "power2.in" }, 2.5);
+      exit("#s1-stage", 4.5);
+
+      // ---------- S2 PROBLEM (4.8–16.4) ----------
+      enter("#s2-stage", 4.8);
+      pop("#s2-p1", 5.1, { scale: 0.9 });
+      pop("#s2-a1", 7.2, { y: -20 });
+      pop("#s2-p2", 7.4, { scale: 0.9 });
+      pop("#s2-c1", 7.9, { y: 0, x: -40 });
+      pop("#s2-c2", 9.1, { y: 0, x: -40 });
+      pop("#s2-c3", 10.5, { y: 0, x: -40 });
+      pop("#s2-a2", 12.3, { y: -20 });
+      pop("#s2-p3", 12.5, { scale: 1.25 });
+      tl.fromTo("#s2-p3", { x: 0 }, { x: 14, duration: 0.06, repeat: 5, yoyo: true, ease: "none" }, 13.0);
+      exit("#s2-stage", 16.1);
+
+      // ---------- S3 FIX (16.4–38.6) ----------
+      enter("#s3-stage", 16.4);
+      pop("#s3-st1", 19.0, { x: -60, y: 0 });
+      // V1 rooms (19.2–25.2)
+      ["#v1-r1", "#v1-r2", "#v1-r3", "#v1-r4", "#v1-r5", "#v1-r6"].forEach((s, i) => pop(s, 19.3 + i * 0.28, { scale: 0.85, y: 30 }));
+      pop("#v1-lump", 22.2, { y: 20 });
+      tl.fromTo("#v1-strike", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.4, ease: IN }, 22.7);
+      tl.to("#v1", { opacity: 0, y: -40, duration: 0.3, ease: OUT }, 25.0);
+      // Step 2
+      tl.to("#s3-st1", { opacity: 0.35, duration: 0.3 }, 25.3);
+      pop("#s3-st2", 25.4, { x: -60, y: 0 });
+      ["#v2-t1", "#v2-t2", "#v2-t3"].forEach((s, i) => pop(s, 26.0 + i * 0.55, { y: 120 }));
+      pop("#v2-cap", 29.6, { y: 20 });
+      tl.to("#v2", { opacity: 0, y: -40, duration: 0.3, ease: OUT }, 33.0);
+      // Step 3
+      tl.to("#s3-st2", { opacity: 0.35, duration: 0.3 }, 33.3);
+      pop("#s3-st3", 33.4, { x: -60, y: 0 });
+      pop("#v3", 33.6, { y: 30 });
+      tl.fromTo("#v3-fill", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 1.8, ease: "power2.out" }, 34.0);
+      pop("#v3-floor", 34.6, { y: -20 });
+      pop("#v3-target", 35.5, { y: -20 });
+      pop("#v3-cap", 36.4, { y: 20 });
+      exit("#s3-stage", 38.3);
+
+      // ---------- S4 PRODUCT (38.6–50.6) ----------
+      enter("#s4-stage", 38.6);
+      pop("#s4-brand", 38.8, { scale: 0.92, y: 30 });
+      pop("#s4-tag", 39.8, { y: 20 });
+      pop("#s4-f1", 42.4, { y: 80 });
+      tl.to("#s4-f1", { opacity: 0, y: -60, duration: 0.3, ease: OUT }, 44.6);
+      pop("#s4-f2", 44.8, { y: 80 });
+      tl.to("#s4-f2", { opacity: 0, y: -60, duration: 0.3, ease: OUT }, 47.4);
+      pop("#s4-f3", 47.6, { y: 80 });
+      exit("#s4-stage", 50.3);
+
+      // ---------- S5 CTA (50.6–59) ----------
+      enter("#s5-stage", 50.6);
+      pop("#s5-l1", 50.8, { y: 70 });
+      pop("#s5-brand", 53.0, { scale: 0.9, y: 30 });
+      pop("#s5-badge", 54.3, { scale: 0.8, y: 0 });
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
