@@ -126,7 +126,11 @@ For every Home Estimator (HomeEstimator.ai) video:
 
 - **Background:** plain solid navy `#1a1a2e` — never a grid, pattern, or texture.
 - **Palette:** navy `#1a1a2e` (ground), navy-2 `#2d2d44` (panels/cards), sand `#c9a96e` (secondary accents, kickers), gold `#d4af37` (primary accent, CTAs), white `#ffffff` (headlines/body).
-- **Type:** Playfair Display 900 uppercase headlines; DM Sans body (bundle the woff2 — the renderer doesn't auto-supply it).
-- **Logo:** gold house + chimney + four-point sparkle over the "Home Estimator" wordmark — small, bottom-left, through the body; full lockup in the CTA. Reusable SVG `<symbol id="he-mark">` lives in `videos/lowest-bid-wins/index.html`.
+- **Type:** use the fonts named in the Home Estimator brand guide (confirm with the user; bundle woff2 files — the renderer only auto-supplies a few families).
+- **Logo:** use the ORIGINAL logo file only (gold house + chimney + sparkle over "Home Estimator") — never redraw or approximate it. Pasted chat images don't arrive as files: ask for a shared Google Drive link and download it. Small bottom-left through the body; full lockup in the CTA.
 - **Brand naming:** don't say or show "HomeEstimator.ai" in the body. Only the CTA uses it, e.g. "Visit HomeEstimator.ai to learn more — or book a demo."
+- **CTA:** "Visit HomeEstimator.ai to learn more — or book a demo." No money-back guarantee line.
+- **Music:** always include a music bed under the voiceover; the user supplies Envato tracks via a shared Drive link.
+- **Graphics:** favour app UI mockups (estimate screens, room cards, Good/Better/Best tiers, margin readouts) and strong motion (kinetic type, camera-style transitions, beat-synced cuts).
+- **Process:** ask the user questions (fonts, logo file, music, visuals) BEFORE building a new video, and self-review snapshots before delivering.
 - **No "free" language.** Reference build: `videos/lowest-bid-wins/`.
