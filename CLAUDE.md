@@ -119,3 +119,14 @@ skills/                 → AI agent skill definitions
 
 - Docs: https://hyperframes.heygen.com/introduction
 - Catalog (50+ blocks): https://hyperframes.heygen.com/catalog/blocks/data-chart
+
+## Home Estimator video house style (always apply)
+
+For every Home Estimator (HomeEstimator.ai) video:
+
+- **Background:** plain solid navy `#1a1a2e` — never a grid, pattern, or texture.
+- **Palette:** navy `#1a1a2e` (ground), navy-2 `#2d2d44` (panels/cards), sand `#c9a96e` (secondary accents, kickers), gold `#d4af37` (primary accent, CTAs), white `#ffffff` (headlines/body).
+- **Type:** Playfair Display 900 uppercase headlines; DM Sans body (bundle the woff2 — the renderer doesn't auto-supply it).
+- **Logo:** gold house + chimney + four-point sparkle over the "Home Estimator" wordmark — small, bottom-left, through the body; full lockup in the CTA. Reusable SVG `<symbol id="he-mark">` lives in `videos/lowest-bid-wins/index.html`.
+- **Brand naming:** don't say or show "HomeEstimator.ai" in the body. Only the CTA uses it, e.g. "Visit HomeEstimator.ai to learn more — or book a demo."
+- **No "free" language.** Reference build: `videos/lowest-bid-wins/`.

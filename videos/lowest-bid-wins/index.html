@@ -16,15 +16,14 @@
         font-weight: 700;
         src: url("assets/fonts/dm-sans-latin-700-normal.woff2") format("woff2");
       }
+      /* Home Estimator brand palette — plain navy ground, never a grid */
       :root {
-        --ink: #0a0a0a;
-        --panel: #151310;
-        --line: #2a2519;
+        --navy: #1a1a2e;
+        --navy-2: #2d2d44;
+        --sand: #c9a96e;
         --gold: #d4af37;
-        --gold-deep: #c9a84c;
-        --gold-hi: #f9e076;
-        --cream: #f5f1e6;
-        --muted: #a39a86;
+        --white: #ffffff;
+        --dim: rgba(255, 255, 255, 0.6);
       }
       * {
         margin: 0;
@@ -36,53 +35,51 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: var(--ink);
+        background: var(--navy);
       }
       body {
         font-family: "DM Sans", sans-serif;
-        color: var(--cream);
+        color: var(--white);
       }
       #root {
         position: relative;
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: var(--ink);
+        background: var(--navy);
       }
-
-      /* ---------- persistent layers ---------- */
       #bg {
         position: absolute;
         inset: 0;
-        background:
-          radial-gradient(ellipse 80% 55% at 50% 38%, rgba(212, 175, 55, 0.13), transparent 70%),
-          linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px) 0 0 / 90px 90px,
-          linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px) 0 0 / 90px 90px,
-          var(--ink);
+        background: var(--navy);
       }
+
+      /* ---------- logo (bottom-left, blended) ---------- */
       #logo {
         position: absolute;
         inset: 0;
       }
-      .logo-mark {
+      .logo-corner {
         position: absolute;
-        left: 72px;
-        bottom: 84px;
+        left: 64px;
+        bottom: 72px;
         display: flex;
         align-items: center;
-        gap: 18px;
-        opacity: 0.92;
+        gap: 16px;
+        opacity: 0.9;
       }
-      .logo-mark svg {
-        width: 58px;
-        height: 58px;
+      .logo-corner svg {
+        width: 78px;
+        height: 70px;
       }
-      .logo-mark span {
-        font-family: "Playfair Display", serif;
+      .wordmark {
+        font-family: "Nunito", sans-serif;
         font-weight: 700;
-        font-size: 38px;
         color: var(--gold);
         letter-spacing: 0.5px;
+      }
+      .logo-corner .wordmark {
+        font-size: 36px;
       }
 
       /* ---------- scene scaffolding ---------- */
@@ -102,23 +99,29 @@
       }
       .kicker {
         font-weight: 700;
-        font-size: 34px;
+        font-size: 32px;
         letter-spacing: 8px;
-        color: var(--gold);
+        color: var(--sand);
         text-transform: uppercase;
-        margin-bottom: 48px;
+      }
+      .rule {
+        width: 120px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--gold);
+        margin: 26px 0 48px;
       }
       .display {
         font-family: "Playfair Display", serif;
         font-weight: 900;
-        line-height: 1.02;
+        line-height: 1.04;
         text-transform: uppercase;
       }
       .row {
         display: block;
       }
       .gold {
-        color: var(--gold-hi);
+        color: var(--gold);
       }
 
       /* ---------- S1 hook ---------- */
@@ -127,20 +130,19 @@
         align-items: center;
         gap: 14px;
         padding: 14px 30px;
-        border: 3px solid var(--gold);
+        border: 3px solid var(--sand);
         border-radius: 8px;
-        color: var(--gold);
+        color: var(--sand);
         font-weight: 700;
-        font-size: 32px;
+        font-size: 30px;
         letter-spacing: 6px;
         margin-bottom: 56px;
       }
       #s1-l1 {
-        font-size: 150px;
-        color: var(--cream);
+        font-size: 148px;
       }
       #s1-l2 {
-        font-size: 124px;
+        font-size: 122px;
         margin-top: 40px;
       }
       #s1-meter {
@@ -152,28 +154,28 @@
         justify-content: space-between;
         align-items: baseline;
         font-weight: 700;
-        font-size: 34px;
+        font-size: 32px;
         letter-spacing: 4px;
-        color: var(--muted);
+        color: var(--sand);
         margin-bottom: 20px;
       }
       #s1-pct {
         font-family: "Playfair Display", serif;
         font-size: 72px;
-        color: var(--gold-hi);
+        color: var(--gold);
         letter-spacing: 0;
       }
       .meter-track {
         height: 34px;
         border-radius: 17px;
-        background: var(--line);
+        background: var(--navy-2);
         overflow: hidden;
       }
       #s1-fill {
         width: 100%;
         height: 100%;
         border-radius: 17px;
-        background: linear-gradient(90deg, var(--gold-deep), var(--gold-hi));
+        background: var(--gold);
       }
 
       /* ---------- S2 problem ---------- */
@@ -186,20 +188,20 @@
       .pill {
         width: 820px;
         padding: 40px 0;
-        border: 4px solid var(--gold-deep);
         border-radius: 22px;
         font-family: "Playfair Display", serif;
         font-weight: 900;
         font-size: 84px;
         line-height: 1;
         text-transform: uppercase;
-        color: var(--cream);
-        background: rgba(21, 19, 16, 0.9);
+        color: var(--white);
+        background: var(--navy-2);
+        border: 3px solid rgba(201, 169, 110, 0.45);
       }
       #s2-p3 {
         background: var(--gold);
-        border-color: var(--gold-hi);
-        color: var(--ink);
+        border-color: var(--gold);
+        color: var(--navy);
       }
       .arrow {
         width: 60px;
@@ -216,7 +218,7 @@
       .chip {
         font-size: 40px;
         font-weight: 500;
-        color: var(--cream);
+        color: var(--white);
         display: flex;
         gap: 20px;
         align-items: center;
@@ -229,17 +231,17 @@
       /* ---------- S3 fix ---------- */
       #s3 .stage {
         justify-content: flex-start;
-        padding-top: 190px;
+        padding-top: 200px;
       }
       #s3-title {
         font-size: 104px;
-        margin-bottom: 56px;
+        margin-bottom: 52px;
       }
       .steps {
         width: 920px;
         display: flex;
         flex-direction: column;
-        gap: 26px;
+        gap: 24px;
       }
       .step {
         display: flex;
@@ -247,8 +249,7 @@
         gap: 32px;
         padding: 26px 34px;
         border-radius: 20px;
-        background: var(--panel);
-        border: 3px solid var(--line);
+        background: var(--navy-2);
         text-align: left;
       }
       .step .num {
@@ -257,7 +258,7 @@
         height: 92px;
         border-radius: 50%;
         background: var(--gold);
-        color: var(--ink);
+        color: var(--navy);
         font-family: "Playfair Display", serif;
         font-weight: 900;
         font-size: 58px;
@@ -275,8 +276,8 @@
       .visual {
         position: relative;
         width: 920px;
-        height: 620px;
-        margin-top: 50px;
+        height: 560px;
+        margin-top: 64px;
       }
       .vis {
         position: absolute;
@@ -284,7 +285,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
       }
       /* V1 rooms */
       .rooms {
@@ -294,31 +295,31 @@
         width: 100%;
       }
       .room {
-        height: 170px;
-        border: 3px solid var(--gold-deep);
+        height: 180px;
+        border: 3px solid var(--sand);
         border-radius: 16px;
-        padding: 20px;
+        padding: 22px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         text-align: left;
-        background: rgba(212, 175, 55, 0.07);
+        background: var(--navy-2);
       }
       .room h4 {
-        font-size: 34px;
+        font-size: 36px;
         font-weight: 700;
-        color: var(--cream);
+        color: var(--white);
       }
       .room p {
-        font-size: 24px;
-        color: var(--gold);
+        font-size: 26px;
+        color: var(--sand);
         font-weight: 500;
       }
       #v1-lump {
-        margin-top: 40px;
+        margin-top: 44px;
         font-size: 40px;
         font-weight: 700;
-        color: var(--muted);
+        color: var(--dim);
         letter-spacing: 3px;
         position: relative;
         padding: 0 10px;
@@ -329,14 +330,14 @@
         right: 0;
         top: 50%;
         height: 5px;
-        background: var(--gold-hi);
+        background: var(--gold);
       }
       /* V2 tiers */
       .tiers {
         display: flex;
         align-items: flex-end;
         gap: 40px;
-        height: 460px;
+        height: 440px;
       }
       .tier {
         width: 240px;
@@ -348,7 +349,16 @@
       .tier .bar {
         width: 100%;
         border-radius: 16px 16px 6px 6px;
-        background: linear-gradient(180deg, var(--gold-hi), var(--gold-deep));
+      }
+      #v2-t1 .bar {
+        background: var(--navy-2);
+        border: 3px solid var(--sand);
+      }
+      #v2-t2 .bar {
+        background: var(--sand);
+      }
+      #v2-t3 .bar {
+        background: var(--gold);
       }
       .tier .t {
         font-family: "Playfair Display", serif;
@@ -360,18 +370,19 @@
         margin-top: 34px;
         font-size: 40px;
         font-weight: 700;
-        color: var(--gold);
+        color: var(--sand);
         letter-spacing: 3px;
       }
       /* V3 margin */
       .gauge {
         width: 100%;
+        margin-top: 60px;
       }
       .gauge-track {
         position: relative;
         height: 90px;
         border-radius: 45px;
-        background: var(--line);
+        background: var(--navy-2);
         overflow: hidden;
       }
       #v3-fill {
@@ -381,7 +392,7 @@
         bottom: 0;
         width: 78%;
         border-radius: 45px;
-        background: linear-gradient(90deg, var(--gold-deep), var(--gold-hi));
+        background: var(--gold);
       }
       .marks {
         position: relative;
@@ -400,13 +411,14 @@
         display: block;
         width: 6px;
         height: 60px;
-        background: var(--cream);
+        background: var(--white);
       }
       .mark span {
         margin-top: 12px;
         font-size: 36px;
         font-weight: 700;
         letter-spacing: 3px;
+        color: var(--sand);
       }
       #v3-floor {
         left: 40%;
@@ -415,34 +427,24 @@
         left: 78%;
       }
       #v3-target span {
-        color: var(--gold-hi);
+        color: var(--gold);
       }
       #v3-cap {
         margin-top: 20px;
         font-size: 40px;
         font-weight: 700;
-        color: var(--cream);
+        color: var(--white);
       }
 
-      /* ---------- S4 product ---------- */
-      #s4-brand {
-        font-family: "Playfair Display", serif;
-        font-weight: 900;
-        font-size: 104px;
-        color: var(--gold-hi);
-      }
-      #s4-tag {
-        margin-top: 24px;
-        font-size: 40px;
-        font-weight: 500;
-        color: var(--cream);
-        letter-spacing: 1px;
+      /* ---------- S4 the smarter estimate ---------- */
+      #s4-title {
+        font-size: 112px;
       }
       .feature-slot {
         position: relative;
         width: 920px;
         height: 420px;
-        margin-top: 110px;
+        margin-top: 40px;
       }
       .feature {
         position: absolute;
@@ -451,73 +453,102 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border: 4px solid var(--gold-deep);
         border-radius: 28px;
-        background: rgba(21, 19, 16, 0.92);
+        background: var(--navy-2);
+        border: 3px solid var(--sand);
       }
       .feature .fnum {
         font-size: 34px;
         font-weight: 700;
         letter-spacing: 8px;
-        color: var(--gold);
+        color: var(--sand);
         margin-bottom: 22px;
       }
       .feature .ftext {
         font-family: "Playfair Display", serif;
         font-weight: 900;
-        font-size: 96px;
-        line-height: 1.02;
+        font-size: 92px;
+        line-height: 1.04;
         text-transform: uppercase;
       }
 
       /* ---------- S5 CTA ---------- */
+      #s5 .stage {
+        padding-bottom: 200px;
+      }
       #s5-l1 {
-        font-size: 118px;
+        font-size: 112px;
       }
-      #s5-brand {
-        margin-top: 90px;
-        font-family: "Playfair Display", serif;
-        font-weight: 900;
-        font-size: 104px;
-        color: var(--gold-hi);
-      }
-      #s5-badge {
-        margin-top: 56px;
-        display: inline-flex;
+      #s5-logo {
+        margin-top: 80px;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 22px;
-        padding: 30px 48px;
+        gap: 18px;
+      }
+      #s5-logo svg {
+        width: 240px;
+        height: 214px;
+      }
+      #s5-logo .wordmark {
+        font-size: 64px;
+      }
+      #s5-visit {
+        margin-top: 56px;
+        font-size: 44px;
+        font-weight: 500;
+        color: var(--white);
+      }
+      #s5-visit b {
+        color: var(--gold);
+        font-weight: 700;
+      }
+      #s5-demo {
+        margin-top: 32px;
+        padding: 26px 56px;
         border-radius: 999px;
         background: var(--gold);
-        color: var(--ink);
+        color: var(--navy);
         font-weight: 700;
-        font-size: 42px;
-        letter-spacing: 2px;
-      }
-      #s5-badge svg {
-        width: 52px;
-        height: 52px;
+        font-size: 40px;
+        letter-spacing: 3px;
       }
     </style>
   </head>
   <body>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <linearGradient id="he-gold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#EBC872" />
+          <stop offset="1" stop-color="#D4AF37" />
+        </linearGradient>
+        <!-- Home Estimator mark: house + chimney, four-point sparkle, door notch -->
+        <symbol id="he-mark" viewBox="0 0 720 640">
+          <g fill="url(#he-gold)">
+            <path d="M540 70h84v175l-84-64z" />
+            <path d="M360 36L20 294v52l60-45v309c0 13 10 24 24 24h512c14 0 24-11 24-24V301l60 45v-52zM148 250l212-160 212 160v312H400v-78c0-8-6-14-14-14h-52c-8 0-14 6-14 14v78H148z" />
+            <path fill-rule="evenodd" d="M360 236c10 70 38 104 118 124-80 20-108 54-118 124-10-70-38-104-118-124 80-20 108-54 118-124zm0 90l-26 34 26 34 26-34z" />
+          </g>
+        </symbol>
+      </defs>
+    </svg>
     <div
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="59"
+      data-duration="57.5"
       data-width="1080"
       data-height="1920"
     >
-      <!-- ground -->
-      <div id="bg" class="clip" data-start="0" data-duration="59" data-track-index="0"></div>
+      <!-- plain navy ground -->
+      <div id="bg" class="clip" data-start="0" data-duration="57.5" data-track-index="0"></div>
 
       <!-- voiceover -->
       <audio id="vo1" src="assets/vo1.mp3" data-start="0.2" data-track-index="10" data-volume="1"></audio>
       <audio id="vo2" src="assets/vo2.mp3" data-start="5.0" data-track-index="11" data-volume="1"></audio>
       <audio id="vo3" src="assets/vo3.mp3" data-start="16.6" data-track-index="12" data-volume="1"></audio>
       <audio id="vo4" src="assets/vo4.mp3" data-start="38.8" data-track-index="13" data-volume="1"></audio>
-      <audio id="vo5" src="assets/vo5.mp3" data-start="50.8" data-track-index="14" data-volume="1"></audio>
+      <audio id="vo5" src="assets/vo5.mp3" data-start="49.2" data-track-index="14" data-volume="1"></audio>
 
       <!-- S1: HOOK 0–4.8 -->
       <section id="s1" class="scene clip" data-start="0" data-duration="4.8" data-track-index="1">
@@ -540,6 +571,7 @@
       <section id="s2" class="scene clip" data-start="4.8" data-duration="11.6" data-track-index="1">
         <div class="stage" id="s2-stage">
           <div class="kicker" id="s2-kicker">The real problem</div>
+          <div class="rule" id="s2-rule"></div>
           <div class="chain">
             <div class="pill" id="s2-p1">Underbid</div>
             <svg class="arrow" id="s2-a1" viewBox="0 0 60 70"><path d="M30 0v56M8 36l22 26 22-26" fill="none" stroke="#D4AF37" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg>
@@ -559,6 +591,7 @@
       <section id="s3" class="scene clip" data-start="16.4" data-duration="22.2" data-track-index="1">
         <div class="stage" id="s3-stage">
           <div class="kicker" id="s3-kicker">A better estimate</div>
+          <div class="rule" id="s3-rule"></div>
           <h2 id="s3-title" class="display">The 3-step fix</h2>
           <div class="steps">
             <div class="step" id="s3-st1"><div class="num">1</div><div class="label">Price every room</div></div>
@@ -572,16 +605,16 @@
                 <div class="room" id="v1-r2"><h4>Primary Bath</h4><p>Plumbing · Tile</p></div>
                 <div class="room" id="v1-r3"><h4>Basement</h4><p>Framing · Drywall</p></div>
                 <div class="room" id="v1-r4"><h4>Living Room</h4><p>Flooring · Paint</p></div>
-                <div class="room" id="v1-r5"><h4>Addition</h4><p>Foundation · Roofing</p></div>
+                <div class="room" id="v1-r5"><h4>Addition</h4><p>Foundation · Roof</p></div>
                 <div class="room" id="v1-r6"><h4>Mechanicals</h4><p>HVAC · Electrical</p></div>
               </div>
               <div id="v1-lump">ONE GIANT NUMBER<div id="v1-strike"></div></div>
             </div>
             <div class="vis" id="v2">
               <div class="tiers">
-                <div class="tier" id="v2-t1"><div class="bar" style="height: 170px"></div><div class="t">Good</div></div>
-                <div class="tier" id="v2-t2"><div class="bar" style="height: 260px"></div><div class="t">Better</div></div>
-                <div class="tier" id="v2-t3"><div class="bar" style="height: 350px"></div><div class="t">Best</div></div>
+                <div class="tier" id="v2-t1"><div class="bar" style="height: 160px"></div><div class="t">Good</div></div>
+                <div class="tier" id="v2-t2"><div class="bar" style="height: 250px"></div><div class="t">Better</div></div>
+                <div class="tier" id="v2-t3"><div class="bar" style="height: 340px"></div><div class="t">Best</div></div>
               </div>
               <div id="v2-cap">SEE WHAT CHANGES THE BUDGET</div>
             </div>
@@ -599,11 +632,14 @@
         </div>
       </section>
 
-      <!-- S4: HOMEESTIMATOR.AI 38.6–50.6 -->
-      <section id="s4" class="scene clip" data-start="38.6" data-duration="12" data-track-index="1">
+      <!-- S4: THE SMARTER ESTIMATE 38.6–49.0 -->
+      <section id="s4" class="scene clip" data-start="38.6" data-duration="10.4" data-track-index="1">
         <div class="stage" id="s4-stage">
-          <div id="s4-brand">HomeEstimator.ai</div>
-          <div id="s4-tag">Design Within Budget From Day One</div>
+          <div class="kicker" id="s4-kicker">Built to protect profit</div>
+          <div class="rule" id="s4-rule"></div>
+          <h2 id="s4-title" class="display">
+            <span class="row">The smarter</span><span class="row gold">estimate</span>
+          </h2>
           <div class="feature-slot">
             <div class="feature" id="s4-f1"><div class="fnum">01</div><div class="ftext"><span class="row">Room-by-room</span><span class="row gold">pricing</span></div></div>
             <div class="feature" id="s4-f2"><div class="fnum">02</div><div class="ftext"><span class="row">Good · Better</span><span class="row gold">· Best</span></div></div>
@@ -612,25 +648,26 @@
         </div>
       </section>
 
-      <!-- S5: CTA 50.6–59 -->
-      <section id="s5" class="scene clip" data-start="50.6" data-duration="8.4" data-track-index="1">
+      <!-- S5: CTA 49.0–57.5 -->
+      <section id="s5" class="scene clip" data-start="49.0" data-duration="8.5" data-track-index="1">
         <div class="stage" id="s5-stage">
           <h2 id="s5-l1" class="display">
             <span class="row">Stop winning</span><span class="row">jobs that</span><span class="row gold">lose money.</span>
           </h2>
-          <div id="s5-brand">HomeEstimator.ai</div>
-          <div id="s5-badge">
-            <svg viewBox="0 0 52 52"><path d="M26 3l19 7v14c0 12-8 21-19 25C15 45 7 36 7 24V10z" fill="none" stroke="#0A0A0A" stroke-width="4" stroke-linejoin="round" /><path d="M17 26l7 7 12-13" fill="none" stroke="#0A0A0A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-            3-DAY MONEY-BACK GUARANTEE
+          <div id="s5-logo">
+            <svg viewBox="0 0 720 640"><use href="#he-mark" /></svg>
+            <div class="wordmark">Home Estimator</div>
           </div>
+          <div id="s5-visit">Visit <b>HomeEstimator.ai</b> to learn more</div>
+          <div id="s5-demo">OR BOOK A DEMO</div>
         </div>
       </section>
 
-      <!-- brand mark, bottom-left, whole video -->
-      <div id="logo" class="clip" data-start="0" data-duration="59" data-track-index="5">
-        <div class="logo-mark">
-          <svg viewBox="0 0 58 58"><path d="M6 28L29 8l23 20" fill="none" stroke="#D4AF37" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><path d="M13 23v27h32V23" fill="none" stroke="#D4AF37" stroke-width="5" stroke-linejoin="round" /><path d="M22 42l6-8 5 5 7-10" fill="none" stroke="#F9E076" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
-          <span>HomeEstimator.ai</span>
+      <!-- logo, bottom-left, S1–S4 (CTA carries the full lockup) -->
+      <div id="logo" class="clip" data-start="0" data-duration="49" data-track-index="5">
+        <div class="logo-corner">
+          <svg viewBox="0 0 720 640"><use href="#he-mark" /></svg>
+          <span class="wordmark">Home Estimator</span>
         </div>
       </div>
     </div>
@@ -641,7 +678,7 @@
       const IN = "power3.out";
       const OUT = "power2.in";
 
-      // Scene handoff: every scene exits up and the next enters from below (one vector).
+      // One vector for the whole film: scenes exit up, the next enters from below.
       function enter(sel, t) {
         tl.fromTo(sel, { y: 90, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: IN }, t);
       }
@@ -650,7 +687,10 @@
         tl.set(sel, { opacity: 0 }, t + 0.3);
       }
       function pop(sel, t, from) {
-        tl.fromTo(sel, Object.assign({ opacity: 0, y: 50 }, from || {}), { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: IN }, t);
+        tl.fromTo(sel, Object.assign({ opacity: 0, y: 50 }, from || {}), { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.45, ease: IN }, t);
+      }
+      function rule(sel, t) {
+        tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: IN }, t);
       }
 
       // ---------- S1 HOOK (0–4.8) ----------
@@ -672,6 +712,7 @@
 
       // ---------- S2 PROBLEM (4.8–16.4) ----------
       enter("#s2-stage", 4.8);
+      rule("#s2-rule", 5.0);
       pop("#s2-p1", 5.1, { scale: 0.9 });
       pop("#s2-a1", 7.2, { y: -20 });
       pop("#s2-p2", 7.4, { scale: 0.9 });
@@ -685,20 +726,20 @@
 
       // ---------- S3 FIX (16.4–38.6) ----------
       enter("#s3-stage", 16.4);
+      rule("#s3-rule", 16.6);
       pop("#s3-st1", 19.0, { x: -60, y: 0 });
-      // V1 rooms (19.2–25.2)
       ["#v1-r1", "#v1-r2", "#v1-r3", "#v1-r4", "#v1-r5", "#v1-r6"].forEach((s, i) => pop(s, 19.3 + i * 0.28, { scale: 0.85, y: 30 }));
       pop("#v1-lump", 22.2, { y: 20 });
       tl.fromTo("#v1-strike", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.4, ease: IN }, 22.7);
       tl.to("#v1", { opacity: 0, y: -40, duration: 0.3, ease: OUT }, 25.0);
-      // Step 2
-      tl.to("#s3-st1", { opacity: 0.35, duration: 0.3 }, 25.3);
+      tl.set("#v1", { opacity: 0 }, 25.3);
+      tl.to("#s3-st1", { opacity: 0.55, duration: 0.3 }, 25.3);
       pop("#s3-st2", 25.4, { x: -60, y: 0 });
       ["#v2-t1", "#v2-t2", "#v2-t3"].forEach((s, i) => pop(s, 26.0 + i * 0.55, { y: 120 }));
       pop("#v2-cap", 29.6, { y: 20 });
       tl.to("#v2", { opacity: 0, y: -40, duration: 0.3, ease: OUT }, 33.0);
-      // Step 3
-      tl.to("#s3-st2", { opacity: 0.35, duration: 0.3 }, 33.3);
+      tl.set("#v2", { opacity: 0 }, 33.3);
+      tl.to("#s3-st2", { opacity: 0.55, duration: 0.3 }, 33.3);
       pop("#s3-st3", 33.4, { x: -60, y: 0 });
       pop("#v3", 33.6, { y: 30 });
       tl.fromTo("#v3-fill", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 1.8, ease: "power2.out" }, 34.0);
@@ -707,22 +748,26 @@
       pop("#v3-cap", 36.4, { y: 20 });
       exit("#s3-stage", 38.3);
 
-      // ---------- S4 PRODUCT (38.6–50.6) ----------
+      // ---------- S4 SMARTER ESTIMATE (38.6–49.0) ----------
       enter("#s4-stage", 38.6);
-      pop("#s4-brand", 38.8, { scale: 0.92, y: 30 });
-      pop("#s4-tag", 39.8, { y: 20 });
-      pop("#s4-f1", 42.4, { y: 80 });
-      tl.to("#s4-f1", { opacity: 0, y: -60, duration: 0.3, ease: OUT }, 44.6);
-      pop("#s4-f2", 44.8, { y: 80 });
-      tl.to("#s4-f2", { opacity: 0, y: -60, duration: 0.3, ease: OUT }, 47.4);
-      pop("#s4-f3", 47.6, { y: 80 });
-      exit("#s4-stage", 50.3);
+      rule("#s4-rule", 38.8);
+      pop("#s4-title", 38.9, { y: 60 });
+      pop("#s4-f1", 41.0, { y: 80 });
+      tl.to("#s4-f1", { opacity: 0, y: -60, duration: 0.3, ease: OUT }, 43.1);
+      tl.set("#s4-f1", { opacity: 0 }, 43.4);
+      pop("#s4-f2", 43.4, { y: 80 });
+      tl.to("#s4-f2", { opacity: 0, y: -60, duration: 0.3, ease: OUT }, 45.6);
+      tl.set("#s4-f2", { opacity: 0 }, 45.9);
+      pop("#s4-f3", 45.9, { y: 80 });
+      exit("#s4-stage", 48.7);
+      exit(".logo-corner", 48.7);
 
-      // ---------- S5 CTA (50.6–59) ----------
-      enter("#s5-stage", 50.6);
-      pop("#s5-l1", 50.8, { y: 70 });
-      pop("#s5-brand", 53.0, { scale: 0.9, y: 30 });
-      pop("#s5-badge", 54.3, { scale: 0.8, y: 0 });
+      // ---------- S5 CTA (49.0–57.5) ----------
+      enter("#s5-stage", 49.0);
+      pop("#s5-l1", 49.2, { y: 70 });
+      pop("#s5-logo", 51.2, { scale: 0.85, y: 30 });
+      pop("#s5-visit", 51.5, { y: 30 });
+      pop("#s5-demo", 53.9, { scale: 0.8, y: 0 });
 
       window.__timelines["main"] = tl;
     </script>
