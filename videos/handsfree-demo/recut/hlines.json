@@ -1,0 +1,43 @@
+[
+  [
+    "n01",
+    1.85,
+    "All right. Today we're going to walk through our AI agent, Alex. Alex will give us an estimate for an addition and remodel on a house. That usually takes three to five months of drawing plans and collecting bids from different builders. Today, we'll get it done in about ten minutes. So let's get started and see where it goes."
+  ],
+  ["n02", 49.94, "Let's start a new one."],
+  [
+    "n03",
+    67.09,
+    "It's a ranch house, and the first floor is about twelve hundred square feet. We'd like to do a second-level addition, about eleven hundred square feet, with three bedrooms, a primary bathroom, a full bathroom, and the laundry up there. On the first floor, we'll do a gut remodel, with a half bath and a mudroom. The basement gets a gut remodel too. And for the exterior, vinyl siding on the whole house."
+  ],
+  ["n04", 154.28, "That would be good."],
+  ["n05", 220.05, "Yeah, show me the full scope of work."],
+  ["n06", 234.06, "Can you scroll down?"],
+  ["n07", 246.98, "Yeah, keep going."],
+  ["n08", 253.3, "Keep scrolling."],
+  ["n09", 261.72, "Can you expand the HVAC equipment?"],
+  ["n10", 275.36, "What about the payment plans and things like that?"],
+  ["n11", 291.01, "Scroll down."],
+  ["n12", 296.66, "More."],
+  ["n13", 306.77, "And what about the contract?"],
+  ["n14", 321.88, "Can you open the kitchen options? I'd like to go through them."],
+  [
+    "n15",
+    340.75,
+    "All right, let's go with the sink disposal, under-cabinet lights, and a pot filler. Add those on."
+  ],
+  ["n16", 366.04, "Okay. Can you show me the hardwood floors?"],
+  ["n17", 382.61, "Oh, that's fine. Show me the primary bathroom options."],
+  [
+    "n18",
+    394.82,
+    "Okay, next. For the siding on the whole house, let's do vinyl on three sides, Hardie plank on the front, and a three-foot stone base at the back."
+  ],
+  ["n19", 434.83, "Yeah, I think it looks good. Can you give me the updated price?"],
+  [
+    "n20",
+    487.23,
+    "In this whole experience, we never touched the keyboard or the mouse. It's all done by voice, just by having a normal conversation."
+  ],
+  ["n21", 520.12, "I think we're good. Thank you, Alex."]
+]
