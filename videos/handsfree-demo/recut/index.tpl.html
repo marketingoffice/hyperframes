@@ -54,6 +54,11 @@
         justify-content: center;
         text-align: center;
       }
+      #intro-in {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       #intro-logo {
         width: 360px;
         height: auto;
@@ -76,119 +81,114 @@
         color: var(--gray);
       }
 
-      /* ---------- demo layout: rail + screen ---------- */
+      /* ---------- demo layout: full-height screen ---------- */
       #demo {
         position: absolute;
         inset: 0;
       }
-      #rail {
-        position: absolute;
-        left: 106px;
-        top: 69px;
-        width: 380px;
-        height: 942px;
-      }
-      #rail-logo {
-        width: 170px;
-        height: auto;
-      }
-      .chap {
-        position: absolute;
-        left: 0;
-        top: 230px;
-        width: 380px;
-      }
-      .chap .num {
-        font-size: 20px;
-        font-weight: 700;
-        letter-spacing: 5px;
-        color: var(--gold);
-      }
-      .chap h3 {
-        margin-top: 14px;
-        font-size: 40px;
-        font-weight: 900;
-        line-height: 1.12;
-        letter-spacing: -0.5px;
-      }
-      .chap p {
-        margin-top: 16px;
-        font-size: 22px;
-        line-height: 1.45;
-        color: var(--gray);
-      }
-      .chap ul {
-        margin-top: 22px;
-        list-style: none;
-      }
-      .chap li {
-        font-size: 21px;
-        font-weight: 700;
-        padding: 9px 0;
-        border-bottom: 1px solid var(--line);
-        display: flex;
-        gap: 12px;
-        align-items: center;
-      }
-      .chap li b {
-        color: var(--gold);
-      }
-      .range {
-        margin-top: 22px;
-        font-size: 42px;
-        font-weight: 900;
-        letter-spacing: -1px;
-        color: var(--gold);
-        line-height: 1.1;
-      }
-      .note {
-        margin-top: 18px;
-        font-size: 18px;
-        color: var(--gray);
-        line-height: 1.4;
-      }
-      #prog {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        display: flex;
-        gap: 10px;
-      }
-      #prog i {
-        display: block;
-        width: 44px;
-        height: 5px;
-        border-radius: 3px;
-        background: var(--line);
-      }
       #screen {
         position: absolute;
-        left: 556px;
-        top: 69px;
-        width: 1258px;
-        height: 942px;
-        border-radius: 18px;
+        left: 239px;
+        top: 0;
+        width: 1442px;
+        height: 1080px;
         overflow: hidden;
         background: #0e0e18;
-        border: 2px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+      }
+      #corner-logo {
+        position: absolute;
+        left: 34px;
+        bottom: 40px;
+        width: 170px;
+        height: auto;
       }
       #cam {
         position: absolute;
         left: 0;
         top: 0;
-        width: 1258px;
-        height: 942px;
+        width: 1442px;
+        height: 1080px;
       }
       #rec {
         position: absolute;
         left: 0;
         top: 0;
-        width: 1258px;
-        height: 942px;
+        width: 1442px;
+        height: 1080px;
         object-fit: fill;
       }
 
+      /* ---------- opening hook ---------- */
+      #hook {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 18px;
+      }
+      .hk,
+      #hk3 {
+        opacity: 0;
+      }
+      .hk {
+        font-size: 118px;
+        font-weight: 900;
+        letter-spacing: -2.5px;
+        line-height: 1.02;
+      }
+      #hk3 {
+        margin-top: 26px;
+        font-size: 56px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--gold);
+      }
+      /* ---------- chapter subtitles (bottom) ---------- */
+      .cap {
+        position: absolute;
+        left: 279px;
+        bottom: 44px;
+        max-width: 860px;
+        padding: 22px 30px 24px;
+        border-radius: 14px;
+        background: rgba(26, 26, 46, 0.94);
+        border-left: 5px solid var(--gold);
+        opacity: 0;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      }
+      .cap .k {
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: var(--gold);
+      }
+      .cap .t {
+        margin-top: 8px;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        line-height: 1.15;
+      }
+      .cap .t b {
+        color: var(--gold);
+      }
+      .cap .n {
+        margin-top: 8px;
+        font-size: 17px;
+        color: var(--gray);
+      }
+      /* ---------- on-screen name patches (Hasnain -> John) ---------- */
+      .nm {
+        position: absolute;
+        white-space: nowrap;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        align-items: center;
+        opacity: 0;
+      }
       /* ---------- closing card (supplied design) ---------- */
       #outro {
         position: absolute;
@@ -247,85 +247,33 @@
       <audio id="mix" src="assets/mix.m4a" data-start="0" data-duration="{{T}}" data-track-index="10" data-volume="1"></audio>
 
       <!-- OPENING 0–3 -->
-      <section id="intro" class="clip" data-start="0" data-duration="3.2" data-track-index="1">
-        <img id="intro-logo" src="assets/logo.png" alt="Home Estimator" />
-        <div id="intro-rule"></div>
-        <div id="intro-title">Hands-Free Estimating with Alex</div>
-        <div id="intro-sub">A full addition + remodel estimate, built by voice</div>
+      <!-- OPENING HOOK -->
+      <section id="hook" class="clip" data-start="0" data-duration="{{HOOK_END}}" data-track-index="2">
+        <div class="hk" id="hk1">No keyboard.</div>
+        <div class="hk" id="hk2">No mouse.</div>
+        <div id="hk3">Just a conversation with Alex.</div>
+      </section>
+
+      <section id="intro" class="clip" data-start="{{TITLE_START}}" data-duration="{{TITLE_DUR}}" data-track-index="1">
+        <div id="intro-in">
+          <img id="intro-logo" src="assets/logo.png" alt="Home Estimator" />
+          <div id="intro-rule"></div>
+          <div id="intro-title">Hands-Free Estimating with Alex</div>
+          <div id="intro-sub">A full addition + remodel estimate, built by voice</div>
+        </div>
       </section>
 
       <!-- DEMO -->
       <section id="demo">
-        <div id="rail">
-          <img id="rail-logo" src="assets/logo-rail.png" alt="Home Estimator" />
-
-          <div class="chap" id="c1">
-            <div class="num">01 &middot; THE TASK</div>
-            <h3>An addition + remodel estimate, by voice</h3>
-            <p>Usually months of plans and builder bids. Here it&rsquo;s one conversation with Alex.</p>
-          </div>
-          <div class="chap" id="c2">
-            <div class="num">02 &middot; HANDS-FREE START</div>
-            <h3>Alex opens a new project</h3>
-            <p>No keyboard, no mouse &mdash; the contractor just talks.</p>
-          </div>
-          <div class="chap" id="c3">
-            <div class="num">03 &middot; DESCRIBE THE JOB</div>
-            <h3>The scope fills in as you talk</h3>
-            <p>House style, areas, addition and remodel cards &mdash; set straight from the conversation.</p>
-          </div>
-          <div class="chap" id="c3b">
-            <div class="num">03 &middot; SCOPE CAPTURED</div>
-            <h3>Ranch home &middot; 1,200 sq ft</h3>
-            <ul>
-              <li><b>+</b> 2nd-floor addition &middot; 1,100 sq ft</li>
-              <li><b>+</b> 3 bedrooms, primary &amp; full bath, laundry</li>
-              <li><b>+</b> First-floor gut remodel &amp; mudroom</li>
-              <li><b>+</b> Basement gut remodel</li>
-              <li><b>+</b> Whole-house vinyl siding</li>
-            </ul>
-          </div>
-          <div class="chap" id="c4">
-            <div class="num">04 &middot; ESTIMATE</div>
-            <h3>Alex generates the estimate</h3>
-            <p>Every card priced and checked while you wait.</p>
-          </div>
-          <div class="chap" id="c4b">
-            <div class="num">04 &middot; VERIFIED TOTAL</div>
-            <h3>Estimate ready</h3>
-            <div class="range">$590,279</div>
-            <div class="note">Example project &mdash; every project&rsquo;s estimate differs.</div>
-          </div>
-          <div class="chap" id="c5">
-            <div class="num">05 &middot; REVIEW BY VOICE</div>
-            <h3>Scope, details, payments, contract</h3>
-            <p>Client-facing scope of work, HVAC detail, payment schedule and the agreement &mdash; opened on request.</p>
-          </div>
-          <div class="chap" id="c6">
-            <div class="num">06 &middot; ADJUST BY VOICE</div>
-            <h3>Change the cards in conversation</h3>
-            <p>Kitchen add-ons, hardwood, primary bath and siding &mdash; updated as you speak.</p>
-          </div>
-          <div class="chap" id="c7">
-            <div class="num">07 &middot; ZERO CLICKS</div>
-            <h3>No keyboard. No mouse.</h3>
-            <p>The whole estimate was built and changed by voice.</p>
-          </div>
-          <div class="chap" id="c7b">
-            <div class="num">07 &middot; UPDATED TOTAL</div>
-            <h3>Re-priced in place</h3>
-            <div class="range">$606,982</div>
-            <div class="note">Example project &mdash; every project&rsquo;s estimate differs.</div>
-          </div>
-
-          <div id="prog"><i id="pg1"></i><i id="pg2"></i><i id="pg3"></i><i id="pg4"></i><i id="pg5"></i><i id="pg6"></i><i id="pg7"></i></div>
-        </div>
+        <img id="corner-logo" src="assets/logo-rail.png" alt="Home Estimator" />
 
         <div id="screen">
           <div id="cam" data-layout-allow-overflow>
-            <video id="rec" class="clip" src="assets/recording.mp4" data-start="3" data-duration="{{N}}" data-track-index="3" muted playsinline></video>
+            <video id="rec" class="clip" src="assets/recording.mp4" data-start="{{V}}" data-duration="{{N}}" data-track-index="3" muted playsinline></video>
+{{NAMES}}
           </div>
         </div>
+{{CAPS}}
       </section>
 
       <!-- CLOSING CARD -->
@@ -344,38 +292,29 @@
       const tl = gsap.timeline({ paused: true });
       const IN = "power3.out";
       const OUT = "power2.in";
-      const V = 3; // composition time where the recording starts (edit time 0)
+      const V = {{V}}; // composition time where the recording starts (edit time 0)
 
       // ---------- opening ----------
-      tl.fromTo("#intro-logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, 0.05);
-      tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 0.45);
-      tl.fromTo("#intro-title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, 0.6);
-      tl.fromTo("#intro-sub", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, 0.85);
-      tl.to("#intro", { opacity: 0, duration: 0.35, ease: OUT }, 2.85);
-      tl.set("#intro", { opacity: 0 }, 3.2);
+      // hook: lines land on the spoken words
+      tl.fromTo("#hk1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, {{HK1}});
+      tl.fromTo("#hk2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, {{HK2}});
+      tl.fromTo("#hk3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, {{HK3}});
+      tl.to("#hook", { opacity: 0, duration: 0.4, ease: OUT }, {{HOOK_OUT}});
+      const T0 = {{TITLE_START}};
+      tl.fromTo("#intro-logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, T0 + 0.05);
+      tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, T0 + 0.45);
+      tl.fromTo("#intro-title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, T0 + 0.6);
+      tl.fromTo("#intro-sub", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, T0 + 0.85);
+      tl.to("#intro-in", { opacity: 0, duration: 0.35, ease: OUT }, V - 0.35);
+      tl.set("#intro-in", { opacity: 0 }, V);
 
       // ---------- demo frame in (untimed layer: visibility owned by the timeline) ----------
       tl.set("#demo", { opacity: 0 }, 0);
-      tl.set("#demo", { opacity: 1 }, 3.0);
-      tl.fromTo("#screen", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.7, ease: IN }, 3.0);
-      tl.fromTo("#rail", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.7, ease: IN }, 3.15);
-
-      // ---------- chapters (edit-time) ----------
-      const chapters = [
-{{CHAPTERS}},
-      ];
-      tl.set(".chap", { opacity: 0 }, 0);
-      chapters.forEach(([sel, pg, t], i) => {
-        const at = V + t;
-        if (i > 0) {
-          const prev = chapters[i - 1][0];
-          tl.to(prev, { opacity: 0, y: -16, duration: 0.3, ease: OUT }, at - 0.3);
-          tl.set(prev, { opacity: 0 }, at);
-        }
-        tl.fromTo(sel, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, at + (i === 0 ? 0.4 : 0));
-        tl.set(pg, { backgroundColor: "#d4af37" }, at);
-      });
-      tl.fromTo("#c3b li", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.35, stagger: 0.25, ease: IN }, V + {{LIST}});
+      tl.set("#demo", { opacity: 1 }, V);
+      tl.fromTo("#screen", { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.7, ease: IN }, V);
+      tl.fromTo("#corner-logo", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: IN }, V + 0.15);
+{{CAPS_JS}}
+{{NAMES_JS}}
 
       // ---------- camera (transform-origin 0 0 on #cam, values in screen px) ----------
       // full frame -> scope fields (1.4) -> total chip (2.0) -> kitchen add-ons (1.6)

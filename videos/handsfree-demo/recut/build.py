@@ -16,7 +16,7 @@ def dur(p):
 
 
 src = rd("../src48.wav")
-H = json.load(open("../hspans.json"))
+H = json.load(open("../hspans_v2.json"))
 h = SR // 100
 n = len(src) // h
 db = 20 * np.log10(np.sqrt((src[: n * h].reshape(n, h) ** 2).mean(1)) + 1e-9)
@@ -24,7 +24,9 @@ th = np.percentile(db, 30) + 12
 # Alex speech = transcribed words outside presenter spans, edges refined on the energy envelope
 W = json.load(open("../words.json"))
 inH = lambda t: any(a <= t <= b for a, b, _ in H)
-iv = [[w["s"], w["e"]] for w in W if not inH((w["s"] + w["e"]) / 2)]
+DROP = [(244.0, 244.7), (247.9, 249.8), (256.4, 261.1), (294.2, 294.9), (297.5, 298.6), (300.6, 301.4), (303.7, 305.6)]
+inD = lambda t: any(a <= t <= b for a, b in DROP)
+iv = [[w["s"], w["e"]] for w in W if not inH((w["s"] + w["e"]) / 2) and not inD((w["s"] + w["e"]) / 2)]
 loud = db > th
 for v in iv:  # extend each word to where the speech energy actually ends/starts (max 0.4 s)
     a, b = int(v[0] * 100), int(v[1] * 100)
@@ -52,6 +54,24 @@ for k in range(len(ev) - 1):  # never run a line into the next speech
         sh = b - (ev[k + 1][0] - 0.2); prev = ev[k - 1][1] if k else 0
         assert a - sh > prev + 0.1, f"line at {a:.2f} too long by {sh:.2f}"
         ev[k] = (a - sh, b - sh, kind, [(t - sh, f) for t, f in aud])
+
+# screen changes that happen *during* a re-voiced request would now show before the request is
+# finished: hold the frame while John speaks, then replay each change right after his line.
+mo_ = np.load("../motion.npy")
+REPLAY = 1.2
+replays = []
+for k, (a, b, kind, aud) in enumerate(ev):
+    if kind != "vo" or a < 5: continue
+    ch = np.where(mo_[int(a * 10): int(b * 10)] > 0.004)[0] / 10 + a
+    wins = []
+    for c in ch:
+        if not wins or c > wins[-1] + REPLAY: wins.append(float(c))
+    if not wins: continue
+    R = REPLAY * len(wins)
+    nxt = ev[k + 1][0] if k + 1 < len(ev) else SRC_END
+    assert b + R < nxt - TAIL, f"no room to replay after line at {a:.2f}"
+    replays.append((a, b - a, [w - 0.3 for w in wins]))
+    ev[k] = (a, b + R, kind, aud)
 
 # on-screen change windows inside gaps: keep the most visible changes, capped per gap
 mo = np.load("../motion.npy")
@@ -124,6 +144,13 @@ for a, b in alex:
     act = r[(r > ref * 0.1) & (r < ref * 2)]  # ignore clicks / chimes when measuring
     seg *= 0.05 / np.percentile(act, 75)  # per-turn level match
     seg[:ramp] *= np.linspace(0, 1, ramp); seg[-ramp:] *= np.linspace(1, 0, ramp); base[ia:ib] = seg
+# splice the name out of "Hi <name>, I'm Alex" (audio only; screen is static there)
+i0, i1, i2 = int(45.14 * SR), int(45.755 * SR), int(49.40 * SR)
+fade = int(0.012 * SR)
+tail = base[i1:i2].copy(); tail[:fade] *= np.linspace(0, 1, fade)
+base[i0 - fade:i0] *= np.linspace(1, 0, fade)
+base[i0:i2] = 0
+base[i0:i0 + len(tail)] += tail
 L = int(total / FPS * SR)
 out = np.zeros(L + SR, np.float32); vo = np.zeros(L + SR, np.float32); xs = X * SR // FPS
 for k, (fa, fb) in enumerate(fr):
@@ -139,6 +166,24 @@ for a, b, kind, aud in ev:
 for nm, arr in [("alex_track.wav", out[:L]), ("tts_track.wav", vo[:L])]:
     w = wave.open(nm, "wb"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((np.clip(arr, -0.99, 0.99) * 32767).astype(np.int16).tobytes()); w.close()
-json.dump({"fps": FPS, "x": X, "pieces": fr, "starts": starts, "total_frames": total, "placed": placed,
+MODAL, SAY = 147.1, 157.30
+vmap = {}
+for k, (fa, fb) in enumerate(fr):
+    if fa / FPS < MODAL < fb / FPS:  # piece that would show the modal early: freeze from MODAL on
+        vmap[k] = [[round(MODAL * FPS) - fa, fa, "play"], [fb - round(MODAL * FPS), round(MODAL * FPS) - 1, "freeze"]]
+    if fa / FPS <= SAY < fb / FPS:  # piece where Alex says it: play from just before the modal appears
+        off = round((SAY - MODAL) * FPS)
+        vmap[k] = [[fb - fa, fa - off, "play"]]
+for a, d, wins in replays:
+    for k, (fa, fb) in enumerate(fr):
+        if fa / FPS <= a < fb / FPS:
+            assert str(k) not in vmap and k not in vmap
+            fs, fd, fr_ = round(a * FPS), round(d * FPS), round(REPLAY * FPS)
+            seg = [[fs - fa, fa, "play"], [fd, fs, "freeze"]] + [[fr_, round(w * FPS), "play"] for w in wins]
+            used = sum(x[0] for x in seg)
+            seg.append([fb - fa - used, fa + used, "play"])
+            assert seg[-1][0] >= 0
+            vmap[k] = [x for x in seg if x[0] > 0]
+json.dump({"fps": FPS, "x": X, "pieces": fr, "vmap": vmap, "starts": starts, "total_frames": total, "placed": placed,
            "alex": alex}, open("plan.json", "w"), indent=1)
 print(f"pieces {len(fr)}  length {total/FPS:.2f}s (src {SRC_END})  lines {len(placed)}")

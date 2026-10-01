@@ -54,6 +54,11 @@
         justify-content: center;
         text-align: center;
       }
+      #intro-in {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       #intro-logo {
         width: 360px;
         height: auto;
@@ -76,119 +81,114 @@
         color: var(--gray);
       }
 
-      /* ---------- demo layout: rail + screen ---------- */
+      /* ---------- demo layout: full-height screen ---------- */
       #demo {
         position: absolute;
         inset: 0;
       }
-      #rail {
-        position: absolute;
-        left: 106px;
-        top: 69px;
-        width: 380px;
-        height: 942px;
-      }
-      #rail-logo {
-        width: 170px;
-        height: auto;
-      }
-      .chap {
-        position: absolute;
-        left: 0;
-        top: 230px;
-        width: 380px;
-      }
-      .chap .num {
-        font-size: 20px;
-        font-weight: 700;
-        letter-spacing: 5px;
-        color: var(--gold);
-      }
-      .chap h3 {
-        margin-top: 14px;
-        font-size: 40px;
-        font-weight: 900;
-        line-height: 1.12;
-        letter-spacing: -0.5px;
-      }
-      .chap p {
-        margin-top: 16px;
-        font-size: 22px;
-        line-height: 1.45;
-        color: var(--gray);
-      }
-      .chap ul {
-        margin-top: 22px;
-        list-style: none;
-      }
-      .chap li {
-        font-size: 21px;
-        font-weight: 700;
-        padding: 9px 0;
-        border-bottom: 1px solid var(--line);
-        display: flex;
-        gap: 12px;
-        align-items: center;
-      }
-      .chap li b {
-        color: var(--gold);
-      }
-      .range {
-        margin-top: 22px;
-        font-size: 42px;
-        font-weight: 900;
-        letter-spacing: -1px;
-        color: var(--gold);
-        line-height: 1.1;
-      }
-      .note {
-        margin-top: 18px;
-        font-size: 18px;
-        color: var(--gray);
-        line-height: 1.4;
-      }
-      #prog {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        display: flex;
-        gap: 10px;
-      }
-      #prog i {
-        display: block;
-        width: 44px;
-        height: 5px;
-        border-radius: 3px;
-        background: var(--line);
-      }
       #screen {
         position: absolute;
-        left: 556px;
-        top: 69px;
-        width: 1258px;
-        height: 942px;
-        border-radius: 18px;
+        left: 239px;
+        top: 0;
+        width: 1442px;
+        height: 1080px;
         overflow: hidden;
         background: #0e0e18;
-        border: 2px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+      }
+      #corner-logo {
+        position: absolute;
+        left: 34px;
+        bottom: 40px;
+        width: 170px;
+        height: auto;
       }
       #cam {
         position: absolute;
         left: 0;
         top: 0;
-        width: 1258px;
-        height: 942px;
+        width: 1442px;
+        height: 1080px;
       }
       #rec {
         position: absolute;
         left: 0;
         top: 0;
-        width: 1258px;
-        height: 942px;
+        width: 1442px;
+        height: 1080px;
         object-fit: fill;
       }
 
+      /* ---------- opening hook ---------- */
+      #hook {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 18px;
+      }
+      .hk,
+      #hk3 {
+        opacity: 0;
+      }
+      .hk {
+        font-size: 118px;
+        font-weight: 900;
+        letter-spacing: -2.5px;
+        line-height: 1.02;
+      }
+      #hk3 {
+        margin-top: 26px;
+        font-size: 56px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--gold);
+      }
+      /* ---------- chapter subtitles (bottom) ---------- */
+      .cap {
+        position: absolute;
+        left: 279px;
+        bottom: 44px;
+        max-width: 860px;
+        padding: 22px 30px 24px;
+        border-radius: 14px;
+        background: rgba(26, 26, 46, 0.94);
+        border-left: 5px solid var(--gold);
+        opacity: 0;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      }
+      .cap .k {
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: var(--gold);
+      }
+      .cap .t {
+        margin-top: 8px;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        line-height: 1.15;
+      }
+      .cap .t b {
+        color: var(--gold);
+      }
+      .cap .n {
+        margin-top: 8px;
+        font-size: 17px;
+        color: var(--gray);
+      }
+      /* ---------- on-screen name patches (Hasnain -> John) ---------- */
+      .nm {
+        position: absolute;
+        white-space: nowrap;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        align-items: center;
+        opacity: 0;
+      }
       /* ---------- closing card (supplied design) ---------- */
       #outro {
         position: absolute;
@@ -237,99 +237,85 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="281.90"
+      data-duration="276.40"
       data-width="1920"
       data-height="1080"
     >
-      <div id="bg" class="clip" data-start="0" data-duration="281.90" data-track-index="0"></div>
+      <div id="bg" class="clip" data-start="0" data-duration="276.40" data-track-index="0"></div>
 
       <!-- pre-mixed audio: new presenter voiceover + Alex, level-matched; music only on the opening/closing cards -->
-      <audio id="mix" src="assets/mix.m4a" data-start="0" data-duration="281.90" data-track-index="10" data-volume="1"></audio>
+      <audio id="mix" src="assets/mix.m4a" data-start="0" data-duration="276.40" data-track-index="10" data-volume="1"></audio>
 
       <!-- OPENING 0–3 -->
-      <section id="intro" class="clip" data-start="0" data-duration="3.2" data-track-index="1">
-        <img id="intro-logo" src="assets/logo.png" alt="Home Estimator" />
-        <div id="intro-rule"></div>
-        <div id="intro-title">Hands-Free Estimating with Alex</div>
-        <div id="intro-sub">A full addition + remodel estimate, built by voice</div>
+      <!-- OPENING HOOK -->
+      <section id="hook" class="clip" data-start="0" data-duration="9.08" data-track-index="2">
+        <div class="hk" id="hk1">No keyboard.</div>
+        <div class="hk" id="hk2">No mouse.</div>
+        <div id="hk3">Just a conversation with Alex.</div>
+      </section>
+
+      <section id="intro" class="clip" data-start="8.93" data-duration="2.90" data-track-index="1">
+        <div id="intro-in">
+          <img id="intro-logo" src="assets/logo.png" alt="Home Estimator" />
+          <div id="intro-rule"></div>
+          <div id="intro-title">Hands-Free Estimating with Alex</div>
+          <div id="intro-sub">A full addition + remodel estimate, built by voice</div>
+        </div>
       </section>
 
       <!-- DEMO -->
       <section id="demo">
-        <div id="rail">
-          <img id="rail-logo" src="assets/logo-rail.png" alt="Home Estimator" />
-
-          <div class="chap" id="c1">
-            <div class="num">01 &middot; THE TASK</div>
-            <h3>An addition + remodel estimate, by voice</h3>
-            <p>Usually months of plans and builder bids. Here it&rsquo;s one conversation with Alex.</p>
-          </div>
-          <div class="chap" id="c2">
-            <div class="num">02 &middot; HANDS-FREE START</div>
-            <h3>Alex opens a new project</h3>
-            <p>No keyboard, no mouse &mdash; the contractor just talks.</p>
-          </div>
-          <div class="chap" id="c3">
-            <div class="num">03 &middot; DESCRIBE THE JOB</div>
-            <h3>The scope fills in as you talk</h3>
-            <p>House style, areas, addition and remodel cards &mdash; set straight from the conversation.</p>
-          </div>
-          <div class="chap" id="c3b">
-            <div class="num">03 &middot; SCOPE CAPTURED</div>
-            <h3>Ranch home &middot; 1,200 sq ft</h3>
-            <ul>
-              <li><b>+</b> 2nd-floor addition &middot; 1,100 sq ft</li>
-              <li><b>+</b> 3 bedrooms, primary &amp; full bath, laundry</li>
-              <li><b>+</b> First-floor gut remodel &amp; mudroom</li>
-              <li><b>+</b> Basement gut remodel</li>
-              <li><b>+</b> Whole-house vinyl siding</li>
-            </ul>
-          </div>
-          <div class="chap" id="c4">
-            <div class="num">04 &middot; ESTIMATE</div>
-            <h3>Alex generates the estimate</h3>
-            <p>Every card priced and checked while you wait.</p>
-          </div>
-          <div class="chap" id="c4b">
-            <div class="num">04 &middot; VERIFIED TOTAL</div>
-            <h3>Estimate ready</h3>
-            <div class="range">$590,279</div>
-            <div class="note">Example project &mdash; every project&rsquo;s estimate differs.</div>
-          </div>
-          <div class="chap" id="c5">
-            <div class="num">05 &middot; REVIEW BY VOICE</div>
-            <h3>Scope, details, payments, contract</h3>
-            <p>Client-facing scope of work, HVAC detail, payment schedule and the agreement &mdash; opened on request.</p>
-          </div>
-          <div class="chap" id="c6">
-            <div class="num">06 &middot; ADJUST BY VOICE</div>
-            <h3>Change the cards in conversation</h3>
-            <p>Kitchen add-ons, hardwood, primary bath and siding &mdash; updated as you speak.</p>
-          </div>
-          <div class="chap" id="c7">
-            <div class="num">07 &middot; ZERO CLICKS</div>
-            <h3>No keyboard. No mouse.</h3>
-            <p>The whole estimate was built and changed by voice.</p>
-          </div>
-          <div class="chap" id="c7b">
-            <div class="num">07 &middot; UPDATED TOTAL</div>
-            <h3>Re-priced in place</h3>
-            <div class="range">$606,982</div>
-            <div class="note">Example project &mdash; every project&rsquo;s estimate differs.</div>
-          </div>
-
-          <div id="prog"><i id="pg1"></i><i id="pg2"></i><i id="pg3"></i><i id="pg4"></i><i id="pg5"></i><i id="pg6"></i><i id="pg7"></i></div>
-        </div>
+        <img id="corner-logo" src="assets/logo-rail.png" alt="Home Estimator" />
 
         <div id="screen">
           <div id="cam" data-layout-allow-overflow>
-            <video id="rec" class="clip" src="assets/recording.mp4" data-start="3" data-duration="270.40" data-track-index="3" muted playsinline></video>
+            <video id="rec" class="clip" src="assets/recording.mp4" data-start="11.83" data-duration="256.07" data-track-index="3" muted playsinline></video>
+            <div class="nm" id="nm0" data-layout-ignore style="left:97.0px;top:88.4px;width:236.0px;height:22.6px;background:rgb(255,255,255);color:rgb(44,43,47);font-size:14.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Welcome back, John</div>
+            <div class="nm" id="nm1" data-layout-ignore style="left:97.0px;top:88.4px;width:236.0px;height:22.6px;background:rgb(210,210,210);color:rgb(122,121,125);font-size:14.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Welcome back, John</div>
+            <div class="nm" id="nm2" data-layout-ignore style="left:97.0px;top:88.4px;width:236.0px;height:22.6px;background:rgb(255,255,255);color:rgb(44,43,47);font-size:14.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Welcome back, John</div>
+            <div class="nm" id="nm3" data-layout-ignore style="left:344.9px;top:88.4px;width:208.0px;height:21.6px;background:rgb(243,243,244);color:rgb(109,108,116);font-size:13.5px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Resume: John115 · $651,050 →</div>
+            <div class="nm" id="nm4" data-layout-ignore style="left:344.9px;top:88.4px;width:208.0px;height:21.6px;background:rgb(204,204,204);color:rgb(147,145,152);font-size:13.5px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Resume: John115 · $651,050 →</div>
+            <div class="nm" id="nm5" data-layout-ignore style="left:344.9px;top:88.4px;width:208.0px;height:21.6px;background:rgb(243,242,244);color:rgb(108,107,114);font-size:13.5px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Resume: John115 · $651,050 →</div>
+            <div class="nm" id="nm6" data-layout-ignore style="left:1005.5px;top:326.6px;width:71.1px;height:22.6px;background:rgb(255,255,255);color:rgb(93,92,95);font-size:14.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John115</div>
+            <div class="nm" id="nm7" data-layout-ignore style="left:1005.5px;top:326.6px;width:71.1px;height:22.6px;background:rgb(210,210,210);color:rgb(140,139,142);font-size:14.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John115</div>
+            <div class="nm" id="nm8" data-layout-ignore style="left:1005.5px;top:326.6px;width:71.1px;height:22.6px;background:rgb(255,255,255);color:rgb(94,93,96);font-size:14.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John115</div>
+            <div class="nm" id="nm9" data-layout-ignore style="left:1006.6px;top:379.4px;width:70.1px;height:23.7px;background:rgb(255,255,255);color:rgb(100,99,101);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John114</div>
+            <div class="nm" id="nm10" data-layout-ignore style="left:1006.6px;top:379.4px;width:70.1px;height:23.7px;background:rgb(210,210,210);color:rgb(142,141,144);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John114</div>
+            <div class="nm" id="nm11" data-layout-ignore style="left:1006.6px;top:379.4px;width:70.1px;height:23.7px;background:rgb(255,255,255);color:rgb(100,99,101);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John114</div>
+            <div class="nm" id="nm12" data-layout-ignore style="left:1005.5px;top:431.1px;width:71.1px;height:25.9px;background:rgb(255,255,255);color:rgb(102,101,104);font-size:16.8px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John113</div>
+            <div class="nm" id="nm13" data-layout-ignore style="left:1005.5px;top:431.1px;width:71.1px;height:25.9px;background:rgb(210,210,210);color:rgb(144,143,146);font-size:16.8px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John113</div>
+            <div class="nm" id="nm14" data-layout-ignore style="left:1005.5px;top:431.1px;width:71.1px;height:25.9px;background:rgb(255,255,255);color:rgb(102,101,104);font-size:16.8px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John113</div>
+            <div class="nm" id="nm15" data-layout-ignore style="left:1005.5px;top:483.9px;width:71.1px;height:25.9px;background:rgb(255,255,255);color:rgb(91,90,93);font-size:16.8px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John112</div>
+            <div class="nm" id="nm16" data-layout-ignore style="left:1005.5px;top:483.9px;width:71.1px;height:25.9px;background:rgb(210,210,210);color:rgb(141,140,142);font-size:16.8px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John112</div>
+            <div class="nm" id="nm17" data-layout-ignore style="left:1005.5px;top:483.9px;width:71.1px;height:25.9px;background:rgb(255,255,255);color:rgb(91,90,93);font-size:16.8px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John112</div>
+            <div class="nm" id="nm18" data-layout-ignore style="left:1005.5px;top:537.8px;width:70.1px;height:24.8px;background:rgb(255,255,255);color:rgb(98,97,100);font-size:16.0px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John111</div>
+            <div class="nm" id="nm19" data-layout-ignore style="left:1005.5px;top:537.8px;width:70.1px;height:24.8px;background:rgb(210,210,210);color:rgb(144,143,146);font-size:16.0px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John111</div>
+            <div class="nm" id="nm20" data-layout-ignore style="left:1005.5px;top:537.8px;width:70.1px;height:24.8px;background:rgb(255,255,255);color:rgb(98,97,100);font-size:16.0px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John111</div>
+            <div class="nm" id="nm21" data-layout-ignore style="left:1007.7px;top:592.8px;width:69.0px;height:20.5px;background:rgb(255,255,255);color:rgb(92,91,94);font-size:12.6px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John110</div>
+            <div class="nm" id="nm22" data-layout-ignore style="left:1007.7px;top:592.8px;width:69.0px;height:20.5px;background:rgb(210,210,211);color:rgb(142,141,144);font-size:12.6px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John110</div>
+            <div class="nm" id="nm23" data-layout-ignore style="left:1007.7px;top:592.8px;width:69.0px;height:20.5px;background:rgb(255,255,255);color:rgb(92,91,94);font-size:12.6px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John110</div>
+            <div class="nm" id="nm24" data-layout-ignore style="left:442.9px;top:16.2px;width:79.8px;height:23.7px;background:rgb(58,58,58);color:rgb(16,29,37);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John116</div>
+            <div class="nm" id="nm25" data-layout-ignore style="left:442.9px;top:16.2px;width:79.8px;height:23.7px;background:rgb(255,255,255);color:rgb(96,154,190);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John116</div>
+            <div class="nm" id="nm26" data-layout-ignore style="left:442.9px;top:16.2px;width:79.8px;height:23.7px;background:rgb(58,58,58);color:rgb(16,29,37);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John116</div>
+            <div class="nm" id="nm27" data-layout-ignore style="left:442.9px;top:16.2px;width:79.8px;height:23.7px;background:rgb(255,255,255);color:rgb(95,155,189);font-size:15.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John116</div>
+            <div class="nm" id="nm28" data-layout-ignore style="left:172.4px;top:119.6px;width:105.6px;height:29.1px;background:rgb(253,250,235);color:rgb(88,82,82);font-size:19.3px;font-weight:600;justify-content:flex-start;padding-left:0.0px">John116</div>
+            <div class="nm" id="nm29" data-layout-ignore style="left:201.5px;top:672.5px;width:234.9px;height:23.7px;background:rgb(255,255,255);color:rgb(70,70,74);font-size:12.5px;font-weight:500;justify-content:flex-start;padding-left:5.4px">Contact: John, CEO & Founder</div>
+            <div class="nm" id="nm30" data-layout-ignore style="left:199.4px;top:711.3px;width:204.8px;height:24.8px;background:rgb(255,255,255);color:rgb(70,70,74);font-size:12.5px;font-weight:500;justify-content:flex-start;padding-left:5.4px">Email: John@waconstruct.com</div>
           </div>
         </div>
+          <div class="cap" id="k1"><div class="k">01 &middot; THE TASK</div><div class="t">An addition + remodel estimate, by voice</div></div>
+          <div class="cap" id="k2"><div class="k">02 &middot; HANDS-FREE START</div><div class="t">Alex opens a new project</div></div>
+          <div class="cap" id="k3"><div class="k">03 &middot; DESCRIBE THE JOB</div><div class="t">The scope fills in as John talks</div></div>
+          <div class="cap" id="k3b"><div class="k">03 &middot; SCOPE CAPTURED</div><div class="t">Ranch &middot; 1,100 sq ft addition &middot; gut-to-studs remodel</div></div>
+          <div class="cap" id="k4"><div class="k">04 &middot; ESTIMATE</div><div class="t">Alex generates the estimate</div></div>
+          <div class="cap" id="k4b"><div class="k">04 &middot; VERIFIED TOTAL</div><div class="t">Estimate ready: <b>$590,279</b></div><div class="n">Example project &mdash; every project&rsquo;s estimate differs.</div></div>
+          <div class="cap" id="k5"><div class="k">05 &middot; REVIEW BY VOICE</div><div class="t">Scope, HVAC detail, payments, contract</div></div>
+          <div class="cap" id="k6"><div class="k">06 &middot; ADJUST BY VOICE</div><div class="t">Kitchen add-ons, hardwood, primary bath, siding</div></div>
+          <div class="cap" id="k7"><div class="k">07 &middot; UPDATED TOTAL</div><div class="t">Re-priced in place: <b>$606,982</b></div><div class="n">Example project &mdash; every project&rsquo;s estimate differs.</div></div>
       </section>
 
       <!-- CLOSING CARD -->
-      <section id="outro" class="clip" data-start="273.40" data-duration="8.5" data-track-index="1">
+      <section id="outro" class="clip" data-start="267.90" data-duration="8.5" data-track-index="1">
         <div id="outro-inner">
           <img id="outro-logo" src="assets/logo-end.png" alt="Home Estimator" />
           <div id="outro-rule"></div>
@@ -344,47 +330,108 @@
       const tl = gsap.timeline({ paused: true });
       const IN = "power3.out";
       const OUT = "power2.in";
-      const V = 3; // composition time where the recording starts (edit time 0)
+      const V = 11.83; // composition time where the recording starts (edit time 0)
 
       // ---------- opening ----------
-      tl.fromTo("#intro-logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, 0.05);
-      tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 0.45);
-      tl.fromTo("#intro-title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, 0.6);
-      tl.fromTo("#intro-sub", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, 0.85);
-      tl.to("#intro", { opacity: 0, duration: 0.35, ease: OUT }, 2.85);
-      tl.set("#intro", { opacity: 0 }, 3.2);
+      // hook: lines land on the spoken words
+      tl.fromTo("#hk1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 3.36);
+      tl.fromTo("#hk2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 4.24);
+      tl.fromTo("#hk3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 6.56);
+      tl.to("#hook", { opacity: 0, duration: 0.4, ease: OUT }, 8.68);
+      const T0 = 8.93;
+      tl.fromTo("#intro-logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, T0 + 0.05);
+      tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, T0 + 0.45);
+      tl.fromTo("#intro-title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, T0 + 0.6);
+      tl.fromTo("#intro-sub", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, T0 + 0.85);
+      tl.to("#intro-in", { opacity: 0, duration: 0.35, ease: OUT }, V - 0.35);
+      tl.set("#intro-in", { opacity: 0 }, V);
 
       // ---------- demo frame in (untimed layer: visibility owned by the timeline) ----------
       tl.set("#demo", { opacity: 0 }, 0);
-      tl.set("#demo", { opacity: 1 }, 3.0);
-      tl.fromTo("#screen", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.7, ease: IN }, 3.0);
-      tl.fromTo("#rail", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.7, ease: IN }, 3.15);
-
-      // ---------- chapters (edit-time) ----------
-      const chapters = [
-        ["#c1", "#pg1", 0.00],
-        ["#c2", "#pg2", 21.17],
-        ["#c3", "#pg3", 30.80],
-        ["#c3b", "#pg3", 61.10],
-        ["#c4", "#pg4", 83.07],
-        ["#c4b", "#pg4", 90.23],
-        ["#c5", "#pg5", 100.03],
-        ["#c6", "#pg6", 161.57],
-        ["#c7", "#pg7", 242.60],
-        ["#c7b", "#pg7", 254.20],
-      ];
-      tl.set(".chap", { opacity: 0 }, 0);
-      chapters.forEach(([sel, pg, t], i) => {
-        const at = V + t;
-        if (i > 0) {
-          const prev = chapters[i - 1][0];
-          tl.to(prev, { opacity: 0, y: -16, duration: 0.3, ease: OUT }, at - 0.3);
-          tl.set(prev, { opacity: 0 }, at);
-        }
-        tl.fromTo(sel, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, at + (i === 0 ? 0.4 : 0));
-        tl.set(pg, { backgroundColor: "#d4af37" }, at);
-      });
-      tl.fromTo("#c3b li", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.35, stagger: 0.25, ease: IN }, V + 62.00);
+      tl.set("#demo", { opacity: 1 }, V);
+      tl.fromTo("#screen", { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.7, ease: IN }, V);
+      tl.fromTo("#corner-logo", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: IN }, V + 0.15);
+      // chapter subtitles: slide up, hold, slide down
+      tl.fromTo("#k1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 0.30);
+      tl.to("#k1", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 5.80);
+      tl.fromTo("#k2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 21.17);
+      tl.to("#k2", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 26.67);
+      tl.fromTo("#k3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 33.80);
+      tl.to("#k3", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 39.30);
+      tl.fromTo("#k3b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 63.67);
+      tl.to("#k3b", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 69.17);
+      tl.fromTo("#k4", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 85.73);
+      tl.to("#k4", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 91.23);
+      tl.fromTo("#k4b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 92.80);
+      tl.to("#k4b", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 98.30);
+      tl.fromTo("#k5", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 102.60);
+      tl.to("#k5", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 108.10);
+      tl.fromTo("#k6", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 150.07);
+      tl.to("#k6", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 155.57);
+      tl.fromTo("#k7", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 239.87);
+      tl.to("#k7", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 245.37);
+      tl.set("#nm0", { opacity: 1 }, V + 0.23);
+      tl.set("#nm0", { opacity: 0 }, V + 20.03);
+      tl.set("#nm1", { opacity: 1 }, V + 20.23);
+      tl.set("#nm1", { opacity: 0 }, V + 21.07);
+      tl.set("#nm2", { opacity: 1 }, V + 20.87);
+      tl.set("#nm2", { opacity: 0 }, V + 29.43);
+      tl.set("#nm3", { opacity: 1 }, V + 0.20);
+      tl.set("#nm3", { opacity: 0 }, V + 20.03);
+      tl.set("#nm4", { opacity: 1 }, V + 20.23);
+      tl.set("#nm4", { opacity: 0 }, V + 21.07);
+      tl.set("#nm5", { opacity: 1 }, V + 20.87);
+      tl.set("#nm5", { opacity: 0 }, V + 29.43);
+      tl.set("#nm6", { opacity: 1 }, V + 0.23);
+      tl.set("#nm6", { opacity: 0 }, V + 20.03);
+      tl.set("#nm7", { opacity: 1 }, V + 20.23);
+      tl.set("#nm7", { opacity: 0 }, V + 21.07);
+      tl.set("#nm8", { opacity: 1 }, V + 20.87);
+      tl.set("#nm8", { opacity: 0 }, V + 29.43);
+      tl.set("#nm9", { opacity: 1 }, V + 0.20);
+      tl.set("#nm9", { opacity: 0 }, V + 20.03);
+      tl.set("#nm10", { opacity: 1 }, V + 20.23);
+      tl.set("#nm10", { opacity: 0 }, V + 21.07);
+      tl.set("#nm11", { opacity: 1 }, V + 20.87);
+      tl.set("#nm11", { opacity: 0 }, V + 29.43);
+      tl.set("#nm12", { opacity: 1 }, V + 0.17);
+      tl.set("#nm12", { opacity: 0 }, V + 20.03);
+      tl.set("#nm13", { opacity: 1 }, V + 20.23);
+      tl.set("#nm13", { opacity: 0 }, V + 21.07);
+      tl.set("#nm14", { opacity: 1 }, V + 20.87);
+      tl.set("#nm14", { opacity: 0 }, V + 29.43);
+      tl.set("#nm15", { opacity: 1 }, V + 0.17);
+      tl.set("#nm15", { opacity: 0 }, V + 20.03);
+      tl.set("#nm16", { opacity: 1 }, V + 20.23);
+      tl.set("#nm16", { opacity: 0 }, V + 21.07);
+      tl.set("#nm17", { opacity: 1 }, V + 20.87);
+      tl.set("#nm17", { opacity: 0 }, V + 29.43);
+      tl.set("#nm18", { opacity: 1 }, V + 0.13);
+      tl.set("#nm18", { opacity: 0 }, V + 20.03);
+      tl.set("#nm19", { opacity: 1 }, V + 20.23);
+      tl.set("#nm19", { opacity: 0 }, V + 21.07);
+      tl.set("#nm20", { opacity: 1 }, V + 20.87);
+      tl.set("#nm20", { opacity: 0 }, V + 29.43);
+      tl.set("#nm21", { opacity: 1 }, V + 0.13);
+      tl.set("#nm21", { opacity: 0 }, V + 20.03);
+      tl.set("#nm22", { opacity: 1 }, V + 20.23);
+      tl.set("#nm22", { opacity: 0 }, V + 21.07);
+      tl.set("#nm23", { opacity: 1 }, V + 20.87);
+      tl.set("#nm23", { opacity: 0 }, V + 29.43);
+      tl.set("#nm24", { opacity: 1 }, V + 86.13);
+      tl.set("#nm24", { opacity: 0 }, V + 90.97);
+      tl.set("#nm25", { opacity: 1 }, V + 90.97);
+      tl.set("#nm25", { opacity: 0 }, V + 228.70);
+      tl.set("#nm26", { opacity: 1 }, V + 228.77);
+      tl.set("#nm26", { opacity: 0 }, V + 237.20);
+      tl.set("#nm27", { opacity: 1 }, V + 237.20);
+      tl.set("#nm27", { opacity: 0 }, V + 256.07);
+      tl.set("#nm28", { opacity: 1 }, V + 134.60);
+      tl.set("#nm28", { opacity: 0 }, V + 140.13);
+      tl.set("#nm29", { opacity: 1 }, V + 144.00);
+      tl.set("#nm29", { opacity: 0 }, V + 155.47);
+      tl.set("#nm30", { opacity: 1 }, V + 144.00);
+      tl.set("#nm30", { opacity: 0 }, V + 155.47);
 
       // ---------- camera (transform-origin 0 0 on #cam, values in screen px) ----------
       // full frame -> scope fields (1.4) -> total chip (2.0) -> kitchen add-ons (1.6)
@@ -392,26 +439,26 @@
       // gentle push on the dashboard during the opening narration
       tl.to("#cam", { scale: 1.05, x: -31, y: -24, duration: 18.00, ease: "power1.inOut" }, V + 1.0);
       const moves = [
-        [59.13, { scale: 1.4, x: -213, y: -377 }, 1.2],
-        [82.87, { scale: 1, x: 0, y: 0 }, 1.0],
-        [90.13, { scale: 1.7, x: -881, y: 0 }, 1.2],
-        [99.73, { scale: 1, x: 0, y: 0 }, 1.0],
-        [175.97, { scale: 1.6, x: 0, y: -565 }, 1.2],
-        [184.53, { scale: 1, x: 0, y: 0 }, 1.0],
-        [254.10, { scale: 1.7, x: -881, y: 0 }, 1.2],
-        [266.23, { scale: 1, x: 0, y: 0 }, 1.2],
+        [61.70, { scale: 1.4, x: -245, y: -432 }, 1.2],
+        [85.43, { scale: 1, x: 0, y: 0 }, 1.0],
+        [92.70, { scale: 1.7, x: -1009, y: 0 }, 1.2],
+        [102.30, { scale: 1, x: 0, y: 0 }, 1.0],
+        [166.67, { scale: 1.6, x: 0, y: -648 }, 1.2],
+        [175.23, { scale: 1, x: 0, y: 0 }, 1.0],
+        [239.77, { scale: 1.7, x: -1009, y: 0 }, 1.2],
+        [251.90, { scale: 1, x: 0, y: 0 }, 1.2],
       ];
       moves.forEach(([t, pose, d]) => tl.to("#cam", Object.assign({ duration: d, ease: "power2.inOut" }, pose), V + t));
 
       // ---------- out to closing card ----------
-      tl.to("#demo", { opacity: 0, duration: 0.5, ease: OUT }, 272.90);
-      tl.set("#demo", { opacity: 0 }, 273.40);
+      tl.to("#demo", { opacity: 0, duration: 0.5, ease: OUT }, 267.40);
+      tl.set("#demo", { opacity: 0 }, 267.90);
 
       // ---------- closing card ----------
-      tl.fromTo("#outro-logo", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, 273.50);
-      tl.fromTo("#outro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 274.00);
-      tl.fromTo("#outro-line", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 274.30);
-      tl.fromTo("#outro-cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 274.55);
+      tl.fromTo("#outro-logo", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, 268.00);
+      tl.fromTo("#outro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 268.50);
+      tl.fromTo("#outro-line", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 268.80);
+      tl.fromTo("#outro-cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 269.05);
 
       window.__timelines["main"] = tl;
     </script>
