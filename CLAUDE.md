@@ -137,10 +137,11 @@ For every Home Estimator (HomeEstimator.ai) video:
 
 ### Product demo re-edits (screen recordings)
 
-For demo videos built from a real screen recording (reference: `videos/alex-demo/`), follow `videos/alex-demo/recut/WORKFLOW.md`:
+For demo videos built from a real screen recording (references: `videos/alex-demo/` and `videos/handsfree-demo/`), follow `videos/alex-demo/recut/WORKFLOW.md`:
 
 - Re-voice the human presenter and keep the product's own voice (e.g. Alex) untouched, with every word kept. Run the word-coverage audit.
 - Remove fillers and trim silences over 0.7s to a natural ~0.5s turn gap with 0.2s dissolves. Never alter the product UI; hold on key results (e.g. the ballpark range).
 - Pin narration to on-screen clicks, and remap chapters, zooms and cards through the new cut.
-- Music only on the opening and closing cards (no distracting music under the demo). Master at −14 LUFS and correct the renderer's 21 ms AAC audio delay.
+- Music only on the opening and closing cards (no distracting music under the demo). Level the product voice per turn so every line is audible. Master at −14 LUFS; measure the render's audio offset and only correct it if it's there.
+- Transcribe locally with Parakeet (sherpa-onnx). Give the user a paste-ready ElevenLabs script with one voice for the presenter. Snapshot the cards before the 25-minute render.
 - Frame-level QA before delivery (sync, black/freeze, every cut and line). Deliver a share copy under 30 MB plus the master.
