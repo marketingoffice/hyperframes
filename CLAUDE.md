@@ -134,3 +134,13 @@ For every Home Estimator (HomeEstimator.ai) video:
 - **Graphics:** favour app UI mockups (estimate screens, room cards, Good/Better/Best tiers, margin readouts) and strong motion (kinetic type, camera-style transitions, beat-synced cuts).
 - **Process:** ask the user questions (fonts, logo file, music, visuals) BEFORE building a new video, and self-review snapshots before delivering.
 - **No "free" language.** Reference build: `videos/lowest-bid-wins/`.
+
+### Product demo re-edits (screen recordings)
+
+For demo videos built from a real screen recording (reference: `videos/alex-demo/`), follow `videos/alex-demo/recut/WORKFLOW.md`:
+
+- Re-voice the human presenter and keep the product's own voice (e.g. Alex) untouched, with every word kept. Run the word-coverage audit.
+- Remove fillers and trim silences over 0.7s to a natural ~0.5s turn gap with 0.2s dissolves. Never alter the product UI; hold on key results (e.g. the ballpark range).
+- Pin narration to on-screen clicks, and remap chapters, zooms and cards through the new cut.
+- Music only on the opening and closing cards (no distracting music under the demo). Master at −14 LUFS and correct the renderer's 21 ms AAC audio delay.
+- Frame-level QA before delivery (sync, black/freeze, every cut and line). Deliver a share copy under 30 MB plus the master.

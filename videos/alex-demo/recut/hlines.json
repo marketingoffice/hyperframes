@@ -1,0 +1,39 @@
+[
+  ["h01", 69.06, "So, what kind of services do you guys provide?"],
+  ["h02", 84.37, "Yeah, we're looking to do an addition on my house."],
+  ["h03", 95.31, "It's in Mountainside, New Jersey."],
+  ["h04", 103.74, "We actually want to add a second level."],
+  [
+    "h05",
+    118.87,
+    "I want to start as soon as possible. And we're looking to add fifteen hundred square feet on the second floor."
+  ],
+  ["h06", 136.31, "It's about seventeen hundred square feet."],
+  [
+    "h07",
+    142.41,
+    "And at the same time, I want to add a primary suite: a primary bathroom, a full bathroom, and a laundry on the second floor."
+  ],
+  ["h08", 163.52, "It's a ranch."],
+  [
+    "h09",
+    167.61,
+    "Did you catch my primary bathroom, full bathroom, and the laundry for the second floor?"
+  ],
+  ["h10", 184.21, "Good is fine with me."],
+  ["h11", 184.21, "On top of that, I also want to remodel my first floor."],
+  ["h12", 184.21, "We want to add a mudroom in there as well."],
+  ["h13", 184.21, "And we want to remodel our basement too."],
+  ["h14", 184.21, "And on the exterior, we want Hardie plank siding for the whole house."],
+  [
+    "h15",
+    223.4,
+    "Yeah, it's going to be a complete basement finish, and it's the same square footage as the first floor."
+  ],
+  ["h16", 246.38, "Yeah. My name is John Agnes."],
+  ["h17", 246.38, "My email is x y z at gmail dot com."],
+  ["h18", 246.38, "My phone number is two zero one, four five eight, eight eight eight seven."],
+  ["h19", 246.38, "My home address is one two three Main Street, Mountainside, New Jersey."],
+  ["h20", 284.78, "Okay, that sounds good. So what's the next step?"],
+  ["h21", 299.27, "All right, sounds good. Thank you, Alex. Have a good one."]
+]
