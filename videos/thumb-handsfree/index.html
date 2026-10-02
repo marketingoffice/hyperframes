@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Hands-Free Short Cover</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      :root {
+        --navy: #1a1a2e;
+        --card: #2d2d44;
+        --gold: #d4af37;
+        --gray: #a0aab2;
+        --white: #ffffff;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      body { font-family: "Inter", sans-serif; color: var(--white); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #bg { position: absolute; inset: 0; background: var(--navy); }
+      #logo { position: absolute; left: 50%; top: 150px; width: 190px; transform: translateX(-50%); }
+      #h1 { position: absolute; left: 0; top: 360px; width: 1080px; text-align: center; font-size: 124px; font-weight: 900;
+        letter-spacing: -3.5px; line-height: 1.02; white-space: nowrap; }
+      #h1 .g { color: var(--gold); }
+      #shot { position: absolute; left: 110px; top: 690px; width: 860px; height: 700px; border-radius: 28px; overflow: hidden;
+        border: 5px solid var(--gold); box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); transform: rotate(-2.5deg); background: #0e0e18; }
+      #shot img { width: 860px; height: 860px; object-fit: cover; margin-top: 0; }
+      #pill { position: absolute; left: 140px; top: 1330px; width: 800px; padding: 30px 30px 32px; border-radius: 26px;
+        background: var(--card); border: 4px solid var(--gold); text-align: center; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); }
+      #pill .k { font-size: 30px; font-weight: 800; letter-spacing: 6px; color: var(--gold); }
+      #pill .v { margin-top: 6px; font-size: 122px; font-weight: 900; letter-spacing: -3px; line-height: 1; }
+      #tag { position: absolute; left: 0; top: 1600px; width: 1080px; text-align: center; font-size: 58px; font-weight: 800; }
+      #tag .g { color: var(--gold); }
+      #note { position: absolute; left: 0; top: 1690px; width: 1080px; text-align: center; font-size: 24px; color: var(--gray); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="1" data-track-index="0"></div>
+      <img id="logo" src="assets/logo-rail.png" alt="Home Estimator" />
+      <div id="h1">NO KEYBOARD.<br /><span class="g">NO MOUSE.</span></div>
+      <div id="shot"><img src="assets/app_total.jpg" alt="Estimate total on screen" /></div>
+      <div id="pill"><div class="k">ESTIMATE BUILT BY VOICE</div><div class="v">$590,279</div></div>
+      <div id="tag">Just talk to <span class="g">Alex</span></div>
+      <div id="note">Example project &mdash; every project&rsquo;s estimate differs.</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
