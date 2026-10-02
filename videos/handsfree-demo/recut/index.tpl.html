@@ -81,40 +81,33 @@
         color: var(--gray);
       }
 
-      /* ---------- demo layout: full-height screen ---------- */
+      /* ---------- demo layout: full-bleed app (16:9 crop of the 4:3 recording, framed per scene) ---------- */
       #demo {
         position: absolute;
         inset: 0;
       }
       #screen {
         position: absolute;
-        left: 239px;
+        left: 0;
         top: 0;
-        width: 1442px;
+        width: 1920px;
         height: 1080px;
         overflow: hidden;
         background: #0e0e18;
-      }
-      #corner-logo {
-        position: absolute;
-        left: 34px;
-        bottom: 40px;
-        width: 170px;
-        height: auto;
       }
       #cam {
         position: absolute;
         left: 0;
         top: 0;
-        width: 1442px;
-        height: 1080px;
+        width: 1920px;
+        height: 1438px;
       }
       #rec {
         position: absolute;
         left: 0;
         top: 0;
-        width: 1442px;
-        height: 1080px;
+        width: 1920px;
+        height: 1438px;
         object-fit: fill;
       }
 
@@ -149,8 +142,8 @@
       /* ---------- chapter subtitles (bottom) ---------- */
       .cap {
         position: absolute;
-        left: 279px;
-        bottom: 44px;
+        left: 44px;
+        bottom: 40px;
         max-width: 860px;
         padding: 22px 30px 24px;
         border-radius: 14px;
@@ -179,6 +172,16 @@
         margin-top: 8px;
         font-size: 17px;
         color: var(--gray);
+      }
+      /* ---------- highlight boxes (what the conversation is about) ---------- */
+      .hl {
+        position: absolute;
+        border: 5px solid var(--gold);
+        border-radius: 12px;
+        box-shadow:
+          0 0 0 4px rgba(26, 26, 46, 0.55),
+          0 0 28px rgba(212, 175, 55, 0.65);
+        opacity: 0;
       }
       /* ---------- on-screen name patches (Hasnain -> John) ---------- */
       .nm {
@@ -265,12 +268,11 @@
 
       <!-- DEMO -->
       <section id="demo">
-        <img id="corner-logo" src="assets/logo-rail.png" alt="Home Estimator" />
-
         <div id="screen">
           <div id="cam" data-layout-allow-overflow>
             <video id="rec" class="clip" src="assets/recording.mp4" data-start="{{V}}" data-duration="{{N}}" data-track-index="3" muted playsinline></video>
 {{NAMES}}
+{{BOXES}}
           </div>
         </div>
 {{CAPS}}
@@ -311,20 +313,15 @@
       // ---------- demo frame in (untimed layer: visibility owned by the timeline) ----------
       tl.set("#demo", { opacity: 0 }, 0);
       tl.set("#demo", { opacity: 1 }, V);
-      tl.fromTo("#screen", { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.7, ease: IN }, V);
-      tl.fromTo("#corner-logo", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: IN }, V + 0.15);
+      tl.fromTo("#screen", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: IN }, V);
 {{CAPS_JS}}
 {{NAMES_JS}}
 
-      // ---------- camera (transform-origin 0 0 on #cam, values in screen px) ----------
-      // full frame -> scope fields (1.4) -> total chip (2.0) -> kitchen add-ons (1.6)
-      tl.set("#cam", { transformOrigin: "0% 0%", scale: 1, x: 0, y: 0 }, V);
-      // gentle push on the dashboard during the opening narration
-      tl.to("#cam", { scale: 1.05, x: -31, y: -24, duration: {{DRIFT}}, ease: "power1.inOut" }, V + 1.0);
-      const moves = [
-{{MOVES}},
-      ];
-      moves.forEach(([t, pose, d]) => tl.to("#cam", Object.assign({ duration: d, ease: "power2.inOut" }, pose), V + t));
+      // ---------- framing: no pans or zooms; the vertical crop only changes on a cut ----------
+{{FRAMES_JS}}
+
+      // ---------- highlight boxes ----------
+{{BOXES_JS}}
 
       // ---------- out to closing card ----------
       tl.to("#demo", { opacity: 0, duration: 0.5, ease: OUT }, {{FADE}});

@@ -24,7 +24,7 @@ th = np.percentile(db, 30) + 12
 # Alex speech = transcribed words outside presenter spans, edges refined on the energy envelope
 W = json.load(open("../words.json"))
 inH = lambda t: any(a <= t <= b for a, b, _ in H)
-DROP = [(244.0, 244.7), (247.9, 249.8), (256.4, 261.1), (294.2, 294.9), (297.5, 298.6), (300.6, 301.4), (303.7, 305.6)]
+DROP = [(244.0, 244.7), (247.9, 249.8), (256.4, 261.1), (270.0, 274.6), (294.2, 294.9), (297.5, 298.6), (300.6, 301.4), (303.7, 305.6)]
 inD = lambda t: any(a <= t <= b for a, b in DROP)
 iv = [[w["s"], w["e"]] for w in W if not inH((w["s"] + w["e"]) / 2) and not inD((w["s"] + w["e"]) / 2)]
 loud = db > th

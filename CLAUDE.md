@@ -144,4 +144,7 @@ For demo videos built from a real screen recording (references: `videos/alex-dem
 - Pin narration to on-screen clicks, and remap chapters, zooms and cards through the new cut.
 - Music only on the opening and closing cards (no distracting music under the demo). Level the product voice per turn so every line is audible. Master at −14 LUFS; measure the render's audio offset and only correct it if it's there.
 - Transcribe locally with Parakeet (sherpa-onnx). Give the user a paste-ready ElevenLabs script with one voice for the presenter. Snapshot the cards before the 25-minute render.
+- Mobile-first framing: the app fills the frame edge to edge (full-bleed 16:9, no side panels); reframe only on cuts. Never pan or zoom; point things out with gold highlight boxes instead.
+- American English in captions and on-screen text (e.g. "updated price", not "re-priced").
+- Audit every kept product-voice line for presenter bleed; mute the line if the presenter is audible under it.
 - Frame-level QA before delivery (sync, black/freeze, every cut and line). Deliver a share copy under 30 MB plus the master.

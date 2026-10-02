@@ -15,3 +15,10 @@ Same workflow as `videos/alex-demo/recut/WORKFLOW.md`, with these differences fo
   - The browser bookmarks bar is cropped off (`crop=1338:1002:0:78`).
 - **AAC delay:** measure the render's audio offset before mastering. This render had **no** 21 ms delay, unlike the Alex demo. Never apply that fix blind.
 - `gen.py` builds `index.html` from `index.tpl.html`; every cue is given in source seconds and mapped through `plan.json`.
+
+## v3 (mobile-first framing)
+
+- **Full-bleed 16:9:** the 4:3 recording is scaled to 1920 px wide (1438 px tall), and a per-scene vertical offset crops it to 1080. `FRAMING` in `gen.py` sets the offset (0–249 recording px). The offset changes only at a cut, in the middle of the 0.2 s dissolve. There are no pans and no zooms.
+- **Highlight boxes:** gold boxes replace the camera moves. `BOXES` in `gen.py` gives each box a rectangle in recording px plus edit-time in/out points. Before placing a box, check the region is static over its window (mean pixel diff against a reference frame).
+- **Speaker-bleed audit:** score every kept Alex interval with the speaker classifier (share of voiced frames that sound like the presenter). An interval over ~20% is presenter bleed, so drop it via `DROP` in `build.py` (the 270.0–274.6 HVAC line scored 26%).
+- **Hook music:** sits about 12 dB under the hook voiceover (volume 0.16).

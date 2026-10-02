@@ -10,7 +10,7 @@ ffmpeg -nostdin -v error -y -f lavfi -t $C -i anullsrc=r=48000:cl=stereo -i $A/t
 VMS=$(python3 -c "print(int(round($V*1000)))"); HMS=$(python3 -c "print(int(round($H0*1000)))")
 MO=$(python3 -c "print(round($V-0.9,2))")
 ffmpeg -nostdin -v error -y -i $A/musicloop.wav -i vo_new.wav -i closebed.wav -i hook.wav -filter_complex "\
-[0:a]atrim=0:$V,asetpts=PTS-STARTPTS,volume='if(lt(t,$H0+7.9),0.089,0.355)':eval=frame,afade=t=in:d=0.6,afade=t=out:st=$MO:d=0.9,apad,atrim=0:$T[m1];\
+[0:a]atrim=0:$V,asetpts=PTS-STARTPTS,volume='if(lt(t,$H0+7.9),0.16,0.355)':eval=frame,afade=t=in:d=0.6,afade=t=out:st=$MO:d=0.9,apad,atrim=0:$T[m1];\
 [2:a]apad,atrim=0:$T[m2];\
 [1:a]adelay=$VMS,aformat=channel_layouts=stereo,apad,atrim=0:$T[v];\
 [3:a]adelay=$HMS,aformat=channel_layouts=stereo,apad,atrim=0:$T[h];\

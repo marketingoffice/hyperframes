@@ -26,24 +26,50 @@ def m(t):
 
 
 r = lambda x: f"{x:.2f}"
-W, H, K = 1442, 1080, 1442 / 1338
+W, K = 1920, 1920 / 1338  # recording scaled to full width; 1438 px tall, cropped to 1080 by a per-scene offset
 
 
-def pose(px, py, s):
-    x = min(0, max(W - s * W, W / 2 - s * px * K))
-    y = min(0, max(H - s * H, H / 2 - s * py * K))
-    return f"{{ scale: {s}, x: {x:.0f}, y: {y:.0f} }}"
+def ps(src):
+    """edit time where the piece starting at source time `src` begins"""
+    k = min(range(len(fr)), key=lambda k: abs(fr[k][0] / FPS - src))
+    return st[k] / FPS
 
 
-FULL = "{ scale: 1, x: 0, y: 0 }"
-SCOPE = pose(640, 720, 1.4)
-TOTAL = pose(1130, 40, 1.7)
-ADDONS = pose(330, 900, 1.6)
-moves = [  # (source time, pose, duration)
-    (116.5, SCOPE, 1.2), (157.0, FULL, 1.0), (210.0, TOTAL, 1.2), (219.6, FULL, 1.0),
-    (349.6, ADDONS, 1.2), (365.8, FULL, 1.0), (507.0, TOTAL, 1.2), (519.6, FULL, 1.2),
+# vertical framing (recording px from the top, 0..249), chosen per scene; changes land on cuts only
+FRAMING = [(0, 0), (54.5, 249), (156, 170), (200, 0), (332, 249), (388, 125), (495, 0)]  # (source time >=, offset)
+
+
+def oy_of(src):
+    return [o for t, o in FRAMING if src >= t][-1]
+
+
+frames_js, cur = [], None
+for k, (fa, fb) in enumerate(fr):
+    o = oy_of(fa / FPS)
+    if o != cur:
+        t = 0 if k == 0 else st[k] / FPS + 0.1  # middle of the 0.2 s dissolve
+        frames_js.append(f'      tl.set("#cam", {{ y: {-o * K:.0f} }}, V + {r(t)});')
+        cur = o
+OY = {k: oy_of(a / FPS) for k, (a, b) in enumerate(fr)}
+
+# highlight boxes: (id, rect in recording px, edit start, edit end)
+BOXES = [
+    ("hl-scope", (188, 618, 996, 212), ps(133.33) + 0.25, ps(156.9) - 0.1),
+    ("hl-total1", (1095, 3, 92, 46), m(210.2) - 0.1, m(219.4)),
+    ("hl-addons", (198, 885, 332, 104), 153.07 + 0.3, m(365.3)),
+    ("hl-siding", (184, 508, 356, 340), ps(423.73) + 0.3, 217.6),
+    ("hl-total2", (842, 3, 90, 46), m(507.2), m(519.4)),
 ]
-moves_js = ",\n".join(f"        [{r(m(t))}, {ps}, {d}]" for t, ps, d in moves)
+PAD = 7
+boxes_html, boxes_js = [], ["      // fade in, hold while it is discussed, fade out"]
+for i_, (x, y, w, h), a, b in BOXES:
+    x0, y0 = max(2, x - PAD), max(2, y - PAD)
+    x1, y1 = min(1336, x + w + PAD), min(1000, y + h + PAD)
+    boxes_html.append(f'            <div class="hl" id="{i_}" data-layout-ignore style="left:{x0 * K:.0f}px;top:{y0 * K:.0f}px;'
+                      f'width:{(x1 - x0) * K:.0f}px;height:{(y1 - y0) * K:.0f}px"></div>')
+    boxes_js.append(f'      tl.fromTo("#{i_}", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.35, ease: IN }}, V + {r(a)});')
+    boxes_js.append(f'      tl.to("#{i_}", {{ opacity: 0, duration: 0.3, ease: OUT }}, V + {r(b - 0.3)});')
+    boxes_js.append(f'      tl.set("#{i_}", {{ opacity: 0 }}, V + {r(b)});')
 
 EX = '<div class="n">Example project &mdash; every project&rsquo;s estimate differs.</div>'
 caps = [  # (id, source time, kicker, title html, extra)
@@ -55,7 +81,7 @@ caps = [  # (id, source time, kicker, title html, extra)
     ("k4b", 210.1, "04 &middot; VERIFIED TOTAL", "Estimate ready: <b>$590,279</b>", EX),
     ("k5", 219.9, "05 &middot; REVIEW BY VOICE", "Scope, HVAC detail, payments, contract", ""),
     ("k6", 321.7, "06 &middot; ADJUST BY VOICE", "Kitchen add-ons, hardwood, primary bath, siding", ""),
-    ("k7", 507.1, "07 &middot; UPDATED TOTAL", "Re-priced in place: <b>$606,982</b>", EX),
+    ("k7", 507.1, "07 &middot; UPDATED TOTAL", "Updated price: <b>$606,982</b>", EX),
 ]
 CAP_HOLD = 5.5
 caps_html = "\n".join(
@@ -80,8 +106,8 @@ if os.path.exists("names.json"):
 
 html = open("index.tpl.html").read()
 for k, v in {
-    "{{T}}": r(T), "{{N}}": r(N), "{{OUT}}": r(V + N), "{{MOVES}}": moves_js, "{{V}}": r(V),
-    "{{DRIFT}}": r(m(19.0) - 1.0), "{{FADE}}": r(V + N - 0.5),
+    "{{T}}": r(T), "{{N}}": r(N), "{{OUT}}": r(V + N), "{{V}}": r(V), "{{FADE}}": r(V + N - 0.5),
+    "{{FRAMES_JS}}": "\n".join(frames_js), "{{BOXES}}": "\n".join(boxes_html), "{{BOXES_JS}}": "\n".join(boxes_js),
     "{{O1}}": r(V + N + 0.1), "{{O2}}": r(V + N + 0.6), "{{O3}}": r(V + N + 0.9), "{{O4}}": r(V + N + 1.15),
     "{{HOOK_END}}": r(HOOK_OUT + 0.4), "{{HOOK_OUT}}": r(HOOK_OUT), "{{HK1}}": r(HK[0]), "{{HK2}}": r(HK[1]),
     "{{HK3}}": r(HK[2]), "{{TITLE_START}}": r(TITLE_START), "{{TITLE_DUR}}": r(V - TITLE_START),

@@ -115,8 +115,11 @@ Scripts in this folder expect a work dir (e.g. `/tmp/claude-0/alex/re/`) whose p
 - `python3 render.py`: per-piece frame-accurate encodes plus 6-frame dissolves, joined with
   the concat demuxer (stream copy). It must print `frames N expected N`.
 - New project: generate `index.html` from a template with `gen.py`, giving every chapter
-  and zoom cue in source seconds. Run `hyperframes check` and mark `#cam` with
-  `data-layout-allow-overflow`; the zooms are intentional.
+  and highlight-box cue in source seconds. Run `hyperframes check` and mark `#cam` with
+  `data-layout-allow-overflow`; the full-bleed crop is intentional.
+  User preference (from hands-free v3): use full-bleed 16:9 framing for phones, and reframe
+  only on cuts. Never pan or zoom; gold highlight boxes mark what is being discussed. See
+  `videos/handsfree-demo/recut/README.md`.
 - `python3 remap.py`: rewrites the chapters, camera moves, scope-recap stagger, intro drift,
   demo fade and outro/card times through the new cut → `index_new.html`.
 - Mix:
