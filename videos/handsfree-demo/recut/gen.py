@@ -43,11 +43,15 @@ def oy_of(src):
     return [o for t, o in FRAMING if src >= t][-1]
 
 
+SWITCH = {28.83: 29.45, 85.43: 85.82, 90.07: 90.95, 190.2: 190.55, 231.7: 232.48}
 frames_js, cur = [], None
 for k, (fa, fb) in enumerate(fr):
     o = oy_of(fa / FPS)
     if o != cur:
         t = 0 if k == 0 else st[k] / FPS + 0.1  # middle of the 0.2 s dissolve
+        # where the screen keeps its content across the cut, reframe on the first frame of the
+        # next screen instead (measured on recording_new.mp4: largest frame-to-frame change)
+        t = SWITCH.get(round(t, 2), t)
         frames_js.append(f'      tl.set("#cam", {{ y: {-o * K:.0f} }}, V + {r(t)});')
         cur = o
 OY = {k: oy_of(a / FPS) for k, (a, b) in enumerate(fr)}
