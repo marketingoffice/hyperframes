@@ -6,9 +6,11 @@ FPS, fr, st = P["fps"], P["pieces"], P["starts"]
 N = P["total_frames"] / FPS
 
 # opening: hook line (John: "...never touched the keyboard or the mouse...") then title card
-H0 = 0.6  # hook VO start
-HOOK_VO = 7.63
-HK = [H0 + 2.76, H0 + 3.64, H0 + 5.96]  # "keyboard", "mouse", "just by having a normal conversation"
+H0 = 0.6  # hook VO start ("Building plans, then waiting on bids ... No keyboard, no mouse.")
+HOOK_VO = 13.79
+# word times in the hook take (Parakeet), relative to H0
+HW = {"building": 0.0, "bids": 1.84, "three": 3.10, "before": 4.22, "with": 7.11, "ten": 9.11,
+      "just": 10.16, "keyboard": 12.08, "mouse": 13.04}
 HOOK_OUT = H0 + HOOK_VO + 0.45
 TITLE_START = HOOK_OUT + 0.25
 V = round(TITLE_START + 2.9, 2)  # demo (recording) starts here
@@ -43,25 +45,40 @@ def oy_of(src):
     return [o for t, o in FRAMING if src >= t][-1]
 
 
-SWITCH = {28.83: 29.45, 85.43: 85.82, 90.07: 90.95, 190.2: 190.55, 231.7: 232.48}
-frames_js, cur = [], None
+# reframe on the first frame of the next screen, not mid-screen: in the window from the cut to the
+# next reframe, find the largest frame-to-frame change in recording_new.mp4
+import subprocess
+import numpy as np
+
+_raw = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-i", "recording_new.mp4", "-vf", "scale=96:72",
+                       "-f", "rawvideo", "-pix_fmt", "gray", "-"], capture_output=True).stdout
+DIFF = np.abs(np.diff(np.frombuffer(_raw, np.uint8).reshape(-1, 72, 96).astype(np.int16), axis=0)).mean((1, 2))
+
+bounds, cur = [], None
 for k, (fa, fb) in enumerate(fr):
     o = oy_of(fa / FPS)
     if o != cur:
-        t = 0 if k == 0 else st[k] / FPS + 0.1  # middle of the 0.2 s dissolve
-        # where the screen keeps its content across the cut, reframe on the first frame of the
-        # next screen instead (measured on recording_new.mp4: largest frame-to-frame change)
-        t = SWITCH.get(round(t, 2), t)
-        frames_js.append(f'      tl.set("#cam", {{ y: {-o * K:.0f} }}, V + {r(t)});')
+        bounds.append((k, o))
         cur = o
+frames_js = []
+for j, (k, o) in enumerate(bounds):
+    if k == 0:
+        t = 0.0
+    else:
+        f0 = st[k] - 3  # just before the dissolve
+        f1 = f0 + int(1.6 * FPS)  # the next screen arrives within ~1.5 s of the cut
+        f = f0 + 1 + int(np.argmax(DIFF[f0:f1]))  # first frame of the new screen
+        t = f / FPS - 0.5 / FPS
+    frames_js.append(f'      tl.set("#cam", {{ y: {-o * K:.0f} }}, V + {r(t)});')
 OY = {k: oy_of(a / FPS) for k, (a, b) in enumerate(fr)}
 
+PL = {f: t for t, f, d in P["placed"]}  # edit time of each re-voiced line
 # highlight boxes: (id, rect in recording px, edit start, edit end)
 BOXES = [
     ("hl-scope", (188, 618, 996, 212), ps(133.33) + 0.25, ps(156.9) - 0.1),
     ("hl-total1", (1095, 3, 92, 46), m(210.2) - 0.1, m(219.4)),
-    ("hl-addons", (198, 885, 332, 104), 153.07 + 0.3, m(365.3)),
-    ("hl-siding", (184, 508, 356, 340), ps(423.73) + 0.3, 217.6),
+    ("hl-addons", (198, 885, 332, 104), PL["n15.wav"] + 0.3, m(365.3)),
+    ("hl-siding", (184, 508, 356, 340), ps(423.73) + 0.3, PL["n19.wav"] - 0.1),
     ("hl-total2", (842, 3, 90, 46), m(507.2), m(519.4)),
 ]
 PAD = 7
@@ -108,13 +125,38 @@ if os.path.exists("names.json"):
         names_js.append(f'      tl.set("#nm{j}", {{ opacity: 1 }}, V + {r(p["start"])});')
         names_js.append(f'      tl.set("#nm{j}", {{ opacity: 0 }}, V + {r(p["end"])});')
 
+
+def hk(w, d=-0.08):
+    return r(H0 + HW[w] + d)
+
+
+IN_ = "{ opacity: 1, y: 0, duration: 0.45, ease: IN }"
+hook_js = "\n".join([
+    "      // hook beat 1: the old way",
+    f'      tl.fromTo("#hp1", {{ opacity: 0, y: 30 }}, {IN_}, {hk("building", 0.0)});',
+    f'      tl.fromTo("#hpa", {{ opacity: 0, x: -16 }}, {{ opacity: 1, x: 0, duration: 0.4, ease: IN }}, {hk("bids", -0.45)});',
+    f'      tl.fromTo("#hp2", {{ opacity: 0, y: 30 }}, {IN_}, {hk("bids", -0.3)});',
+    f'      tl.fromTo("#hm", {{ opacity: 0, y: 40 }}, {{ opacity: 1, y: 0, duration: 0.5, ease: IN }}, {hk("three")});',
+    f'      tl.fromTo("#hsub", {{ opacity: 0, y: 20 }}, {IN_}, {hk("before")});',
+    "      // hook beat 2: strike the months, land the minutes",
+    f'      tl.fromTo("#hstrike", {{ opacity: 1, scaleX: 0 }}, {{ scaleX: 1, duration: 0.45, ease: "power2.inOut" }}, {hk("with")});',
+    f'      tl.to(["#hm", "#hp1", "#hp2", "#hpa", "#hsub"], {{ opacity: 0.35, duration: 0.45, ease: OUT }}, {hk("with")});',
+    f'      tl.fromTo("#h10-k", {{ opacity: 0, y: 16 }}, {IN_}, {hk("with", 0.3)});',
+    f'      tl.fromTo("#h10", {{ opacity: 0, y: 40, scale: 0.96 }}, {{ opacity: 1, y: 0, scale: 1, duration: 0.55, ease: IN }}, {hk("ten", -0.25)});',
+    "      // hook beat 3: one conversation, hands-free",
+    f'      tl.to("#hookA", {{ opacity: 0, y: -30, duration: 0.35, ease: OUT }}, {hk("just", -0.4)});',
+    f'      tl.set("#hookA", {{ opacity: 0 }}, {hk("just", -0.05)});',
+    f'      tl.fromTo("#hc1", {{ opacity: 0, y: 30 }}, {IN_}, {hk("just")});',
+    f'      tl.fromTo("#hk1", {{ opacity: 0, y: 40 }}, {IN_}, {hk("keyboard")});',
+    f'      tl.fromTo("#hk2", {{ opacity: 0, y: 40 }}, {IN_}, {hk("mouse")});',
+])
+
 html = open("index.tpl.html").read()
 for k, v in {
     "{{T}}": r(T), "{{N}}": r(N), "{{OUT}}": r(V + N), "{{V}}": r(V), "{{FADE}}": r(V + N - 0.5),
     "{{FRAMES_JS}}": "\n".join(frames_js), "{{BOXES}}": "\n".join(boxes_html), "{{BOXES_JS}}": "\n".join(boxes_js),
     "{{O1}}": r(V + N + 0.1), "{{O2}}": r(V + N + 0.6), "{{O3}}": r(V + N + 0.9), "{{O4}}": r(V + N + 1.15),
-    "{{HOOK_END}}": r(HOOK_OUT + 0.4), "{{HOOK_OUT}}": r(HOOK_OUT), "{{HK1}}": r(HK[0]), "{{HK2}}": r(HK[1]),
-    "{{HK3}}": r(HK[2]), "{{TITLE_START}}": r(TITLE_START), "{{TITLE_DUR}}": r(V - TITLE_START),
+    "{{HOOK_END}}": r(HOOK_OUT + 0.4), "{{HOOK_OUT}}": r(HOOK_OUT), "{{HOOK_JS}}": hook_js, "{{TITLE_START}}": r(TITLE_START), "{{TITLE_DUR}}": r(V - TITLE_START),
     "{{CAPS}}": caps_html, "{{CAPS_JS}}": "\n".join(caps_js),
     "{{NAMES}}": "\n".join(names_html), "{{NAMES_JS}}": "\n".join(names_js) or "      // (no name patches)",
 }.items():

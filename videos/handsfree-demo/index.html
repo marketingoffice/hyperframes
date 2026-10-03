@@ -12,6 +12,7 @@
         --card: #2d2d44;
         --line: #3a3a55;
         --gold: #d4af37;
+        --sand: #c9a96e;
         --gray: #a0aab2;
         --white: #ffffff;
       }
@@ -111,8 +112,12 @@
         object-fit: fill;
       }
 
-      /* ---------- opening hook ---------- */
+      /* ---------- opening hook: old way (plans + bids, 3–4 months) vs. Alex (about 10 minutes) ---------- */
       #hook {
+        position: absolute;
+        inset: 0;
+      }
+      .stage {
         position: absolute;
         inset: 0;
         display: flex;
@@ -120,24 +125,82 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        gap: 18px;
       }
-      .hk,
-      #hk3 {
-        opacity: 0;
+      .hrow {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+      }
+      .hcard {
+        padding: 22px 40px;
+        border-radius: 18px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        font-size: 46px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .harrow {
+        font-size: 54px;
+        font-weight: 700;
+        color: var(--gold);
+      }
+      #hm-wrap {
+        position: relative;
+        margin-top: 46px;
+      }
+      #hm {
+        font-size: 150px;
+        font-weight: 900;
+        letter-spacing: -4px;
+        line-height: 1;
+        color: var(--sand);
+      }
+      #hstrike {
+        position: absolute;
+        left: -14px;
+        right: -14px;
+        top: 52%;
+        height: 9px;
+        border-radius: 5px;
+        background: var(--white);
+        transform-origin: 0% 50%;
+      }
+      #hsub {
+        margin-top: 18px;
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--gray);
+      }
+      #h10-k {
+        margin-top: 62px;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        color: var(--sand);
+      }
+      #h10 {
+        margin-top: 10px;
+        font-size: 150px;
+        font-weight: 900;
+        letter-spacing: -4px;
+        line-height: 1;
+        color: var(--gold);
+      }
+      #hc1 {
+        font-size: 64px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 34px;
       }
       .hk {
         font-size: 118px;
         font-weight: 900;
         letter-spacing: -2.5px;
-        line-height: 1.02;
+        line-height: 1.04;
       }
-      #hk3 {
-        margin-top: 26px;
-        font-size: 56px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        color: var(--gold);
+      .h0 {
+        opacity: 0;
       }
       /* ---------- chapter subtitles (bottom) ---------- */
       .cap {
@@ -240,24 +303,40 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="271.70"
+      data-duration="288.02"
       data-width="1920"
       data-height="1080"
     >
-      <div id="bg" class="clip" data-start="0" data-duration="271.70" data-track-index="0"></div>
+      <div id="bg" class="clip" data-start="0" data-duration="288.02" data-track-index="0"></div>
 
       <!-- pre-mixed audio: new presenter voiceover + Alex, level-matched; music only on the opening/closing cards -->
-      <audio id="mix" src="assets/mix.m4a" data-start="0" data-duration="271.70" data-track-index="10" data-volume="1"></audio>
+      <audio id="mix" src="assets/mix.m4a" data-start="0" data-duration="288.02" data-track-index="10" data-volume="1"></audio>
 
       <!-- OPENING 0–3 -->
       <!-- OPENING HOOK -->
-      <section id="hook" class="clip" data-start="0" data-duration="9.08" data-track-index="2">
-        <div class="hk" id="hk1">No keyboard.</div>
-        <div class="hk" id="hk2">No mouse.</div>
-        <div id="hk3">Just a conversation with Alex.</div>
+      <section id="hook" class="clip" data-start="0" data-duration="15.24" data-track-index="2">
+        <div class="stage" id="hookA">
+          <div class="hrow">
+            <div class="hcard h0" id="hp1">Building plans</div>
+            <div class="harrow h0" id="hpa">&rarr;</div>
+            <div class="hcard h0" id="hp2">Contractor bids</div>
+          </div>
+          <div id="hm-wrap">
+            <div id="hm" class="h0">3&ndash;4 months</div>
+            <div id="hstrike" class="h0"></div>
+          </div>
+          <div id="hsub" class="h0">before you know the price</div>
+          <div id="h10-k" class="h0">WITH ALEX</div>
+          <div id="h10" class="h0">About 10 minutes</div>
+        </div>
+        <div class="stage" id="hookB">
+          <div id="hc1" class="h0">One conversation with Alex.</div>
+          <div class="hk h0" id="hk1">No keyboard.</div>
+          <div class="hk h0" id="hk2">No mouse.</div>
+        </div>
       </section>
 
-      <section id="intro" class="clip" data-start="8.93" data-duration="2.90" data-track-index="1">
+      <section id="intro" class="clip" data-start="15.09" data-duration="2.90" data-track-index="1">
         <div id="intro-in">
           <img id="intro-logo" src="assets/logo.png" alt="Home Estimator" />
           <div id="intro-rule"></div>
@@ -270,7 +349,7 @@
       <section id="demo">
         <div id="screen">
           <div id="cam" data-layout-allow-overflow>
-            <video id="rec" class="clip" src="assets/recording.mp4" data-start="11.83" data-duration="251.37" data-track-index="3" muted playsinline></video>
+            <video id="rec" class="clip" src="assets/recording.mp4" data-start="17.99" data-duration="261.53" data-track-index="3" muted playsinline></video>
             <div class="nm" id="nm0" data-layout-ignore style="left:129.1px;top:117.7px;width:314.3px;height:30.1px;background:rgb(255,255,255);color:rgb(44,43,47);font-size:19.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Welcome back, John</div>
             <div class="nm" id="nm1" data-layout-ignore style="left:129.1px;top:117.7px;width:314.3px;height:30.1px;background:rgb(210,210,210);color:rgb(122,121,125);font-size:19.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Welcome back, John</div>
             <div class="nm" id="nm2" data-layout-ignore style="left:129.1px;top:117.7px;width:314.3px;height:30.1px;background:rgb(255,255,255);color:rgb(44,43,47);font-size:19.1px;font-weight:600;justify-content:flex-start;padding-left:0.0px">Welcome back, John</div>
@@ -321,7 +400,7 @@
       </section>
 
       <!-- CLOSING CARD -->
-      <section id="outro" class="clip" data-start="263.20" data-duration="8.5" data-track-index="1">
+      <section id="outro" class="clip" data-start="279.52" data-duration="8.5" data-track-index="1">
         <div id="outro-inner">
           <img id="outro-logo" src="assets/logo-end.png" alt="Home Estimator" />
           <div id="outro-rule"></div>
@@ -336,15 +415,28 @@
       const tl = gsap.timeline({ paused: true });
       const IN = "power3.out";
       const OUT = "power2.in";
-      const V = 11.83; // composition time where the recording starts (edit time 0)
+      const V = 17.99; // composition time where the recording starts (edit time 0)
 
       // ---------- opening ----------
-      // hook: lines land on the spoken words
-      tl.fromTo("#hk1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 3.36);
-      tl.fromTo("#hk2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 4.24);
-      tl.fromTo("#hk3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 6.56);
-      tl.to("#hook", { opacity: 0, duration: 0.4, ease: OUT }, 8.68);
-      const T0 = 8.93;
+      // hook beat 1: the old way
+      tl.fromTo("#hp1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 0.60);
+      tl.fromTo("#hpa", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.4, ease: IN }, 1.99);
+      tl.fromTo("#hp2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 2.14);
+      tl.fromTo("#hm", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 3.62);
+      tl.fromTo("#hsub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 4.74);
+      // hook beat 2: strike the months, land the minutes
+      tl.fromTo("#hstrike", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, 7.63);
+      tl.to(["#hm", "#hp1", "#hp2", "#hpa", "#hsub"], { opacity: 0.35, duration: 0.45, ease: OUT }, 7.63);
+      tl.fromTo("#h10-k", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 8.01);
+      tl.fromTo("#h10", { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: IN }, 9.46);
+      // hook beat 3: one conversation, hands-free
+      tl.to("#hookA", { opacity: 0, y: -30, duration: 0.35, ease: OUT }, 10.36);
+      tl.set("#hookA", { opacity: 0 }, 10.71);
+      tl.fromTo("#hc1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 10.68);
+      tl.fromTo("#hk1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 12.60);
+      tl.fromTo("#hk2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, 13.56);
+      tl.to("#hook", { opacity: 0, duration: 0.4, ease: OUT }, 14.84);
+      const T0 = 15.09;
       tl.fromTo("#intro-logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, T0 + 0.05);
       tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, T0 + 0.45);
       tl.fromTo("#intro-title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: IN }, T0 + 0.6);
@@ -359,121 +451,121 @@
       // chapter subtitles: slide up, hold, slide down
       tl.fromTo("#k1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 0.30);
       tl.to("#k1", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 5.80);
-      tl.fromTo("#k2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 21.17);
-      tl.to("#k2", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 26.67);
-      tl.fromTo("#k3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 33.80);
-      tl.to("#k3", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 39.30);
-      tl.fromTo("#k3b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 63.67);
-      tl.to("#k3b", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 69.17);
-      tl.fromTo("#k4", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 85.73);
-      tl.to("#k4", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 91.23);
-      tl.fromTo("#k4b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 92.80);
-      tl.to("#k4b", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 98.30);
-      tl.fromTo("#k5", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 102.60);
-      tl.to("#k5", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 108.10);
-      tl.fromTo("#k6", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 145.37);
-      tl.to("#k6", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 150.87);
-      tl.fromTo("#k7", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 235.17);
-      tl.to("#k7", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 240.67);
+      tl.fromTo("#k2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 21.33);
+      tl.to("#k2", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 26.83);
+      tl.fromTo("#k3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 33.97);
+      tl.to("#k3", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 39.47);
+      tl.fromTo("#k3b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 63.83);
+      tl.to("#k3b", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 69.33);
+      tl.fromTo("#k4", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 85.90);
+      tl.to("#k4", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 91.40);
+      tl.fromTo("#k4b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 92.97);
+      tl.to("#k4b", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 98.47);
+      tl.fromTo("#k5", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 102.77);
+      tl.to("#k5", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 108.27);
+      tl.fromTo("#k6", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 145.53);
+      tl.to("#k6", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 151.03);
+      tl.fromTo("#k7", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, V + 245.33);
+      tl.to("#k7", { opacity: 0, y: 20, duration: 0.35, ease: OUT }, V + 250.83);
       tl.set("#nm0", { opacity: 1 }, V + 0.23);
-      tl.set("#nm0", { opacity: 0 }, V + 20.03);
-      tl.set("#nm1", { opacity: 1 }, V + 20.23);
-      tl.set("#nm1", { opacity: 0 }, V + 21.07);
-      tl.set("#nm2", { opacity: 1 }, V + 20.87);
-      tl.set("#nm2", { opacity: 0 }, V + 29.43);
+      tl.set("#nm0", { opacity: 0 }, V + 20.20);
+      tl.set("#nm1", { opacity: 1 }, V + 20.40);
+      tl.set("#nm1", { opacity: 0 }, V + 21.23);
+      tl.set("#nm2", { opacity: 1 }, V + 21.03);
+      tl.set("#nm2", { opacity: 0 }, V + 29.60);
       tl.set("#nm3", { opacity: 1 }, V + 0.20);
-      tl.set("#nm3", { opacity: 0 }, V + 20.03);
-      tl.set("#nm4", { opacity: 1 }, V + 20.23);
-      tl.set("#nm4", { opacity: 0 }, V + 21.07);
-      tl.set("#nm5", { opacity: 1 }, V + 20.87);
-      tl.set("#nm5", { opacity: 0 }, V + 29.43);
+      tl.set("#nm3", { opacity: 0 }, V + 20.20);
+      tl.set("#nm4", { opacity: 1 }, V + 20.40);
+      tl.set("#nm4", { opacity: 0 }, V + 21.23);
+      tl.set("#nm5", { opacity: 1 }, V + 21.03);
+      tl.set("#nm5", { opacity: 0 }, V + 29.60);
       tl.set("#nm6", { opacity: 1 }, V + 0.23);
-      tl.set("#nm6", { opacity: 0 }, V + 20.03);
-      tl.set("#nm7", { opacity: 1 }, V + 20.23);
-      tl.set("#nm7", { opacity: 0 }, V + 21.07);
-      tl.set("#nm8", { opacity: 1 }, V + 20.87);
-      tl.set("#nm8", { opacity: 0 }, V + 29.43);
+      tl.set("#nm6", { opacity: 0 }, V + 20.20);
+      tl.set("#nm7", { opacity: 1 }, V + 20.40);
+      tl.set("#nm7", { opacity: 0 }, V + 21.23);
+      tl.set("#nm8", { opacity: 1 }, V + 21.03);
+      tl.set("#nm8", { opacity: 0 }, V + 29.60);
       tl.set("#nm9", { opacity: 1 }, V + 0.20);
-      tl.set("#nm9", { opacity: 0 }, V + 20.03);
-      tl.set("#nm10", { opacity: 1 }, V + 20.23);
-      tl.set("#nm10", { opacity: 0 }, V + 21.07);
-      tl.set("#nm11", { opacity: 1 }, V + 20.87);
-      tl.set("#nm11", { opacity: 0 }, V + 29.43);
+      tl.set("#nm9", { opacity: 0 }, V + 20.20);
+      tl.set("#nm10", { opacity: 1 }, V + 20.40);
+      tl.set("#nm10", { opacity: 0 }, V + 21.23);
+      tl.set("#nm11", { opacity: 1 }, V + 21.03);
+      tl.set("#nm11", { opacity: 0 }, V + 29.60);
       tl.set("#nm12", { opacity: 1 }, V + 0.17);
-      tl.set("#nm12", { opacity: 0 }, V + 20.03);
-      tl.set("#nm13", { opacity: 1 }, V + 20.23);
-      tl.set("#nm13", { opacity: 0 }, V + 21.07);
-      tl.set("#nm14", { opacity: 1 }, V + 20.87);
-      tl.set("#nm14", { opacity: 0 }, V + 29.43);
+      tl.set("#nm12", { opacity: 0 }, V + 20.20);
+      tl.set("#nm13", { opacity: 1 }, V + 20.40);
+      tl.set("#nm13", { opacity: 0 }, V + 21.23);
+      tl.set("#nm14", { opacity: 1 }, V + 21.03);
+      tl.set("#nm14", { opacity: 0 }, V + 29.60);
       tl.set("#nm15", { opacity: 1 }, V + 0.17);
-      tl.set("#nm15", { opacity: 0 }, V + 20.03);
-      tl.set("#nm16", { opacity: 1 }, V + 20.23);
-      tl.set("#nm16", { opacity: 0 }, V + 21.07);
-      tl.set("#nm17", { opacity: 1 }, V + 20.87);
-      tl.set("#nm17", { opacity: 0 }, V + 29.43);
+      tl.set("#nm15", { opacity: 0 }, V + 20.20);
+      tl.set("#nm16", { opacity: 1 }, V + 20.40);
+      tl.set("#nm16", { opacity: 0 }, V + 21.23);
+      tl.set("#nm17", { opacity: 1 }, V + 21.03);
+      tl.set("#nm17", { opacity: 0 }, V + 29.60);
       tl.set("#nm18", { opacity: 1 }, V + 0.13);
-      tl.set("#nm18", { opacity: 0 }, V + 20.03);
-      tl.set("#nm19", { opacity: 1 }, V + 20.23);
-      tl.set("#nm19", { opacity: 0 }, V + 21.07);
-      tl.set("#nm20", { opacity: 1 }, V + 20.87);
-      tl.set("#nm20", { opacity: 0 }, V + 29.43);
+      tl.set("#nm18", { opacity: 0 }, V + 20.20);
+      tl.set("#nm19", { opacity: 1 }, V + 20.40);
+      tl.set("#nm19", { opacity: 0 }, V + 21.23);
+      tl.set("#nm20", { opacity: 1 }, V + 21.03);
+      tl.set("#nm20", { opacity: 0 }, V + 29.60);
       tl.set("#nm21", { opacity: 1 }, V + 0.13);
-      tl.set("#nm21", { opacity: 0 }, V + 20.03);
-      tl.set("#nm22", { opacity: 1 }, V + 20.23);
-      tl.set("#nm22", { opacity: 0 }, V + 21.07);
-      tl.set("#nm23", { opacity: 1 }, V + 20.87);
-      tl.set("#nm23", { opacity: 0 }, V + 29.43);
-      tl.set("#nm24", { opacity: 1 }, V + 86.13);
-      tl.set("#nm24", { opacity: 0 }, V + 90.97);
-      tl.set("#nm25", { opacity: 1 }, V + 90.97);
-      tl.set("#nm25", { opacity: 0 }, V + 224.00);
-      tl.set("#nm26", { opacity: 1 }, V + 224.07);
-      tl.set("#nm26", { opacity: 0 }, V + 232.50);
-      tl.set("#nm27", { opacity: 1 }, V + 232.50);
-      tl.set("#nm27", { opacity: 0 }, V + 251.37);
-      tl.set("#nm28", { opacity: 1 }, V + 129.90);
-      tl.set("#nm28", { opacity: 0 }, V + 135.43);
-      tl.set("#nm29", { opacity: 1 }, V + 139.30);
-      tl.set("#nm29", { opacity: 0 }, V + 150.77);
-      tl.set("#nm30", { opacity: 1 }, V + 139.30);
-      tl.set("#nm30", { opacity: 0 }, V + 150.77);
+      tl.set("#nm21", { opacity: 0 }, V + 20.20);
+      tl.set("#nm22", { opacity: 1 }, V + 20.40);
+      tl.set("#nm22", { opacity: 0 }, V + 21.23);
+      tl.set("#nm23", { opacity: 1 }, V + 21.03);
+      tl.set("#nm23", { opacity: 0 }, V + 29.60);
+      tl.set("#nm24", { opacity: 1 }, V + 86.30);
+      tl.set("#nm24", { opacity: 0 }, V + 91.13);
+      tl.set("#nm25", { opacity: 1 }, V + 91.13);
+      tl.set("#nm25", { opacity: 0 }, V + 224.17);
+      tl.set("#nm26", { opacity: 1 }, V + 224.23);
+      tl.set("#nm26", { opacity: 0 }, V + 242.67);
+      tl.set("#nm27", { opacity: 1 }, V + 242.67);
+      tl.set("#nm27", { opacity: 0 }, V + 261.53);
+      tl.set("#nm28", { opacity: 1 }, V + 130.07);
+      tl.set("#nm28", { opacity: 0 }, V + 135.60);
+      tl.set("#nm29", { opacity: 1 }, V + 139.47);
+      tl.set("#nm29", { opacity: 0 }, V + 150.93);
+      tl.set("#nm30", { opacity: 1 }, V + 139.47);
+      tl.set("#nm30", { opacity: 0 }, V + 150.93);
 
       // ---------- framing: no pans or zooms; the vertical crop only changes on a cut ----------
       tl.set("#cam", { y: 0 }, V + 0.00);
-      tl.set("#cam", { y: -357 }, V + 29.45);
-      tl.set("#cam", { y: -244 }, V + 85.82);
-      tl.set("#cam", { y: 0 }, V + 90.95);
-      tl.set("#cam", { y: -357 }, V + 151.10);
-      tl.set("#cam", { y: -179 }, V + 190.55);
-      tl.set("#cam", { y: 0 }, V + 232.48);
+      tl.set("#cam", { y: -357 }, V + 29.78);
+      tl.set("#cam", { y: -244 }, V + 85.98);
+      tl.set("#cam", { y: 0 }, V + 91.12);
+      tl.set("#cam", { y: -357 }, V + 151.15);
+      tl.set("#cam", { y: -179 }, V + 190.72);
+      tl.set("#cam", { y: 0 }, V + 242.65);
 
       // ---------- highlight boxes ----------
       // fade in, hold while it is discussed, fade out
-      tl.fromTo("#hl-scope", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 63.65);
-      tl.to("#hl-scope", { opacity: 0, duration: 0.3, ease: OUT }, V + 84.93);
-      tl.set("#hl-scope", { opacity: 0 }, V + 85.23);
-      tl.fromTo("#hl-total1", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 92.80);
-      tl.to("#hl-total1", { opacity: 0, duration: 0.3, ease: OUT }, V + 101.80);
-      tl.set("#hl-total1", { opacity: 0 }, V + 102.10);
-      tl.fromTo("#hl-addons", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 153.37);
-      tl.to("#hl-addons", { opacity: 0, duration: 0.3, ease: OUT }, V + 169.73);
-      tl.set("#hl-addons", { opacity: 0 }, V + 170.03);
-      tl.fromTo("#hl-siding", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 207.63);
-      tl.to("#hl-siding", { opacity: 0, duration: 0.3, ease: OUT }, V + 217.30);
-      tl.set("#hl-siding", { opacity: 0 }, V + 217.60);
-      tl.fromTo("#hl-total2", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 235.27);
-      tl.to("#hl-total2", { opacity: 0, duration: 0.3, ease: OUT }, V + 246.90);
-      tl.set("#hl-total2", { opacity: 0 }, V + 247.20);
+      tl.fromTo("#hl-scope", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 63.82);
+      tl.to("#hl-scope", { opacity: 0, duration: 0.3, ease: OUT }, V + 85.10);
+      tl.set("#hl-scope", { opacity: 0 }, V + 85.40);
+      tl.fromTo("#hl-total1", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 92.97);
+      tl.to("#hl-total1", { opacity: 0, duration: 0.3, ease: OUT }, V + 101.97);
+      tl.set("#hl-total1", { opacity: 0 }, V + 102.27);
+      tl.fromTo("#hl-addons", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 153.53);
+      tl.to("#hl-addons", { opacity: 0, duration: 0.3, ease: OUT }, V + 169.90);
+      tl.set("#hl-addons", { opacity: 0 }, V + 170.20);
+      tl.fromTo("#hl-siding", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 207.80);
+      tl.to("#hl-siding", { opacity: 0, duration: 0.3, ease: OUT }, V + 217.48);
+      tl.set("#hl-siding", { opacity: 0 }, V + 217.78);
+      tl.fromTo("#hl-total2", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: IN }, V + 245.43);
+      tl.to("#hl-total2", { opacity: 0, duration: 0.3, ease: OUT }, V + 257.07);
+      tl.set("#hl-total2", { opacity: 0 }, V + 257.37);
 
       // ---------- out to closing card ----------
-      tl.to("#demo", { opacity: 0, duration: 0.5, ease: OUT }, 262.70);
-      tl.set("#demo", { opacity: 0 }, 263.20);
+      tl.to("#demo", { opacity: 0, duration: 0.5, ease: OUT }, 279.02);
+      tl.set("#demo", { opacity: 0 }, 279.52);
 
       // ---------- closing card ----------
-      tl.fromTo("#outro-logo", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, 263.30);
-      tl.fromTo("#outro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 263.80);
-      tl.fromTo("#outro-line", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 264.10);
-      tl.fromTo("#outro-cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 264.35);
+      tl.fromTo("#outro-logo", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, 279.62);
+      tl.fromTo("#outro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 280.12);
+      tl.fromTo("#outro-line", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 280.42);
+      tl.fromTo("#outro-cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, 280.67);
 
       window.__timelines["main"] = tl;
     </script>

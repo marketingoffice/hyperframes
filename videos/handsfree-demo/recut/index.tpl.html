@@ -12,6 +12,7 @@
         --card: #2d2d44;
         --line: #3a3a55;
         --gold: #d4af37;
+        --sand: #c9a96e;
         --gray: #a0aab2;
         --white: #ffffff;
       }
@@ -111,8 +112,12 @@
         object-fit: fill;
       }
 
-      /* ---------- opening hook ---------- */
+      /* ---------- opening hook: old way (plans + bids, 3–4 months) vs. Alex (about 10 minutes) ---------- */
       #hook {
+        position: absolute;
+        inset: 0;
+      }
+      .stage {
         position: absolute;
         inset: 0;
         display: flex;
@@ -120,24 +125,82 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        gap: 18px;
       }
-      .hk,
-      #hk3 {
-        opacity: 0;
+      .hrow {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+      }
+      .hcard {
+        padding: 22px 40px;
+        border-radius: 18px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        font-size: 46px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .harrow {
+        font-size: 54px;
+        font-weight: 700;
+        color: var(--gold);
+      }
+      #hm-wrap {
+        position: relative;
+        margin-top: 46px;
+      }
+      #hm {
+        font-size: 150px;
+        font-weight: 900;
+        letter-spacing: -4px;
+        line-height: 1;
+        color: var(--sand);
+      }
+      #hstrike {
+        position: absolute;
+        left: -14px;
+        right: -14px;
+        top: 52%;
+        height: 9px;
+        border-radius: 5px;
+        background: var(--white);
+        transform-origin: 0% 50%;
+      }
+      #hsub {
+        margin-top: 18px;
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--gray);
+      }
+      #h10-k {
+        margin-top: 62px;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        color: var(--sand);
+      }
+      #h10 {
+        margin-top: 10px;
+        font-size: 150px;
+        font-weight: 900;
+        letter-spacing: -4px;
+        line-height: 1;
+        color: var(--gold);
+      }
+      #hc1 {
+        font-size: 64px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 34px;
       }
       .hk {
         font-size: 118px;
         font-weight: 900;
         letter-spacing: -2.5px;
-        line-height: 1.02;
+        line-height: 1.04;
       }
-      #hk3 {
-        margin-top: 26px;
-        font-size: 56px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        color: var(--gold);
+      .h0 {
+        opacity: 0;
       }
       /* ---------- chapter subtitles (bottom) ---------- */
       .cap {
@@ -252,9 +315,25 @@
       <!-- OPENING 0–3 -->
       <!-- OPENING HOOK -->
       <section id="hook" class="clip" data-start="0" data-duration="{{HOOK_END}}" data-track-index="2">
-        <div class="hk" id="hk1">No keyboard.</div>
-        <div class="hk" id="hk2">No mouse.</div>
-        <div id="hk3">Just a conversation with Alex.</div>
+        <div class="stage" id="hookA">
+          <div class="hrow">
+            <div class="hcard h0" id="hp1">Building plans</div>
+            <div class="harrow h0" id="hpa">&rarr;</div>
+            <div class="hcard h0" id="hp2">Contractor bids</div>
+          </div>
+          <div id="hm-wrap">
+            <div id="hm" class="h0">3&ndash;4 months</div>
+            <div id="hstrike" class="h0"></div>
+          </div>
+          <div id="hsub" class="h0">before you know the price</div>
+          <div id="h10-k" class="h0">WITH ALEX</div>
+          <div id="h10" class="h0">About 10 minutes</div>
+        </div>
+        <div class="stage" id="hookB">
+          <div id="hc1" class="h0">One conversation with Alex.</div>
+          <div class="hk h0" id="hk1">No keyboard.</div>
+          <div class="hk h0" id="hk2">No mouse.</div>
+        </div>
       </section>
 
       <section id="intro" class="clip" data-start="{{TITLE_START}}" data-duration="{{TITLE_DUR}}" data-track-index="1">
@@ -297,10 +376,7 @@
       const V = {{V}}; // composition time where the recording starts (edit time 0)
 
       // ---------- opening ----------
-      // hook: lines land on the spoken words
-      tl.fromTo("#hk1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, {{HK1}});
-      tl.fromTo("#hk2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: IN }, {{HK2}});
-      tl.fromTo("#hk3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: IN }, {{HK3}});
+{{HOOK_JS}}
       tl.to("#hook", { opacity: 0, duration: 0.4, ease: OUT }, {{HOOK_OUT}});
       const T0 = {{TITLE_START}};
       tl.fromTo("#intro-logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: IN }, T0 + 0.05);

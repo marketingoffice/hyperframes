@@ -16,7 +16,7 @@ def dur(p):
 
 
 src = rd("../src48.wav")
-H = json.load(open("../hspans_v2.json"))
+H = json.load(open("../hspans_v3.json"))
 h = SR // 100
 n = len(src) // h
 db = 20 * np.log10(np.sqrt((src[: n * h].reshape(n, h) ** 2).mean(1)) + 1e-9)
@@ -59,9 +59,10 @@ for k in range(len(ev) - 1):  # never run a line into the next speech
 # finished: hold the frame while John speaks, then replay each change right after his line.
 mo_ = np.load("../motion.npy")
 REPLAY = 1.2
+NO_REPLAY = {"n20.wav"}  # a remark, not a request: the screen keeps playing under it
 replays = []
 for k, (a, b, kind, aud) in enumerate(ev):
-    if kind != "vo" or a < 5: continue
+    if kind != "vo" or a < 5 or aud[0][1] in NO_REPLAY: continue
     ch = np.where(mo_[int(a * 10): int(b * 10)] > 0.004)[0] / 10 + a
     wins = []
     for c in ch:
