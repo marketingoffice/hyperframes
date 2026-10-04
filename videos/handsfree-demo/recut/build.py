@@ -91,6 +91,8 @@ for ga, gb in gaps:
         m[max(0, c - 4 - int(WMAX * 10)): c + int(WMAX * 10) + 4] = 0
 EXTRA = [(159.4, 161.4), (205.0, 207.0), (453.9, 455.9), (484.6, 486.6), (504.0, 506.0)]  # estimate build start/finish
 keep += [list(x) for x in EXTRA]
+NO_KEEP = [(30.0, 34.5)]  # Safari microphone-permission popup: not part of the story, and its dim fade defeats the name patches
+keep = [k for k in keep if not any(k[0] < b_ and k[1] > a_ for a_, b_ in NO_KEEP)]
 keep.sort()
 mk = []
 for a, b in keep:
