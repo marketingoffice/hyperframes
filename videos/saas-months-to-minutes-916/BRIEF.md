@@ -2,11 +2,11 @@
 workflow: general-video
 flow: automation
 storyboard: no
-format: 1920x1080
+format: 1080x1920
 duration: 60
 ---
 
-# Months → Minutes: HomeEstimator.ai SaaS showcase
+# Months → Minutes (9:16 cut for Instagram Reels / YouTube Shorts)
 
 **Message:** Getting a price for an addition or remodel takes months of plans and bids; with Alex,
 the AI estimator, it takes about 10 minutes — scope, pricing, tiers, changes, schedule, payments and

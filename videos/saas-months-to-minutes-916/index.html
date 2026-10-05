@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <title>Months to Minutes</title>
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Months to Minutes 9x16</title>
     <script src="assets/gsap.min.js"></script>
     <style>
       /* HomeEstimator.ai SaaS showcase. Navy ground, gold energy, light app windows. 120 BPM: beat 0.5 s, bar 2 s. */
@@ -28,8 +28,8 @@
       }
       html,
       body {
-        width: 1920px;
-        height: 1080px;
+        width: 1080px;
+        height: 1920px;
         overflow: hidden;
         background: var(--navy);
       }
@@ -39,8 +39,8 @@
       }
       #root {
         position: relative;
-        width: 1920px;
-        height: 1080px;
+        width: 1080px;
+        height: 1920px;
         overflow: hidden;
         background: var(--navy);
       }
@@ -476,9 +476,67 @@
         line-height: 1.15;
       }
     </style>
+
+    <style>
+      /* ===== 9:16 layout overrides (Instagram Reels / YouTube Shorts): text up top, UI below, key content inside y 220–1560 ===== */
+      #c1 { left: 110px !important; top: 640px !important; }
+      #c2 { left: 600px !important; top: 560px !important; }
+      #c3 { left: 90px !important; top: 930px !important; }
+      #c4 { left: 520px !important; top: 870px !important; }
+      #cal { left: 280px !important; top: 330px !important; }
+      #s2-i > div:last-child { left: 80px !important; top: 1010px !important; width: 920px !important; }
+      #s2a { font-size: 150px !important; }
+      #s2b { font-size: 68px !important; }
+      #s3a { font-size: 80px !important; }
+      #s3b { font-size: 158px !important; }
+      #ring { left: 240px !important; top: 450px !important; }
+      #s4-logo { left: 340px !important; top: 460px !important; }
+      #s4a { top: 1110px !important; width: 1080px !important; }
+      #s4b { top: 1260px !important; width: 1080px !important; }
+      #s5-hl { left: 80px !important; top: 260px !important; width: 920px !important; }
+      #s5a { font-size: 104px !important; }
+      #w5 { left: 70px !important; top: 660px !important; width: 940px !important; height: 860px !important; }
+      #s6a { top: 250px !important; width: 1080px !important; font-size: 88px !important; }
+      #w6 { zoom: 0.72; left: 21px !important; top: 860px !important; }
+      #s7-i > div:first-child { left: 80px !important; top: 250px !important; width: 920px !important; }
+      #s7a, #s7b { font-size: 100px !important; }
+      #w7 { left: 120px !important; top: 640px !important; }
+      #s8a { top: 250px !important; width: 1080px !important; font-size: 88px !important; }
+      .lvl { zoom: 0.6; }
+      #l1 { left: 130px !important; top: 1267px !important; }
+      #l2 { left: 440px !important; top: 1267px !important; }
+      #l3 { left: 750px !important; top: 1267px !important; }
+      #l4 { left: 1060px !important; top: 1267px !important; }
+      #l5 { left: 1370px !important; top: 1267px !important; }
+      #s9-i > div:first-child { left: 80px !important; top: 220px !important; }
+      #g1, #g2, #g3 { font-size: 150px !important; }
+      #w9 { left: 140px !important; top: 820px !important; }
+      #s10-i > div:first-child { left: 80px !important; top: 250px !important; width: 920px !important; }
+      #s10a, #s10b { font-size: 104px !important; }
+      #w10 { left: 130px !important; top: 620px !important; }
+      #s11-i > div:first-child { left: 80px !important; top: 250px !important; width: 920px !important; }
+      #s11a, #s11b { font-size: 100px !important; }
+      #gauge { left: 150px !important; top: 640px !important; }
+      #w12a, #w12b, #w12c { left: 80px !important; top: 290px !important; font-size: 130px !important; }
+      #s12a-i .win, #s12b-i .win { zoom: 0.63; left: 32px !important; top: 900px !important; }
+      #doc { zoom: 0.85; left: 91px !important; top: 730px !important; }
+      #s13a { top: 250px !important; width: 1080px !important; font-size: 92px !important; }
+      .node { width: 620px !important; display: flex; align-items: center; gap: 34px; text-align: left; }
+      .node .c { margin: 0 !important; flex: none; }
+      #n1 { left: 260px !important; top: 600px !important; }
+      #n2 { left: 260px !important; top: 770px !important; }
+      #n3 { left: 260px !important; top: 940px !important; }
+      #n4 { left: 260px !important; top: 1110px !important; }
+      #n5 { left: 260px !important; top: 1280px !important; }
+      #n6 { left: 260px !important; top: 1450px !important; }
+      #s14-i > div { flex-direction: column; gap: 8px !important; }
+      #s15-logo { width: 460px !important; }
+      #s15a { font-size: 46px !important; max-width: 900px; line-height: 1.3; }
+      #s15b { font-size: 40px !important; }
+    </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1080" data-height="1920">
       <div id="bg" class="clip" data-start="0" data-duration="60" data-track-index="0"></div>
       <audio id="music" src="assets/music.m4a" data-start="0" data-duration="60" data-track-index="10" data-volume="1"></audio>
 
@@ -626,7 +684,7 @@
       <!-- S8 26–30: five build levels -->
       <section id="s8" class="scene clip" data-start="26" data-duration="4" data-track-index="2">
         <div class="in" id="s8-i">
-        <div class="hl h0" id="s8a" style="position: absolute; left: 0; top: 70px; width: 1920px; text-align: center; font-size: 96px">Five build levels. <span class="g">One proposal.</span></div>
+        <div class="hl h0" id="s8a" style="position: absolute; left: 0; top: 70px; width: 1920px; text-align: center; font-size: 96px">Five build levels.<br /><span class="g">One proposal.</span></div>
         <div class="lvl h0" id="l1" style="left: 190px; top: 400px; background: linear-gradient(160deg, #8a90a0, #5d6372)"><i class="ic"></i><div class="nm">Change-Order Nightmare</div><div class="ds">Lowest bid, surprise costs later.</div></div>
         <div class="lvl h0" id="l2" style="left: 500px; top: 400px; background: linear-gradient(160deg, #f0b545, #c98a12)"><i class="ic"></i><div class="nm">Delay &amp; Drama Build</div><div class="ds">Missed dates, thin communication.</div></div>
         <div class="lvl h0" id="l3" style="left: 810px; top: 400px; background: linear-gradient(160deg, #3b6be0, #1f3f9e); border: 4px solid var(--gold)"><i class="ic"></i><div class="nm">Signature Build</div><div class="ds">Dependable, value-driven, on time.</div><div class="bd" id="l3b">&#9733; RECOMMENDED</div></div>
@@ -770,9 +828,9 @@
       <!-- S13 46–50: one flow -->
       <section id="s13" class="scene clip" data-start="46" data-duration="4" data-track-index="1">
         <div class="in" id="s13-i">
-        <div class="hl h0" id="s13a" style="position: absolute; left: 0; top: 170px; width: 1920px; text-align: center; font-size: 104px">First call to <span class="g">signed contract.</span></div>
-        <svg width="1920" height="200" viewBox="0 0 1920 200" style="position: absolute; left: 0; top: 470px">
-          <path id="flow" d="M260 100 H1660" fill="none" stroke="#d4af37" stroke-width="8" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+        <div class="hl h0" id="s13a" style="position: absolute; left: 0; top: 170px; width: 1920px; text-align: center; font-size: 104px">First call to<br /><span class="g">signed contract.</span></div>
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920" style="position: absolute; left: 0; top: 0">
+          <path id="flow" d="M320 660 V1510" fill="none" stroke="#d4af37" stroke-width="8" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
         </svg>
         <div class="node h0" id="n1" style="left: 160px; top: 510px"><div class="c">1</div><div class="t">New lead</div></div>
         <div class="node h0" id="n2" style="left: 440px; top: 510px"><div class="c">2</div><div class="t">Talk to Alex</div></div>
@@ -791,7 +849,7 @@
             <div class="hl h0" id="s14a" style="font-size: 170px; color: var(--gray)">Months</div>
             <i class="h0" id="strike" style="position: absolute; left: -16px; right: -16px; top: 52%; height: 14px; border-radius: 7px; background: #ffffff; transform-origin: 0% 50%"></i>
           </div>
-          <div class="hl g h0" id="s14b" style="font-size: 120px">&rarr;</div>
+          <div class="hl g h0" id="s14b" style="font-size: 120px">&darr;</div>
           <div class="hl g h0" id="s14c" style="font-size: 170px">minutes.</div>
         </div>
         </div>
