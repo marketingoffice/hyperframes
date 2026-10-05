@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Months to Minutes</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* HomeEstimator.ai SaaS showcase. Navy ground, gold energy, light app windows. 120 BPM: beat 0.5 s, bar 2 s. */
+      :root {
+        --navy: #1a1a2e;
+        --card: #2d2d44;
+        --line: #3a3a55;
+        --gold: #d4af37;
+        --sand: #c9a96e;
+        --gray: #a0aab2;
+        --white: #ffffff;
+        --ui: #f6f7fb;
+        --ui-line: #e3e6ef;
+        --ui-ink: #1a1a2e;
+        --ui-sub: #6b7280;
+        --ok: #1f9d55;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--navy);
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--white);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--navy);
+      }
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: var(--navy);
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+      .in {
+        position: absolute;
+        inset: 0;
+        perspective: 1800px;
+      }
+      .h0 {
+        opacity: 0;
+      }
+      .hl {
+        font-weight: 900;
+        letter-spacing: -3px;
+        line-height: 1.02;
+      }
+      .g {
+        color: var(--gold);
+      }
+      .s {
+        color: var(--sand);
+      }
+      .kick {
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 6px;
+        color: var(--sand);
+        text-transform: uppercase;
+      }
+      .note {
+        font-size: 22px;
+        color: var(--gray);
+      }
+
+      /* ---------- light app window ---------- */
+      .win {
+        position: absolute;
+        background: var(--ui);
+        border-radius: 24px;
+        box-shadow:
+          0 50px 140px rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        color: var(--ui-ink);
+        transform-style: preserve-3d;
+      }
+      .win-bar {
+        height: 54px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--ui-line);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 22px;
+      }
+      .dot {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #e3e6ef;
+      }
+      .win-bar img {
+        height: 30px;
+        margin-left: 14px;
+      }
+      .win-bar .tt {
+        margin-left: 10px;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--ui-ink);
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .chk {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--ok);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      /* ---------- S1 chips ---------- */
+      .chip {
+        position: absolute;
+        padding: 26px 46px;
+        border-radius: 20px;
+        background: var(--card);
+        border: 2px solid var(--line);
+        font-size: 72px;
+        font-weight: 900;
+        letter-spacing: -2px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      /* ---------- S2 calendar ---------- */
+      #cal {
+        position: absolute;
+        left: 230px;
+        top: 250px;
+        width: 520px;
+        height: 560px;
+        border-radius: 28px;
+        background: #ffffff;
+        color: var(--ui-ink);
+        overflow: hidden;
+        box-shadow: 0 50px 140px rgba(0, 0, 0, 0.55);
+      }
+      #cal-top {
+        height: 150px;
+        background: var(--gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .mon {
+        position: absolute;
+        font-size: 92px;
+        font-weight: 900;
+        letter-spacing: 4px;
+        color: var(--navy);
+      }
+      #cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 12px;
+        padding: 36px;
+      }
+      #cal-grid i {
+        height: 46px;
+        border-radius: 10px;
+        background: #eef0f6;
+      }
+      #cal-grid i.x {
+        background: #f3d9d9;
+      }
+
+      /* ---------- S5 chat ---------- */
+      .bub {
+        position: absolute;
+        max-width: 640px;
+        padding: 22px 30px;
+        border-radius: 26px;
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      .bub.me {
+        right: 40px;
+        background: var(--navy);
+        color: #fff;
+        border-bottom-right-radius: 8px;
+      }
+      .bub.ai {
+        left: 40px;
+        background: #ffffff;
+        color: var(--ui-ink);
+        border: 1px solid var(--ui-line);
+        border-bottom-left-radius: 8px;
+      }
+      .wave {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        height: 90px;
+      }
+      .wave b {
+        width: 9px;
+        height: 90px;
+        border-radius: 5px;
+        background: var(--gold);
+        transform: scaleY(0.2);
+      }
+      .avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #f1d36b, var(--gold) 55%, #9d7d1c);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        font-weight: 900;
+        color: var(--navy);
+      }
+
+      /* ---------- S6 scope ---------- */
+      .tile {
+        width: 230px;
+        height: 150px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 2px solid var(--ui-line);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 16px;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .tile svg {
+        position: absolute;
+        left: 50%;
+        top: 22px;
+        transform: translateX(-50%);
+      }
+      .tile.sel {
+        border-color: var(--gold);
+      }
+      .tile .chk {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        width: 30px;
+        height: 30px;
+        font-size: 17px;
+      }
+      .sc {
+        height: 104px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 2px solid var(--ui-line);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 0 24px;
+        font-size: 28px;
+        font-weight: 800;
+        position: relative;
+      }
+      .sc .tag {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--ui-sub);
+        margin-left: auto;
+      }
+      .sc .bar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 8px;
+        background: var(--gold);
+        transform-origin: 50% 0%;
+      }
+
+      /* ---------- S7 steps ---------- */
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 30px;
+        font-weight: 700;
+        height: 66px;
+      }
+      .ring {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 3px solid #cfd4e2;
+        position: relative;
+      }
+      .ring .chk {
+        position: absolute;
+        inset: -3px;
+      }
+
+      /* ---------- S8 tiers ---------- */
+      .lvl {
+        position: absolute;
+        width: 300px;
+        height: 420px;
+        border-radius: 24px;
+        padding: 30px 26px;
+        color: #fff;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        transform-origin: 50% 160%;
+        display: flex;
+        flex-direction: column;
+      }
+      .lvl .ic {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        margin-bottom: 26px;
+      }
+      .lvl .nm {
+        font-size: 34px;
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: -0.5px;
+      }
+      .lvl .ds {
+        margin-top: 14px;
+        font-size: 19px;
+        line-height: 1.35;
+        opacity: 0.85;
+      }
+      .lvl .bd {
+        margin-top: auto;
+        align-self: flex-start;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--navy);
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+
+      /* ---------- S9 finish tiers ---------- */
+      .seg {
+        display: flex;
+        background: #eceff6;
+        border-radius: 16px;
+        padding: 6px;
+        position: relative;
+        width: 640px;
+      }
+      .seg span {
+        flex: 1;
+        text-align: center;
+        font-size: 26px;
+        font-weight: 800;
+        padding: 16px 0;
+        position: relative;
+        z-index: 1;
+        color: var(--ui-sub);
+      }
+      #seg-k {
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 157px;
+        height: calc(100% - 12px);
+        border-radius: 12px;
+        background: var(--navy);
+      }
+      .li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 28px;
+        font-weight: 600;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--ui-line);
+        position: relative;
+        height: 70px;
+      }
+      .li .v {
+        position: absolute;
+        right: 0;
+        font-weight: 800;
+      }
+
+      /* ---------- totals ---------- */
+      .total {
+        font-size: 128px;
+        font-weight: 900;
+        letter-spacing: -4px;
+        font-variant-numeric: tabular-nums;
+        color: var(--ui-ink);
+        line-height: 1;
+      }
+
+      /* ---------- S12 ---------- */
+      .gbar {
+        position: absolute;
+        height: 46px;
+        border-radius: 12px;
+        transform-origin: 0% 50%;
+      }
+      .ms {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        font-size: 30px;
+        font-weight: 700;
+        height: 92px;
+        border-bottom: 1px solid var(--ui-line);
+      }
+      .ms .amt {
+        margin-left: auto;
+        font-weight: 900;
+      }
+
+      /* ---------- S13 flow ---------- */
+      .node {
+        position: absolute;
+        width: 200px;
+        text-align: center;
+      }
+      .node .c {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        background: var(--card);
+        border: 4px solid var(--gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 44px;
+        font-weight: 900;
+        color: var(--gold);
+      }
+      .node .t {
+        font-size: 28px;
+        font-weight: 800;
+        line-height: 1.15;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="60" data-track-index="0"></div>
+      <audio id="music" src="assets/music.m4a" data-start="0" data-duration="60" data-track-index="10" data-volume="1"></audio>
+
+      <!-- S1 0–4: the pile-up -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="4" data-track-index="1">
+        <div class="in" id="s1-i">
+        <div class="chip h0" id="c1" style="left: 300px; top: 300px">Plans.</div>
+        <div class="chip h0" id="c2" style="left: 1060px; top: 240px">Bids.</div>
+        <div class="chip h0" id="c3" style="left: 420px; top: 600px">Callbacks.</div>
+        <div class="chip h0" id="c4" style="left: 1010px; top: 560px">Revisions.</div>
+        </div>
+      </section>
+
+      <!-- S2 4–8: 3–4 months -->
+      <section id="s2" class="scene clip" data-start="4" data-duration="4" data-track-index="2">
+        <div class="in" id="s2-i">
+        <div id="cal" class="h0">
+          <div id="cal-top">
+            <div class="mon" data-layout-allow-overlap id="m1">JAN</div>
+            <div class="mon" data-layout-allow-overlap id="m2">FEB</div>
+            <div class="mon" data-layout-allow-overlap id="m3">MAR</div>
+            <div class="mon" data-layout-allow-overlap id="m4">APR</div>
+          </div>
+          <div id="cal-grid">
+            <i></i><i></i><i class="x"></i><i></i><i></i><i class="x"></i><i></i>
+            <i></i><i class="x"></i><i></i><i></i><i></i><i></i><i class="x"></i>
+            <i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i>
+            <i class="x"></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i>
+            <i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        <div style="position: absolute; left: 870px; top: 300px; width: 960px">
+          <div id="s2a" class="hl s h0" style="font-size: 172px; white-space: nowrap">3&ndash;4 months.</div>
+          <div id="s2b" class="hl h0" style="font-size: 84px; margin-top: 24px">Just to get a price.</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S3 8–10: what if -->
+      <section id="s3" class="scene clip" data-start="8" data-duration="2" data-track-index="1">
+        <div class="in" id="s3-i">
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center">
+          <div id="s3a" class="hl h0" style="font-size: 92px">What if it took</div>
+          <div id="s3b" class="hl g h0" style="font-size: 230px; margin-top: 6px">10 minutes?</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S4 10–14: meet Alex -->
+      <section id="s4" class="scene clip" data-start="10" data-duration="4" data-track-index="2">
+        <div class="in" id="s4-i">
+        <div id="s4-in" style="position: absolute; inset: 0">
+          <div id="ring" class="h0" style="position: absolute; left: 660px; top: 240px; width: 600px; height: 600px; border-radius: 50%; border: 6px solid var(--gold)"></div>
+          <img id="s4-logo" class="h0" src="assets/logo.png" alt="Home Estimator" style="position: absolute; left: 760px; top: 250px; width: 400px" />
+          <div id="s4a" class="hl h0" style="position: absolute; left: 0; top: 700px; width: 1920px; text-align: center; font-size: 120px">Meet <span class="g">Alex.</span></div>
+          <div id="s4b" class="h0" style="position: absolute; left: 0; top: 850px; width: 1920px; text-align: center; font-size: 48px; font-weight: 600; color: var(--gray)">Your AI estimator.</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S5 14–18: talk through the job -->
+      <section id="s5" class="scene clip" data-start="14" data-duration="4" data-track-index="1">
+        <div class="in" id="s5-i">
+        <div id="s5-hl" style="position: absolute; left: 130px; top: 330px; width: 640px">
+                    <div class="hl h0" id="s5a" style="font-size: 112px; margin-top: 18px">Talk through<br /><span class="g">the job.</span></div>
+        </div>
+        <div class="win h0" id="w5" style="left: 820px; top: 130px; width: 980px; height: 820px; transform: rotateY(-16deg) rotateX(4deg)">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">New estimate</span></div>
+          <div style="display: flex; align-items: center; gap: 22px; padding: 30px 40px; border-bottom: 1px solid var(--ui-line); background: #fff">
+            <div class="avatar">A</div>
+            <div>
+              <div style="font-size: 30px; font-weight: 800">Alex</div>
+              <div style="font-size: 22px; color: var(--ok); font-weight: 700">&#9679; Listening</div>
+            </div>
+            <div class="wave" style="margin-left: auto">
+              <b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            </div>
+          </div>
+          <div style="position: relative; height: 560px">
+            <div class="bub me h0" id="b1" style="top: 40px">It&rsquo;s a ranch, about 1,200 sq ft.</div>
+            <div class="bub me h0" id="b2" style="top: 170px">Add a 1,100 sq ft second story.</div>
+            <div class="bub ai h0" id="b3" style="top: 330px">Got it. Building your scope now&hellip;</div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S6 18–22: scope builds itself -->
+      <section id="s6" class="scene clip" data-start="18" data-duration="4" data-track-index="2">
+        <div class="in" id="s6-i">
+        <div class="hl h0" id="s6a" style="position: absolute; left: 0; top: 60px; width: 1920px; text-align: center; font-size: 96px">Alex builds <span class="g">the scope.</span></div>
+        <div class="win h0" id="w6" style="left: 230px; top: 250px; width: 1460px; height: 680px; transform-origin: 50% 100%">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Scope of work</span></div>
+          <div style="padding: 30px 44px">
+            <div style="font-size: 20px; font-weight: 800; letter-spacing: 3px; color: var(--ui-sub)">EXISTING HOUSE STYLE</div>
+            <div style="display: flex; gap: 26px; margin-top: 16px">
+              <div class="tile" id="t1"><svg width="110" height="70" viewBox="0 0 110 70"><path d="M8 40 L40 14 L72 40 V66 H8 Z M60 32 L84 16 L104 32 V66 H60" fill="none" stroke="#9aa3b5" stroke-width="5" /></svg>Bi-Level</div>
+              <div class="tile" id="t2"><svg width="110" height="70" viewBox="0 0 110 70"><path d="M10 42 L55 8 L100 42 V66 H10 Z" fill="none" stroke="#9aa3b5" stroke-width="5" /></svg>Cape Cod</div>
+              <div class="tile" id="t3"><svg width="110" height="70" viewBox="0 0 110 70"><path d="M14 30 L55 8 L96 30 V66 H14 Z M14 46 H96" fill="none" stroke="#9aa3b5" stroke-width="5" /></svg>Colonial</div>
+              <div class="tile" id="t4"><svg width="110" height="70" viewBox="0 0 110 70"><path d="M4 44 L55 20 L106 44 V66 H4 Z" fill="none" stroke="#1a1a2e" stroke-width="5" /></svg>Ranch<div class="chk h0" id="t4c">&#10003;</div></div>
+              <div class="tile" id="t5"><svg width="110" height="70" viewBox="0 0 110 70"><path d="M6 46 L34 26 L62 46 V66 H6 Z M50 36 L78 14 L104 34 V66 H62" fill="none" stroke="#9aa3b5" stroke-width="5" /></svg>Split Level</div>
+            </div>
+            <div style="display: flex; gap: 22px; margin-top: 26px">
+              <div class="pill h0" id="f1" style="background: #fff; border: 2px solid var(--ui-line); font-size: 22px">First floor <b style="margin-left: 6px">1,200 sf</b></div>
+              <div class="pill h0" id="f2" style="background: #fff; border: 2px solid var(--ui-line); font-size: 22px">Second-story addition <b style="margin-left: 6px">1,100 sf</b></div>
+              <div class="pill h0" id="f3" style="background: #fff; border: 2px solid var(--ui-line); font-size: 22px">Gut-to-studs remodel <b style="margin-left: 6px">1st floor + basement</b></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 30px">
+              <div class="sc" id="k1"><i class="bar"></i>Kitchen<span class="tag">Remodel &middot; 200 sf</span><div class="chk h0">&#10003;</div></div>
+              <div class="sc" id="k2"><i class="bar"></i>Primary bath<span class="tag">Addition</span><div class="chk h0">&#10003;</div></div>
+              <div class="sc" id="k3"><i class="bar"></i>Full bath<span class="tag">Addition</span><div class="chk h0">&#10003;</div></div>
+              <div class="sc" id="k4"><i class="bar"></i>Laundry<span class="tag">Addition</span><div class="chk h0">&#10003;</div></div>
+              <div class="sc" id="k5"><i class="bar"></i>Half bath<span class="tag">Remodel</span><div class="chk h0">&#10003;</div></div>
+              <div class="sc" id="k6"><i class="bar"></i>Siding<span class="tag">Whole house</span><div class="chk h0">&#10003;</div></div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S7 22–26: verified price -->
+      <section id="s7" class="scene clip" data-start="22" data-duration="4" data-track-index="1">
+        <div class="in" id="s7-i">
+        <div style="position: absolute; left: 130px; top: 320px; width: 700px">
+          <div class="hl h0" id="s7a" style="font-size: 116px">A verified price.</div>
+          <div class="hl g h0" id="s7b" style="font-size: 116px; margin-top: 10px">In minutes.</div>
+        </div>
+        <div class="win h0" id="w7" style="left: 960px; top: 150px; width: 840px; height: 780px; transform: rotateY(-12deg)">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Building your estimate</span></div>
+          <div style="padding: 34px 48px">
+            <div class="step" id="p1"><div class="ring"><div class="chk h0">&#10003;</div></div>Preparing project</div>
+            <div class="step" id="p2"><div class="ring"><div class="chk h0">&#10003;</div></div>Checking scope of work</div>
+            <div class="step" id="p3"><div class="ring"><div class="chk h0">&#10003;</div></div>Calculating 29 line items</div>
+            <div class="step" id="p4"><div class="ring"><div class="chk h0">&#10003;</div></div>Verifying prices &amp; totals</div>
+            <div id="tot7" class="h0" data-layout-allow-overlap style="margin-top: 34px; padding: 34px 40px; border-radius: 22px; background: #fff; border: 3px solid var(--gold)">
+              <div style="font-size: 22px; font-weight: 800; letter-spacing: 4px; color: #9d7d1c">VERIFIED TOTAL</div>
+              <div class="total" id="n7" style="margin-top: 10px">$0</div>
+              <div style="font-size: 18px; color: var(--ui-sub); margin-top: 12px">Example project &mdash; every project&rsquo;s estimate differs.</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S8 26–30: five build levels -->
+      <section id="s8" class="scene clip" data-start="26" data-duration="4" data-track-index="2">
+        <div class="in" id="s8-i">
+        <div class="hl h0" id="s8a" style="position: absolute; left: 0; top: 70px; width: 1920px; text-align: center; font-size: 96px">Five build levels. <span class="g">One proposal.</span></div>
+        <div class="lvl h0" id="l1" style="left: 190px; top: 400px; background: linear-gradient(160deg, #8a90a0, #5d6372)"><i class="ic"></i><div class="nm">Change-Order Nightmare</div><div class="ds">Lowest bid, surprise costs later.</div></div>
+        <div class="lvl h0" id="l2" style="left: 500px; top: 400px; background: linear-gradient(160deg, #f0b545, #c98a12)"><i class="ic"></i><div class="nm">Delay &amp; Drama Build</div><div class="ds">Missed dates, thin communication.</div></div>
+        <div class="lvl h0" id="l3" style="left: 810px; top: 400px; background: linear-gradient(160deg, #3b6be0, #1f3f9e); border: 4px solid var(--gold)"><i class="ic"></i><div class="nm">Signature Build</div><div class="ds">Dependable, value-driven, on time.</div><div class="bd" id="l3b">&#9733; RECOMMENDED</div></div>
+        <div class="lvl h0" id="l4" style="left: 1120px; top: 400px; background: linear-gradient(160deg, #f08a2e, #b9580d)"><i class="ic"></i><div class="nm">Premier Build</div><div class="ds">Faster delivery, proactive updates.</div></div>
+        <div class="lvl h0" id="l5" style="left: 1430px; top: 400px; background: linear-gradient(160deg, #3a3a48, #101016)"><i class="ic"></i><div class="nm">Elite Build</div><div class="ds">White-glove, top-tier craft.</div></div>
+        </div>
+      </section>
+
+      <!-- S9 30–34: good better best -->
+      <section id="s9" class="scene clip" data-start="30" data-duration="4" data-track-index="1">
+        <div class="in" id="s9-i">
+        <div style="position: absolute; left: 140px; top: 250px">
+          <div class="hl h0" id="g1" style="font-size: 170px">Good.</div>
+          <div class="hl h0" id="g2" style="font-size: 170px">Better.</div>
+          <div class="hl g h0" id="g3" style="font-size: 170px">Best.</div>
+        </div>
+        <div class="win h0" id="w9" style="left: 980px; top: 170px; width: 800px; height: 740px; transform: rotateY(-14deg)">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Kitchen &middot; Remodel 200 sf</span></div>
+          <div style="padding: 36px 48px">
+            <div style="font-size: 20px; font-weight: 800; letter-spacing: 3px; color: var(--ui-sub)">FINISH LEVEL</div>
+            <div class="seg" style="margin-top: 14px"><i id="seg-k"></i><span>Entry</span><span>Good</span><span>Better</span><span>Best</span></div>
+            <div style="margin-top: 26px">
+              <div class="li">Cabinets<span class="v fa" data-i="0">Stock</span><span class="v fb h0" data-i="1">Semi-custom</span><span class="v fc h0" data-i="2">Custom</span></div>
+              <div class="li">Countertops<span class="v fa">Laminate</span><span class="v fb h0">Quartz</span><span class="v fc h0">Natural stone</span></div>
+              <div class="li">Appliances<span class="v fa">Standard</span><span class="v fb h0">Upgraded</span><span class="v fc h0">Pro series</span></div>
+            </div>
+            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 36px">
+              <div style="font-size: 24px; font-weight: 800; color: var(--ui-sub)">Kitchen allowance</div>
+              <div style="font-size: 76px; font-weight: 900; letter-spacing: -2px; font-variant-numeric: tabular-nums" id="n9">$48,900</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S10 34–38: change it by voice -->
+      <section id="s10" class="scene clip" data-start="34" data-duration="4" data-track-index="2">
+        <div class="in" id="s10-i">
+        <div style="position: absolute; left: 130px; top: 330px; width: 760px">
+          <div class="hl h0" id="s10a" style="font-size: 120px">Change anything.</div>
+          <div class="hl g h0" id="s10b" style="font-size: 120px; margin-top: 8px">Just ask.</div>
+        </div>
+        <div class="win h0" id="w10" style="left: 990px; top: 150px; width: 820px; height: 790px; transform: rotateY(-12deg)">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Talk to Alex</span></div>
+          <div style="position: relative; height: 340px">
+            <div class="bub me h0" id="b4" style="top: 34px">Add a pot filler and under-cabinet lights.</div>
+            <div class="bub ai h0" id="b5" style="top: 200px">Done. Updating your price&hellip;</div>
+          </div>
+          <div data-layout-allow-overlap style="margin: 0 48px; padding: 34px 40px; border-radius: 22px; background: #fff; border: 3px solid var(--gold)">
+            <div style="display: flex; align-items: center; justify-content: space-between">
+              <div style="font-size: 22px; font-weight: 800; letter-spacing: 4px; color: #9d7d1c">UPDATED TOTAL</div>
+              <div class="pill h0" id="up10" style="background: #e3f5ea; color: var(--ok)">&#9650; +$17,284</div>
+            </div>
+            <div class="total" id="n10" style="margin-top: 10px">$592,280</div>
+            <div style="font-size: 18px; color: var(--ui-sub); margin-top: 12px">Example project &mdash; every project&rsquo;s estimate differs.</div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S11 38–42: margin protected -->
+      <section id="s11" class="scene clip" data-start="38" data-duration="4" data-track-index="1">
+        <div class="in" id="s11-i">
+        <div style="position: absolute; left: 130px; top: 340px; width: 760px">
+          <div class="hl h0" id="s11a" style="font-size: 120px">Margin protected.</div>
+          <div class="hl g h0" id="s11b" style="font-size: 120px; margin-top: 8px">Every job.</div>
+        </div>
+        <div class="h0" id="gauge" style="position: absolute; left: 1010px; top: 170px; width: 780px; height: 740px; border-radius: 28px; background: var(--card); border: 2px solid var(--line)">
+          <svg width="780" height="470" viewBox="0 0 780 470" style="position: absolute; left: 0; top: 40px">
+            <path d="M110 420 A280 280 0 0 1 670 420" fill="none" stroke="#3a3a55" stroke-width="44" stroke-linecap="round" />
+            <path id="arc" d="M110 420 A280 280 0 0 1 670 420" fill="none" stroke="#d4af37" stroke-width="44" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+            <line x1="390" y1="160" x2="390" y2="88" stroke="#a0aab2" stroke-width="6" transform="rotate(-9 390 420)" />
+            <line x1="390" y1="160" x2="390" y2="88" stroke="#ffffff" stroke-width="6" transform="rotate(22.5 390 420)" />
+            <line x1="390" y1="420" x2="390" y2="170" stroke="#ffffff" stroke-width="10" stroke-linecap="round" id="needle" />
+            <circle cx="390" cy="420" r="22" fill="#ffffff" />
+          </svg>
+          <div style="position: absolute; left: 0; top: 540px; width: 780px; display: flex; justify-content: space-around; text-align: center">
+            <div><div class="note">Profit floor</div><div style="font-size: 44px; font-weight: 900">18%</div></div>
+            <div><div class="note">Target</div><div style="font-size: 44px; font-weight: 900">25%</div></div>
+            <div><div class="note">This proposal</div><div style="font-size: 44px; font-weight: 900; color: var(--gold)" id="n11">0%</div></div>
+          </div>
+          <div class="h0" id="stamp" style="position: absolute; left: 150px; top: -34px; padding: 18px 34px; border: 6px solid var(--gold); border-radius: 16px; color: var(--gold); font-size: 44px; font-weight: 900; letter-spacing: 3px; transform: rotate(-8deg); background: rgba(26, 26, 46, 0.86)">&#10003; MARGIN PROTECTED</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S12 42–46: schedule, payments, contract -->
+      <section id="s12a" class="scene clip" data-start="42" data-duration="1.5" data-track-index="2">
+        <div class="in" id="s12a-i">
+        <div class="hl h0" id="w12a" style="position: absolute; left: 130px; top: 110px; font-size: 140px">Schedule.</div>
+        <div class="win" style="left: 130px; top: 340px; width: 1660px; height: 640px">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Construction timeline</span></div>
+          <div style="position: relative; padding: 30px 44px; height: 580px">
+            <div style="font-size: 24px; font-weight: 700; line-height: 76px; color: var(--ui-sub)">Demo &amp; framing<br />Roofing &amp; siding<br />Rough-ins<br />Drywall &amp; finishes<br />Final inspection</div>
+            <i class="gbar" style="left: 400px; top: 44px; width: 380px; background: #3b6be0"></i>
+            <i class="gbar" style="left: 640px; top: 120px; width: 420px; background: #f0b545"></i>
+            <i class="gbar" style="left: 900px; top: 196px; width: 380px; background: #f08a2e"></i>
+            <i class="gbar" style="left: 1120px; top: 272px; width: 330px; background: #1f9d55"></i>
+            <i class="gbar" style="left: 1400px; top: 348px; width: 160px; background: #d4af37"></i>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section id="s12b" class="scene clip" data-start="43.5" data-duration="1" data-track-index="1">
+        <div class="in" id="s12b-i">
+        <div class="hl h0" id="w12b" style="position: absolute; left: 130px; top: 110px; font-size: 140px">Payments.</div>
+        <div class="win" style="left: 130px; top: 340px; width: 1660px; height: 640px">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Payment milestones</span></div>
+          <div style="padding: 10px 50px">
+            <div class="ms m12"><div class="chk">&#10003;</div>Deposit on signing<span class="amt">15%</span></div>
+            <div class="ms m12"><div class="chk">&#10003;</div>Foundation &amp; framing<span class="amt">25%</span></div>
+            <div class="ms m12"><div class="chk">&#10003;</div>Rough-ins complete<span class="amt">25%</span></div>
+            <div class="ms m12"><div class="chk">&#10003;</div>Drywall &amp; finishes<span class="amt">25%</span></div>
+            <div class="ms m12"><div class="chk">&#10003;</div>Final walkthrough<span class="amt">10%</span></div>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section id="s12c" class="scene clip" data-start="44.5" data-duration="1.5" data-track-index="2">
+        <div class="in" id="s12c-i">
+        <div class="hl g h0" id="w12c" style="position: absolute; left: 130px; top: 110px; font-size: 140px">Contract.</div>
+        <div class="win h0" id="doc" style="left: 700px; top: 330px; width: 1090px; height: 700px; transform: rotate(-3deg)">
+          <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Contractor agreement</span></div>
+          <div style="padding: 44px 60px">
+            <div style="font-size: 40px; font-weight: 900">Independent Contractor Agreement</div>
+            <div style="margin-top: 26px; display: grid; gap: 18px">
+              <i style="display: block; height: 18px; border-radius: 9px; background: #e3e6ef; width: 92%"></i>
+              <i style="display: block; height: 18px; border-radius: 9px; background: #e3e6ef; width: 86%"></i>
+              <i style="display: block; height: 18px; border-radius: 9px; background: #e3e6ef; width: 95%"></i>
+              <i style="display: block; height: 18px; border-radius: 9px; background: #e3e6ef; width: 70%"></i>
+            </div>
+            <svg width="520" height="150" viewBox="0 0 520 150" style="margin-top: 40px">
+              <path id="sig" d="M10 110 C 60 20, 90 140, 140 70 S 220 30, 250 100 S 330 140, 360 60 S 450 40, 500 90" fill="none" stroke="#1a1a2e" stroke-width="7" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+              <line x1="0" y1="140" x2="520" y2="140" stroke="#cfd4e2" stroke-width="3" />
+            </svg>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S13 46–50: one flow -->
+      <section id="s13" class="scene clip" data-start="46" data-duration="4" data-track-index="1">
+        <div class="in" id="s13-i">
+        <div class="hl h0" id="s13a" style="position: absolute; left: 0; top: 170px; width: 1920px; text-align: center; font-size: 104px">First call to <span class="g">signed contract.</span></div>
+        <svg width="1920" height="200" viewBox="0 0 1920 200" style="position: absolute; left: 0; top: 470px">
+          <path id="flow" d="M260 100 H1660" fill="none" stroke="#d4af37" stroke-width="8" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+        </svg>
+        <div class="node h0" id="n1" style="left: 160px; top: 510px"><div class="c">1</div><div class="t">New lead</div></div>
+        <div class="node h0" id="n2" style="left: 440px; top: 510px"><div class="c">2</div><div class="t">Talk to Alex</div></div>
+        <div class="node h0" id="n3" style="left: 720px; top: 510px"><div class="c">3</div><div class="t">Scope</div></div>
+        <div class="node h0" id="n4" style="left: 1000px; top: 510px"><div class="c">4</div><div class="t">Verified price</div></div>
+        <div class="node h0" id="n5" style="left: 1280px; top: 510px"><div class="c">5</div><div class="t">Proposal</div></div>
+        <div class="node h0" id="n6" style="left: 1560px; top: 510px"><div class="c">&#10003;</div><div class="t">Signed contract</div></div>
+        </div>
+      </section>
+
+      <!-- S14 50–52: months to minutes -->
+      <section id="s14" class="scene clip" data-start="50" data-duration="2" data-track-index="2">
+        <div class="in" id="s14-i">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 56px">
+          <div style="position: relative">
+            <div class="hl h0" id="s14a" style="font-size: 170px; color: var(--gray)">Months</div>
+            <i class="h0" id="strike" style="position: absolute; left: -16px; right: -16px; top: 52%; height: 14px; border-radius: 7px; background: #ffffff; transform-origin: 0% 50%"></i>
+          </div>
+          <div class="hl g h0" id="s14b" style="font-size: 120px">&rarr;</div>
+          <div class="hl g h0" id="s14c" style="font-size: 170px">minutes.</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- S15 52–60: CTA -->
+      <section id="s15" class="scene clip" data-start="52" data-duration="8" data-track-index="1">
+        <div class="in" id="s15-i">
+        <div id="s15-in" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
+          <img id="s15-logo" class="h0" src="assets/logo.png" alt="Home Estimator" style="width: 560px" />
+          <i id="s15-rule" class="h0" style="display: block; width: 390px; height: 4px; background: var(--gold); margin: 70px 0 46px; transform-origin: 50% 50%"></i>
+          <div id="s15a" class="h0" style="font-size: 56px; font-weight: 700">Visit <span class="g">HomeEstimator.ai</span> to learn more</div>
+          <div id="s15b" class="h0" style="font-size: 44px; font-weight: 500; color: var(--gray); margin-top: 20px">&mdash; or book a demo.</div>
+        </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const B = 0.5; // beat at 120 BPM
+      const IN = "power3.out";
+      const SNAP = "power4.out";
+      const OUT = "power3.in";
+      const fmt = (v) => "$" + Math.round(v).toLocaleString("en-US");
+
+      // ---------- helpers (absolute fromTo, seek-safe) ----------
+      const slam = (sel, t, s = 1.45, d = 0.32) => tl.fromTo(sel, { opacity: 0, scale: s }, { opacity: 1, scale: 1, duration: d, ease: SNAP }, t);
+      const rise = (sel, t, y = 60, d = 0.42) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: IN }, t);
+      const pop = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.34, ease: "back.out(2.2)" }, t);
+      // whip seam: exit streaks left on the bar line, entry streaks in from the right
+      const whipOut = (sel, t) => {
+        tl.to(sel, { x: -240, opacity: 0, filter: "blur(16px)", duration: 0.2, ease: OUT }, t - 0.2);
+        tl.set(sel, { opacity: 0 }, t);
+      };
+      const whipIn = (sel, t) => tl.fromTo(sel, { x: 240, filter: "blur(16px)" }, { x: 0, filter: "blur(0px)", duration: 0.3, ease: IN }, t);
+      const counter = (sel, t, from, to, d, f = fmt) => {
+        const o = { v: from };
+        tl.fromTo(o, { v: from }, { v: to, duration: d, ease: "power2.out", onUpdate: () => (document.querySelector(sel).textContent = f(o.v)) }, t);
+      };
+
+      // ---------- S1 0–4: chips land one per bar-half, pile shakes ----------
+      const rot = [-6, 5, 4, -5];
+      ["#c1", "#c2", "#c3", "#c4"].forEach((s, i) => {
+        tl.fromTo(s, { opacity: 0, scale: 1.8, rotation: rot[i] * 3, y: -60 }, { opacity: 1, scale: 1, rotation: rot[i], y: 0, duration: 0.3, ease: SNAP }, i * 1.0);
+      });
+      tl.fromTo("#s1-i", { x: 0 }, { x: 0, duration: 0.01 }, 0);
+      [3.0, 3.25, 3.5, 3.75].forEach((t, i) => tl.to("#s1-i", { x: i % 2 ? 10 : -10, duration: 0.06, ease: "none" }, t));
+      tl.to("#s1-i", { x: 0, scale: 0.92, opacity: 0, filter: "blur(10px)", duration: 0.18, ease: OUT }, 3.82);
+      tl.set("#s1-i", { opacity: 0 }, 4.0);
+
+      // ---------- S2 4–8: calendar flips months on the bar ----------
+      tl.fromTo("#cal", { opacity: 0, rotationY: 40, x: -120 }, { opacity: 1, rotationY: 12, x: 0, duration: 0.45, ease: IN }, 4.0);
+      ["#m1", "#m2", "#m3", "#m4"].forEach((s, i) => {
+        const t = 4.0 + i * 0.75;
+        tl.fromTo(s, { yPercent: 120, opacity: 1 }, { yPercent: 0, duration: 0.22, ease: SNAP }, t);
+        if (i < 3) tl.to(s, { yPercent: -120, duration: 0.22, ease: OUT }, t + 0.6);
+      });
+      slam("#s2a", 4.5, 1.6, 0.35);
+      rise("#s2b", 5.5, 40);
+      tl.to("#cal", { rotationY: 4, duration: 3.3, ease: "none" }, 4.45);
+      whipOut("#s2-i", 8.0);
+
+      // ---------- S3 8–10: the question (stillness) ----------
+      rise("#s3a", 8.0, 30, 0.35);
+      slam("#s3b", 8.5, 1.3, 0.4);
+      tl.to(["#s3a", "#s3b"], { scale: 1.6, opacity: 0, duration: 0.22, ease: OUT }, 9.78);
+      tl.set(["#s3a", "#s3b"], { opacity: 0 }, 10.0);
+
+      // ---------- S4 10–14: logo hit on the bar, Alex reveal ----------
+      tl.fromTo("#ring", { opacity: 0.9, scale: 0.2 }, { opacity: 0, scale: 1.6, duration: 0.9, ease: "power2.out" }, 10.0);
+      tl.fromTo("#s4-logo", { opacity: 0, scale: 1.9 }, { opacity: 1, scale: 1, duration: 0.38, ease: SNAP }, 10.0);
+      tl.to("#s4-logo", { y: -40, scale: 0.9, duration: 0.5, ease: "power2.inOut" }, 11.0);
+      slam("#s4a", 11.0, 1.3);
+      rise("#s4b", 11.5, 30);
+      tl.to("#s4-in", { scale: 1.06, duration: 2.2, ease: "none" }, 11.6);
+      whipOut("#s4-in", 14.0);
+
+      // ---------- S5 14–18: talk through the job (waveform on the kick) ----------
+      whipIn("#s5-i", 14.0);
+            rise("#s5a", 14.15, 50);
+      tl.fromTo("#w5", { opacity: 0, rotationY: -40, x: 220 }, { opacity: 1, rotationY: -16, x: 0, duration: 0.55, ease: IN }, 14.0);
+      tl.to("#w5", { rotationY: -8, z: 60, duration: 3.2, ease: "none" }, 14.55);
+      const bars = gsap.utils.toArray("#w5 .wave b");
+      for (let k = 0; k < 8; k++) {
+        const t = 14.0 + k * B;
+        tl.to(bars, { scaleY: (i) => 0.35 + 0.65 * Math.abs(Math.sin(i * 1.7 + k * 0.9)), duration: 0.08, ease: "none" }, t);
+        tl.to(bars, { scaleY: (i) => 0.18 + 0.12 * Math.abs(Math.sin(i * 0.8 + k)), duration: 0.38, ease: "power2.out" }, t + 0.08);
+      }
+      rise("#b1", 14.5, 30, 0.3);
+      rise("#b2", 15.5, 30, 0.3);
+      rise("#b3", 16.5, 30, 0.3);
+      whipOut("#s5-i", 18.0);
+
+      // ---------- S6 18–22: camera swoop over the scope grid, ticks on every beat ----------
+      rise("#s6a", 18.0, 40, 0.35);
+      tl.fromTo("#w6", { opacity: 0, rotationX: 38, y: 160, scale: 0.9 }, { opacity: 1, rotationX: 10, y: 0, scale: 1, duration: 0.7, ease: IN }, 18.0);
+      tl.to("#w6", { rotationX: 4, duration: 3.0, ease: "none" }, 18.7);
+      tl.fromTo("#t4", { scale: 1 }, { scale: 1.08, duration: 0.15, ease: "power2.out" }, 18.5);
+      tl.to("#t4", { scale: 1, duration: 0.25, ease: "power2.inOut" }, 18.65);
+      tl.set("#t4", { borderColor: "#d4af37" }, 18.5);
+      pop("#t4c", 18.5);
+      ["#f1", "#f2", "#f3"].forEach((s, i) => rise(s, 19.0 + i * 0.25, 20, 0.25));
+      ["#k1", "#k2", "#k3", "#k4", "#k5", "#k6"].forEach((s, i) => {
+        const t = 19.75 + i * B * 0.5;
+        pop(s + " .chk", t);
+        tl.fromTo(s + " .bar", { scaleY: 0 }, { scaleY: 1, duration: 0.2, ease: IN }, t);
+        tl.set(s, { borderColor: "#d4af37" }, t);
+      });
+      whipOut("#s6-i", 22.0);
+
+      // ---------- S7 22–26: steps tick, total counts to $592,280 with punch-in ----------
+      rise("#s7a", 22.0, 50);
+      rise("#s7b", 22.5, 50);
+      tl.fromTo("#w7", { opacity: 0, rotationY: -40, x: 200 }, { opacity: 1, rotationY: -12, x: 0, duration: 0.5, ease: IN }, 22.0);
+      ["#p1", "#p2", "#p3", "#p4"].forEach((s, i) => pop(s + " .chk", 22.5 + i * B));
+      rise("#tot7", 24.0, 30, 0.3);
+      counter("#n7", 24.0, 0, 592280, 1.0);
+      tl.to("#w7", { rotationY: 0, scale: 1.08, x: -60, duration: 0.5, ease: SNAP }, 25.0);
+      whipOut("#s7-i", 26.0);
+
+      // ---------- S8 26–30: five levels fan out, Signature lifts ----------
+      rise("#s8a", 26.0, 40, 0.35);
+      const fan = [-10, -5, 0, 5, 10];
+      ["#l1", "#l2", "#l3", "#l4", "#l5"].forEach((s, i) => {
+        tl.fromTo(s, { opacity: 0, rotation: 0, x: (2 - i) * 310, y: 160 }, { opacity: 1, rotation: fan[i], x: 0, y: Math.abs(i - 2) * 28, duration: 0.55, ease: "back.out(1.4)" }, 26.5 + i * 0.08);
+      });
+      tl.to(["#l1", "#l2", "#l4", "#l5"], { opacity: 0.55, duration: 0.3, ease: "power2.out" }, 28.0);
+      tl.to("#l3", { y: -60, scale: 1.12, rotation: 0, boxShadow: "0 0 90px rgba(212,175,55,0.75)", duration: 0.4, ease: SNAP }, 28.0);
+      tl.fromTo("#l3b", { scale: 0.6 }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 28.3);
+      whipOut("#s8-i", 30.0);
+
+      // ---------- S9 30–34: Good / Better / Best slam, tier slider steps on the beat ----------
+      whipIn("#s9-i", 30.0);
+      slam("#g1", 30.0, 1.5, 0.28);
+      slam("#g2", 30.5, 1.5, 0.28);
+      slam("#g3", 31.0, 1.5, 0.28);
+      tl.fromTo("#w9", { opacity: 0, rotationY: -40, x: 200 }, { opacity: 1, rotationY: -14, x: 0, duration: 0.5, ease: IN }, 30.0);
+      tl.fromTo("#seg-k", { x: 157 }, { x: 157, duration: 0.01 }, 30.0);
+      tl.to("#seg-k", { x: 314, duration: 0.3, ease: SNAP }, 31.5);
+      tl.set("#w9 .fa", { opacity: 0 }, 31.5);
+      tl.set("#w9 .fb", { opacity: 1 }, 31.5);
+      counter("#n9", 31.5, 48900, 66450, 0.5);
+      tl.to("#seg-k", { x: 471, duration: 0.3, ease: SNAP }, 32.5);
+      tl.set("#w9 .fb", { opacity: 0 }, 32.5);
+      tl.set("#w9 .fc", { opacity: 1 }, 32.5);
+      counter("#n9", 32.5, 66450, 88915, 0.5);
+      tl.to("#w9", { rotationY: -4, scale: 1.04, duration: 0.5, ease: SNAP }, 32.5);
+      whipOut("#s9-i", 34.0);
+
+      // ---------- S10 34–38: ask by voice, total rolls to $609,564 ----------
+      rise("#s10a", 34.0, 50);
+      rise("#s10b", 34.5, 50);
+      tl.fromTo("#w10", { opacity: 0, rotationY: -40, x: 200 }, { opacity: 1, rotationY: -12, x: 0, duration: 0.5, ease: IN }, 34.0);
+      rise("#b4", 34.5, 30, 0.3);
+      rise("#b5", 35.5, 30, 0.3);
+      counter("#n10", 36.0, 592280, 609564, 0.9);
+      tl.fromTo("#n10", { scale: 1 }, { scale: 1.05, duration: 0.9, ease: "power2.out", transformOrigin: "0% 50%" }, 36.0);
+      pop("#up10", 36.9);
+      tl.to("#w10", { rotationY: 0, scale: 1.05, x: -60, duration: 0.5, ease: SNAP }, 37.0);
+      whipOut("#s10-i", 38.0);
+
+      // ---------- S11 38–42: gauge sweeps past the floor, stamp lands ----------
+      rise("#s11a", 38.0, 50);
+      rise("#s11b", 38.5, 50);
+      tl.fromTo("#gauge", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: IN }, 38.0);
+      // needle: -90deg (0%) to +12deg (27% on a 0–40% dial) pivoting at the hub
+      tl.fromTo("#needle", { rotation: -90, svgOrigin: "390 420" }, { rotation: 31.5, svgOrigin: "390 420", duration: 1.0, ease: "back.out(1.6)" }, 38.5);
+      tl.fromTo("#arc", { strokeDashoffset: 100 }, { strokeDashoffset: 32.5, duration: 1.0, ease: "power2.out" }, 38.5);
+      counter("#n11", 38.5, 0, 27, 1.0, (v) => Math.round(v) + "%");
+      tl.fromTo("#stamp", { opacity: 0, scale: 2.2, rotation: -20 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.28, ease: SNAP }, 40.0);
+      whipOut("#s11-i", 42.0);
+
+      // ---------- S12 42–46: three hard cuts ----------
+      slam("#w12a", 42.0, 1.4, 0.28);
+      gsap.utils.toArray("#s12a .gbar").forEach((el, i) => tl.fromTo(el, { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: IN }, 42.15 + i * 0.12));
+      slam("#w12b", 43.5, 1.4, 0.28);
+      gsap.utils.toArray("#s12b .m12 .chk").forEach((el, i) => tl.fromTo(el, { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, 43.55 + i * 0.1));
+      slam("#w12c", 44.5, 1.4, 0.28);
+      tl.fromTo("#doc", { opacity: 0, y: 260, rotation: 6 }, { opacity: 1, y: 0, rotation: -3, duration: 0.4, ease: IN }, 44.5);
+      tl.fromTo("#sig", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.6, ease: "power1.inOut" }, 45.0);
+      whipOut("#s12c-i", 46.0);
+
+      // ---------- S13 46–50: one gold line through every step ----------
+      rise("#s13a", 46.0, 40, 0.35);
+      tl.fromTo("#flow", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 2.6, ease: "none" }, 46.5);
+      ["#n1", "#n2", "#n3", "#n4", "#n5", "#n6"].forEach((s, i) => pop(s, 46.5 + i * B));
+      tl.to("#n6 .c", { backgroundColor: "#d4af37", color: "#1a1a2e", duration: 0.2, ease: "none" }, 49.0);
+      tl.to("#s13-i", { scale: 1.05, duration: 1.0, ease: "power2.in" }, 49.0);
+
+      // ---------- S14 50–52: Months -> minutes ----------
+      rise("#s14a", 50.0, 40, 0.3);
+      tl.fromTo("#strike", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.inOut" }, 50.5);
+      pop("#s14b", 50.75);
+      slam("#s14c", 51.0, 1.5, 0.3);
+
+      // ---------- S15 52–60: CTA on the bar ----------
+      tl.fromTo("#s15-logo", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: SNAP }, 52.0);
+      tl.fromTo("#s15-rule", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: IN }, 52.5);
+      rise("#s15a", 53.0, 30);
+      rise("#s15b", 53.5, 24);
+      tl.to("#s15-in", { opacity: 0, duration: 0.8, ease: "power2.in" }, 59.2);
+      tl.set("#s15-in", { opacity: 0 }, 60.0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
