@@ -478,9 +478,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1920" data-height="1080">
-      <div id="bg" class="clip" data-start="0" data-duration="60" data-track-index="0"></div>
-      <audio id="music" src="assets/music.m4a" data-start="0" data-duration="60" data-track-index="10" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="55" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="55" data-track-index="0"></div>
+      <audio id="music" src="assets/music.m4a" data-start="0" data-duration="55" data-track-index="10" data-volume="1"></audio>
 
       <!-- S1 0–4: the pile-up -->
       <section id="s1" class="scene clip" data-start="0" data-duration="4" data-track-index="1">
@@ -627,10 +627,10 @@
       <section id="s8" class="scene clip" data-start="26" data-duration="4" data-track-index="2">
         <div class="in" id="s8-i">
         <div class="hl h0" id="s8a" style="position: absolute; left: 0; top: 70px; width: 1920px; text-align: center; font-size: 96px">Five build levels. <span class="g">One proposal.</span></div>
-        <div class="lvl h0" id="l1" style="left: 190px; top: 400px; background: linear-gradient(160deg, #8a90a0, #5d6372)"><i class="ic"></i><div class="nm">Change-Order Nightmare</div><div class="ds">Lowest bid, surprise costs later.</div></div>
-        <div class="lvl h0" id="l2" style="left: 500px; top: 400px; background: linear-gradient(160deg, #f0b545, #c98a12)"><i class="ic"></i><div class="nm">Delay &amp; Drama Build</div><div class="ds">Missed dates, thin communication.</div></div>
+        <div class="lvl h0" id="l1" style="left: 190px; top: 400px; background: linear-gradient(160deg, #636978, #3f4450)"><i class="ic"></i><div class="nm">Change-Order Nightmare</div><div class="ds">Lowest bid, surprise costs later.</div></div>
+        <div class="lvl h0" id="l2" style="left: 500px; top: 400px; background: linear-gradient(160deg, #b8801a, #7d5508)"><i class="ic"></i><div class="nm">Delay &amp; Drama Build</div><div class="ds">Missed dates, thin communication.</div></div>
         <div class="lvl h0" id="l3" style="left: 810px; top: 400px; background: linear-gradient(160deg, #3b6be0, #1f3f9e); border: 4px solid var(--gold)"><i class="ic"></i><div class="nm">Signature Build</div><div class="ds">Dependable, value-driven, on time.</div><div class="bd" id="l3b">&#9733; RECOMMENDED</div></div>
-        <div class="lvl h0" id="l4" style="left: 1120px; top: 400px; background: linear-gradient(160deg, #f08a2e, #b9580d)"><i class="ic"></i><div class="nm">Premier Build</div><div class="ds">Faster delivery, proactive updates.</div></div>
+        <div class="lvl h0" id="l4" style="left: 1120px; top: 400px; background: linear-gradient(160deg, #b8601a, #7d3a08)"><i class="ic"></i><div class="nm">Premier Build</div><div class="ds">Faster delivery, proactive updates.</div></div>
         <div class="lvl h0" id="l5" style="left: 1430px; top: 400px; background: linear-gradient(160deg, #3a3a48, #101016)"><i class="ic"></i><div class="nm">Elite Build</div><div class="ds">White-glove, top-tier craft.</div></div>
         </div>
       </section>
@@ -784,8 +784,8 @@
       </section>
 
 
-      <!-- S15 52–60: CTA -->
-      <section id="s15" class="scene clip" data-start="52" data-duration="8" data-track-index="1">
+      <!-- S15 52–55: CTA (video ends at 55 per user) -->
+      <section id="s15" class="scene clip" data-start="52" data-duration="3" data-track-index="1">
         <div class="in" id="s15-i">
         <div id="s15-in" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
           <img id="s15-logo" class="h0" src="assets/logo.png" alt="Home Estimator" style="width: 560px" />
@@ -977,11 +977,8 @@
       tl.fromTo("#s15-rule", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: IN }, 52.5);
       rise("#s15a", 53.0, 30);
       rise("#s15b", 53.5, 24);
-      // final hit of the music at 58.0: logo pulse
-      tl.fromTo("#s15-logo", { scale: 1 }, { scale: 1.08, duration: 0.12, ease: "power2.out" }, 58.0);
-      tl.to("#s15-logo", { scale: 1, duration: 0.5, ease: "power2.inOut" }, 58.12);
-      tl.to("#s15-in", { opacity: 0, duration: 0.8, ease: "power2.in" }, 59.2);
-      tl.set("#s15-in", { opacity: 0 }, 60.0);
+      tl.to("#s15-in", { opacity: 0, duration: 0.8, ease: "power2.in" }, 54.2);
+      tl.set("#s15-in", { opacity: 0 }, 55.0);
 
       window.__timelines["main"] = tl;
     </script>
