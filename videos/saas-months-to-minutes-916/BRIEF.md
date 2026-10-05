@@ -18,7 +18,7 @@ contract in one conversation.
 
 - Designed UI only (no screen recordings), music + kinetic text, no voiceover.
 - Music (v2, user asked to change it): "Bot Network" (LoopsLab), tempo-matched 117.5 → 120 BPM (rubberband),
-  drop 1 at 8.0, breakdown 47.5–52, drop 2 at 52.0 (bar splice), ending tail hit at 58.0. v1 used "AI Technology Background" (music-ai-tech.m4a).
+  drop 1 at 8.0, breakdown 47.5–52, drop 2 at 52.0 (bar splice), outro v3: drop 2 at 52.0 (2 bars), the song's own lead-in bar at 56.0, its final bar + natural ring-out from 58.0 (no separate tail file). v1 used "AI Technology Background" (music-ai-tech.m4a).
 - Example totals: $592,280 → $609,564 (different from the demo's numbers), with the
   "Example project — every project's estimate differs." note.
 - Camera/motion direction delegated to Claude: 3D-tilted app windows, swoops, whips on bar lines,

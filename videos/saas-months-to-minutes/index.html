@@ -767,8 +767,8 @@
         </div>
       </section>
 
-      <!-- S13 46–50: one flow -->
-      <section id="s13" class="scene clip" data-start="46" data-duration="4" data-track-index="1">
+      <!-- S13 46–52: one flow, holds through the music breakdown -->
+      <section id="s13" class="scene clip" data-start="46" data-duration="6" data-track-index="1">
         <div class="in" id="s13-i">
         <div class="hl h0" id="s13a" style="position: absolute; left: 0; top: 170px; width: 1920px; text-align: center; font-size: 104px">First call to <span class="g">signed contract.</span></div>
         <svg width="1920" height="200" viewBox="0 0 1920 200" style="position: absolute; left: 0; top: 470px">
@@ -783,19 +783,6 @@
         </div>
       </section>
 
-      <!-- S14 50–52: months to minutes -->
-      <section id="s14" class="scene clip" data-start="50" data-duration="2" data-track-index="2">
-        <div class="in" id="s14-i">
-        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 56px">
-          <div style="position: relative">
-            <div class="hl h0" id="s14a" style="font-size: 170px; color: var(--gray)">Months</div>
-            <i class="h0" id="strike" style="position: absolute; left: -16px; right: -16px; top: 52%; height: 14px; border-radius: 7px; background: #ffffff; transform-origin: 0% 50%"></i>
-          </div>
-          <div class="hl g h0" id="s14b" style="font-size: 120px">&rarr;</div>
-          <div class="hl g h0" id="s14c" style="font-size: 170px">minutes.</div>
-        </div>
-        </div>
-      </section>
 
       <!-- S15 52–60: CTA -->
       <section id="s15" class="scene clip" data-start="52" data-duration="8" data-track-index="1">
@@ -981,13 +968,9 @@
       tl.fromTo("#flow", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 2.6, ease: "none" }, 46.5);
       ["#n1", "#n2", "#n3", "#n4", "#n5", "#n6"].forEach((s, i) => pop(s, 46.5 + i * B));
       tl.to("#n6 .c", { backgroundColor: "#d4af37", color: "#1a1a2e", duration: 0.2, ease: "none" }, 49.0);
-      tl.to("#s13-i", { scale: 1.05, duration: 1.0, ease: "power2.in" }, 49.0);
+      tl.to("#s13-i", { scale: 1.06, duration: 2.6, ease: "power1.inOut" }, 49.2);
+      whipOut("#s13-i", 52.0);
 
-      // ---------- S14 50–52: Months -> minutes ----------
-      rise("#s14a", 50.0, 40, 0.3);
-      tl.fromTo("#strike", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.inOut" }, 50.5);
-      pop("#s14b", 50.75);
-      slam("#s14c", 51.0, 1.5, 0.3);
 
       // ---------- S15 52–60: CTA on the bar ----------
       tl.fromTo("#s15-logo", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: SNAP }, 52.0);
