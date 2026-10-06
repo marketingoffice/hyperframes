@@ -18,7 +18,7 @@ contract in one conversation.
 
 - Designed UI only (no screen recordings), music + kinetic text, no voiceover.
 - Music (v2, user asked to change it): "Bot Network" (LoopsLab), tempo-matched 117.5 → 120 BPM (rubberband),
-  drop 1 at 8.0, breakdown 47.5–52, drop 2 at 52.0 (bar splice), ending (user, v4): video ends at 55.0; drop 2 runs 52–55 and fades out 54.2–55 with the CTA. v1 used "AI Technology Background" (music-ai-tech.m4a).
+  drop 1 at 8.0, breakdown 47.5–52, drop 2 at 52.0 (bar splice), ending (user, v4): video ends at 55.0; drop 2 runs 52–55 and fades out 54.2–55 with the CTA. v5: in-key chime (G#/D#) baked into the music at 36.9 on the +$17,284 badge; logo heartbeat on the measured sub-bass hits 52.39–54.37; gauge readouts +25%; card shadows counter-rotated so all light falls straight down. v1 used "AI Technology Background" (music-ai-tech.m4a).
 - Example totals: $592,280 → $609,564 (different from the demo's numbers), with the
   "Example project — every project's estimate differs." note.
 - Camera/motion direction delegated to Claude: 3D-tilted app windows, swoops, whips on bar lines,

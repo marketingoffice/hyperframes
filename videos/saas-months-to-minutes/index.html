@@ -429,6 +429,14 @@
         line-height: 1;
       }
 
+      /* gauge readouts: larger for phones */
+      #gauge .note {
+        font-size: 28px;
+        color: #c3cad0;
+      }
+      #gauge .note + div {
+        font-size: 54px !important;
+      }
       /* ---------- S12 ---------- */
       .gbar {
         position: absolute;
@@ -485,10 +493,10 @@
       <!-- S1 0–4: the pile-up -->
       <section id="s1" class="scene clip" data-start="0" data-duration="4" data-track-index="1">
         <div class="in" id="s1-i">
-        <div class="chip h0" id="c1" style="left: 300px; top: 300px">Plans.</div>
-        <div class="chip h0" id="c2" style="left: 1060px; top: 240px">Bids.</div>
-        <div class="chip h0" id="c3" style="left: 420px; top: 600px">Callbacks.</div>
-        <div class="chip h0" id="c4" style="left: 1010px; top: 560px">Revisions.</div>
+        <div class="chip h0" id="c1" style="box-shadow: -3.1px 29.8px 80px rgba(0, 0, 0, 0.45); left: 300px; top: 300px">Plans.</div>
+        <div class="chip h0" id="c2" style="box-shadow: 2.6px 29.9px 80px rgba(0, 0, 0, 0.45); left: 1060px; top: 240px">Bids.</div>
+        <div class="chip h0" id="c3" style="box-shadow: 2.1px 29.9px 80px rgba(0, 0, 0, 0.45); left: 420px; top: 600px">Callbacks.</div>
+        <div class="chip h0" id="c4" style="box-shadow: -2.6px 29.9px 80px rgba(0, 0, 0, 0.45); left: 1010px; top: 560px">Revisions.</div>
         </div>
       </section>
 
@@ -627,11 +635,11 @@
       <section id="s8" class="scene clip" data-start="26" data-duration="4" data-track-index="2">
         <div class="in" id="s8-i">
         <div class="hl h0" id="s8a" style="position: absolute; left: 0; top: 70px; width: 1920px; text-align: center; font-size: 96px">Five build levels. <span class="g">One proposal.</span></div>
-        <div class="lvl h0" id="l1" style="left: 190px; top: 400px; background: linear-gradient(160deg, #636978, #3f4450)"><i class="ic"></i><div class="nm">Change-Order Nightmare</div><div class="ds">Lowest bid, surprise costs later.</div></div>
-        <div class="lvl h0" id="l2" style="left: 500px; top: 400px; background: linear-gradient(160deg, #b8801a, #7d5508)"><i class="ic"></i><div class="nm">Delay &amp; Drama Build</div><div class="ds">Missed dates, thin communication.</div></div>
+        <div class="lvl h0" id="l1" style="box-shadow: -6.9px 39.4px 100px rgba(0, 0, 0, 0.5); left: 190px; top: 400px; background: linear-gradient(160deg, #636978, #3f4450)"><i class="ic"></i><div class="nm">Change-Order Nightmare</div><div class="ds">Lowest bid, surprise costs later.</div></div>
+        <div class="lvl h0" id="l2" style="box-shadow: -3.5px 39.8px 100px rgba(0, 0, 0, 0.5); left: 500px; top: 400px; background: linear-gradient(160deg, #b8801a, #7d5508)"><i class="ic"></i><div class="nm">Delay &amp; Drama Build</div><div class="ds">Missed dates, thin communication.</div></div>
         <div class="lvl h0" id="l3" style="left: 810px; top: 400px; background: linear-gradient(160deg, #3b6be0, #1f3f9e); border: 4px solid var(--gold)"><i class="ic"></i><div class="nm">Signature Build</div><div class="ds">Dependable, value-driven, on time.</div><div class="bd" id="l3b">&#9733; RECOMMENDED</div></div>
-        <div class="lvl h0" id="l4" style="left: 1120px; top: 400px; background: linear-gradient(160deg, #b8601a, #7d3a08)"><i class="ic"></i><div class="nm">Premier Build</div><div class="ds">Faster delivery, proactive updates.</div></div>
-        <div class="lvl h0" id="l5" style="left: 1430px; top: 400px; background: linear-gradient(160deg, #3a3a48, #101016)"><i class="ic"></i><div class="nm">Elite Build</div><div class="ds">White-glove, top-tier craft.</div></div>
+        <div class="lvl h0" id="l4" style="box-shadow: 3.5px 39.8px 100px rgba(0, 0, 0, 0.5); left: 1120px; top: 400px; background: linear-gradient(160deg, #b8601a, #7d3a08)"><i class="ic"></i><div class="nm">Premier Build</div><div class="ds">Faster delivery, proactive updates.</div></div>
+        <div class="lvl h0" id="l5" style="box-shadow: 6.9px 39.4px 100px rgba(0, 0, 0, 0.5); left: 1430px; top: 400px; background: linear-gradient(160deg, #3a3a48, #101016)"><i class="ic"></i><div class="nm">Elite Build</div><div class="ds">White-glove, top-tier craft.</div></div>
         </div>
       </section>
 
@@ -698,9 +706,9 @@
           <svg width="780" height="470" viewBox="0 0 780 470" style="position: absolute; left: 0; top: 40px">
             <path d="M110 420 A280 280 0 0 1 670 420" fill="none" stroke="#3a3a55" stroke-width="44" stroke-linecap="round" />
             <path id="arc" d="M110 420 A280 280 0 0 1 670 420" fill="none" stroke="#d4af37" stroke-width="44" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
-            <line x1="390" y1="160" x2="390" y2="88" stroke="#a0aab2" stroke-width="6" transform="rotate(-9 390 420)" />
-            <line x1="390" y1="160" x2="390" y2="88" stroke="#ffffff" stroke-width="6" transform="rotate(22.5 390 420)" />
-            <line x1="390" y1="420" x2="390" y2="170" stroke="#ffffff" stroke-width="10" stroke-linecap="round" id="needle" />
+            <line x1="390" y1="160" x2="390" y2="88" stroke="#a0aab2" stroke-width="10" transform="rotate(-9 390 420)" />
+            <line x1="390" y1="160" x2="390" y2="88" stroke="#ffffff" stroke-width="10" transform="rotate(22.5 390 420)" />
+            <line x1="390" y1="420" x2="390" y2="170" stroke="#ffffff" stroke-width="12" stroke-linecap="round" id="needle" />
             <circle cx="390" cy="420" r="22" fill="#ffffff" />
           </svg>
           <div style="position: absolute; left: 0; top: 540px; width: 780px; display: flex; justify-content: space-around; text-align: center">
@@ -748,7 +756,7 @@
       <section id="s12c" class="scene clip" data-start="44.5" data-duration="1.5" data-track-index="2">
         <div class="in" id="s12c-i">
         <div class="hl g h0" id="w12c" style="position: absolute; left: 130px; top: 110px; font-size: 140px">Contract.</div>
-        <div class="win h0" id="doc" style="left: 700px; top: 330px; width: 1090px; height: 700px; transform: rotate(-3deg)">
+        <div class="win h0" id="doc" style="box-shadow: -2.6px 49.9px 140px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08); left: 700px; top: 330px; width: 1090px; height: 700px; transform: rotate(-3deg)">
           <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><img src="assets/logo.png" alt="" /><span class="tt">Contractor agreement</span></div>
           <div style="padding: 44px 60px">
             <div style="font-size: 40px; font-weight: 900">Independent Contractor Agreement</div>
@@ -973,10 +981,17 @@
 
 
       // ---------- S15 52–60: CTA on the bar ----------
-      tl.fromTo("#s15-logo", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: SNAP }, 52.0);
+      tl.fromTo("#s15-logo", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.38, ease: SNAP }, 52.0);
       tl.fromTo("#s15-rule", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: IN }, 52.5);
       rise("#s15a", 53.0, 30);
       rise("#s15b", 53.5, 24);
+      // heartbeat: logo pulses on the sub-bass hits of drop 2 (measured onsets, strength 0..1)
+      const beats = [[52.39, 0.72], [52.779, 0.44], [53.232, 0.43], [53.38, 0.76], [53.876, 1.0], [54.184, 0.39], [54.37, 0.54]];
+      beats.forEach(([t, k], i) => {
+        const next = i + 1 < beats.length ? beats[i + 1][0] : t + 0.4;
+        tl.to("#s15-logo", { scale: 1 + 0.08 * k, duration: 0.06, ease: "power2.out" }, t);
+        tl.to("#s15-logo", { scale: 1, duration: Math.min(0.2, next - t - 0.065), ease: "power2.inOut" }, t + 0.06);
+      });
       tl.to("#s15-in", { opacity: 0, duration: 0.8, ease: "power2.in" }, 54.2);
       tl.set("#s15-in", { opacity: 0 }, 55.0);
 
