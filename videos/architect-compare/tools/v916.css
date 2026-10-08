@@ -47,3 +47,15 @@
       #f3 { top: 1280px !important; }
       #cta1 { font-size: 54px !important; }
       #cta1 .tl { display: block; }
+      #res { left: 50px; top: 760px; width: 980px; padding: 34px 0 40px; }
+      #res .k { font-size: 15px; padding: 0 30px; }
+      #res .eq { gap: 14px; }
+      #res .c .l { font-size: 15px; }
+      #res .c .n { font-size: 52px; letter-spacing: -1.5px; }
+      #res .op { font-size: 42px; }
+      #enote { top: 1712px !important; font-size: 15px !important; }
+      #res { top: 640px; }
+      #res .eq { flex-direction: column; align-items: center; gap: 4px; margin-top: 22px; }
+      #res .c .l { font-size: 18px; margin-bottom: 4px; }
+      #res .c .n { font-size: 96px; letter-spacing: -3px; }
+      #res .op { font-size: 60px; padding: 0; }
