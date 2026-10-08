@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Two Designs, One Budget</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* HomeEstimator.ai for architects: compare design options. Navy ground, drafting-line accents
+         (plans drawn stroke by stroke, dimension lines, title blocks). 120 BPM: beat 0.5 s, bar 2 s.
+         Music: impact 8.0, drop 10.0, final chord 26.0. */
+      :root {
+        --navy: #1a1a2e;
+        --card: #2d2d44;
+        --gold: #d4af37;
+        --sand: #b8c0cc;
+        --logo: #e0b663;
+        --gray: #a0aab2;
+        --white: #ffffff;
+        --rule: rgba(184, 192, 204, 0.38);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--navy);
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--white);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--navy);
+      }
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: var(--navy);
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+      .in {
+        position: absolute;
+        inset: 0;
+      }
+      .h0 {
+        opacity: 0;
+      }
+      .abs {
+        position: absolute;
+      }
+      .g {
+        color: var(--gold);
+      }
+      .s {
+        color: var(--sand);
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 2px;
+      }
+      .hl {
+        font-weight: 900;
+        letter-spacing: -3px;
+        line-height: 1.02;
+      }
+
+      /* drafting frame: corner registration ticks */
+      .tick {
+        position: absolute;
+        width: 46px;
+        height: 46px;
+        border-color: var(--rule);
+        border-style: solid;
+        border-width: 0;
+      }
+      #tk1 {
+        left: 36px;
+        top: 36px;
+        border-left-width: 2px;
+        border-top-width: 2px;
+      }
+      #tk2 {
+        right: 36px;
+        top: 36px;
+        border-right-width: 2px;
+        border-top-width: 2px;
+      }
+      #tk3 {
+        left: 36px;
+        bottom: 36px;
+        border-left-width: 2px;
+        border-bottom-width: 2px;
+      }
+      #tk4 {
+        right: 36px;
+        bottom: 36px;
+        border-right-width: 2px;
+        border-bottom-width: 2px;
+      }
+      #sheet {
+        position: absolute;
+        right: 96px;
+        bottom: 46px;
+        font-size: 17px;
+        color: var(--sand);
+        opacity: 0.7;
+      }
+      #bug {
+        position: absolute;
+        left: 70px;
+        bottom: 48px;
+        width: 128px;
+      }
+
+      /* floor plans */
+      svg.plan {
+        overflow: visible;
+        display: block;
+      }
+      .plan .w {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.92);
+        stroke-width: 7;
+        stroke-linecap: square;
+        stroke-dasharray: 100;
+      }
+      .plan .wi {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.78);
+        stroke-width: 4.5;
+        stroke-linecap: square;
+        stroke-dasharray: 100;
+      }
+      .plan .gl {
+        fill: none;
+        stroke: var(--gold);
+        stroke-width: 3.5;
+        stroke-dasharray: 100;
+      }
+      .plan .gl2 {
+        fill: none;
+        stroke: var(--gold);
+        stroke-width: 3.5;
+      }
+      .plan .gl2d {
+        fill: none;
+        stroke: var(--gold);
+        stroke-width: 2;
+        stroke-dasharray: 7 7;
+      }
+      .plan .dr {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.55);
+        stroke-width: 1.6;
+        stroke-dasharray: 100;
+      }
+      .plan .vd {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.4);
+        stroke-width: 1.5;
+        stroke-dasharray: 6 6;
+      }
+      .plan .st {
+        stroke: rgba(255, 255, 255, 0.45);
+        stroke-width: 1.5;
+      }
+      .plan .dl {
+        fill: none;
+        stroke: rgba(184, 192, 204, 0.7);
+        stroke-width: 1.5;
+      }
+      .plan text {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        letter-spacing: 1.5px;
+        fill: rgba(184, 192, 204, 0.85);
+        text-anchor: middle;
+      }
+      .plan text.lab {
+        fill: rgba(255, 255, 255, 0.62);
+        font-size: 14px;
+      }
+
+      /* scene A: the hook */
+      .half-hl {
+        position: absolute;
+        top: 104px;
+        width: 780px;
+      }
+      .half-hl .l1 {
+        font-size: 50px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        color: var(--white);
+      }
+      .half-hl .l2 {
+        font-size: 118px;
+        font-weight: 900;
+        letter-spacing: -4px;
+        line-height: 1.05;
+      }
+      .cap {
+        position: absolute;
+        top: 912px;
+        width: 714px;
+        font-size: 18px;
+        color: var(--sand);
+        text-align: center;
+      }
+      #chip {
+        position: absolute;
+        left: 760px;
+        top: 960px;
+        width: 400px;
+        height: 64px;
+        border: 2px solid var(--gold);
+        border-radius: 32px;
+        background: var(--navy);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        font-size: 30px;
+        font-weight: 800;
+      }
+      #chip .mono {
+        font-size: 18px;
+        font-weight: 400;
+        color: var(--sand);
+      }
+      .ctr-hl {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 110px;
+        text-align: center;
+        font-size: 74px;
+        font-weight: 800;
+        letter-spacing: -2px;
+      }
+      #stamp {
+        position: absolute;
+        left: 760px;
+        top: 520px;
+        width: 400px;
+        padding: 16px 0 12px;
+        border: 7px double var(--white);
+        border-radius: 10px;
+        color: var(--white);
+        text-align: center;
+        background: rgba(26, 26, 46, 0.86);
+      }
+      #stamp .t {
+        line-height: 1.1;
+        font-size: 50px;
+        font-weight: 900;
+        letter-spacing: 3px;
+      }
+      #stamp .n {
+        font-size: 22px;
+        line-height: 1.2;
+        margin-top: 8px;
+      }
+      .big {
+        position: absolute;
+        left: 150px;
+        font-size: 150px;
+        font-weight: 900;
+        letter-spacing: -5px;
+      }
+
+      /* scene B: the question */
+      #b1,
+      #b2 {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 96px;
+        font-weight: 900;
+        letter-spacing: -3px;
+      }
+      #btn {
+        position: absolute;
+        left: 710px;
+        top: 630px;
+        width: 500px;
+        height: 104px;
+        border-radius: 52px;
+        background: var(--gold);
+        color: var(--navy);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        font-size: 40px;
+        font-weight: 800;
+        box-shadow: 0 18px 50px rgba(212, 175, 55, 0.3);
+      }
+
+      /* cursor */
+      #cur {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 70px;
+        height: 100px;
+        transform-origin: 0 0;
+      }
+
+      /* scene C: compare window */
+      .swap-hl {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 56px;
+        text-align: center;
+        font-size: 60px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+      }
+      #win {
+        position: absolute;
+        left: 200px;
+        top: 150px;
+        width: 1600px;
+        height: 790px;
+        border-radius: 22px;
+        background: var(--card);
+        border: 1.5px solid rgba(184, 192, 204, 0.45);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
+      #win .hdr {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 64px;
+        border-bottom: 1.5px solid rgba(184, 192, 204, 0.3);
+        display: flex;
+        align-items: center;
+        padding: 0 28px;
+        gap: 12px;
+      }
+      #win .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(184, 192, 204, 0.45);
+      }
+      #win .ttl {
+        font-size: 20px;
+        color: var(--white);
+        margin-left: 16px;
+      }
+      #win .bud {
+        margin-left: auto;
+        font-size: 18px;
+        color: var(--gold);
+        border: 1.5px solid var(--gold);
+        border-radius: 18px;
+        padding: 6px 16px;
+      }
+      #win .div {
+        position: absolute;
+        left: 800px;
+        top: 86px;
+        width: 1.5px;
+        height: 640px;
+        background: rgba(184, 192, 204, 0.28);
+      }
+      .col {
+        position: absolute;
+        top: 0;
+        width: 800px;
+        height: 790px;
+      }
+      #colA {
+        left: 0;
+      }
+      #colB {
+        left: 800px;
+      }
+      .col .thumb {
+        position: absolute;
+        left: 32px;
+        top: 92px;
+        width: 220px;
+        height: 154px;
+      }
+      .col .opt {
+        position: absolute;
+        left: 284px;
+        top: 98px;
+        font-size: 18px;
+        color: var(--sand);
+      }
+      .col .nm {
+        position: absolute;
+        left: 284px;
+        top: 130px;
+        font-size: 26px;
+        font-weight: 600;
+      }
+      .col .tot {
+        position: absolute;
+        left: 280px;
+        top: 166px;
+        font-size: 74px;
+        font-weight: 900;
+        letter-spacing: -2px;
+      }
+      .col .trk {
+        position: absolute;
+        left: 32px;
+        top: 290px;
+        width: 700px;
+        height: 20px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .col .fill {
+        position: absolute;
+        left: 32px;
+        top: 290px;
+        width: 700px;
+        height: 20px;
+        border-radius: 10px;
+        transform-origin: 0 50%;
+      }
+      .col .mk {
+        position: absolute;
+        left: 497px;
+        top: 276px;
+        width: 4px;
+        height: 48px;
+        background: var(--white);
+        border-radius: 2px;
+      }
+      .col .mkl {
+        position: absolute;
+        left: 400px;
+        top: 334px;
+        width: 200px;
+        text-align: center;
+        font-size: 15px;
+        color: var(--gray);
+      }
+      .col .gap {
+        position: absolute;
+        left: 32px;
+        top: 330px;
+        font-size: 22px;
+        font-weight: 700;
+        padding: 6px 16px;
+        border-radius: 18px;
+      }
+      .gap.over {
+        color: var(--sand);
+        border: 1.5px solid var(--sand);
+      }
+      .gap.under {
+        color: var(--navy);
+        background: var(--gold);
+      }
+      .row {
+        position: absolute;
+        left: 32px;
+        width: 700px;
+        height: 54px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        display: flex;
+        align-items: center;
+        font-size: 23px;
+        color: rgba(255, 255, 255, 0.82);
+        border-radius: 8px;
+      }
+      .row .v {
+        margin-left: auto;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 24px;
+        color: var(--white);
+      }
+      .row .car {
+        width: 34px;
+        text-align: right;
+        color: var(--sand);
+        font-size: 18px;
+      }
+      .more {
+        position: absolute;
+        left: 32px;
+        top: 612px;
+        font-size: 16px;
+        color: var(--gray);
+      }
+      #note {
+        position: absolute;
+        left: 32px;
+        top: 742px;
+        font-size: 16px;
+        color: var(--gray);
+      }
+      #hlg {
+        position: absolute;
+        left: 22px;
+        top: 432px;
+        width: 1556px;
+        height: 58px;
+        border: 2px solid var(--gold);
+        border-radius: 10px;
+        background: rgba(212, 175, 55, 0.1);
+      }
+      #hlg2 {
+        display: none;
+      }
+      #dd {
+        position: absolute;
+        left: 412px;
+        top: 492px;
+        width: 340px;
+        border-radius: 12px;
+        background: #3a3a58;
+        border: 1.5px solid var(--sand);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        transform-origin: 50% 0;
+        overflow: hidden;
+      }
+      #dd div {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        padding: 0 18px;
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      #dd div span {
+        margin-left: auto;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 18px;
+        color: #dcc7a0;
+      }
+      #dd .cur {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      #ddsel {
+        position: absolute;
+        left: 0;
+        top: 56px;
+        width: 340px;
+        height: 56px;
+        background: rgba(255, 255, 255, 0.14);
+      }
+
+      /* scene E: sheets */
+      .sheetc {
+        position: absolute;
+        top: 330px;
+        width: 480px;
+        height: 600px;
+        border-radius: 14px;
+        background: var(--card);
+        border: 1.5px solid rgba(184, 192, 204, 0.5);
+        box-shadow: 0 18px 0 -6px rgba(0, 0, 0, 0.18), 0 30px 60px rgba(0, 0, 0, 0.35);
+      }
+      .sheetc .pl {
+        position: absolute;
+        left: 30px;
+        top: 34px;
+        width: 420px;
+        height: 294px;
+      }
+      .sheetc .tb {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 236px;
+        border-top: 1.5px solid rgba(184, 192, 204, 0.5);
+        padding: 22px 28px;
+      }
+      .sheetc .tb .r1 {
+        font-size: 16px;
+        color: var(--sand);
+      }
+      .sheetc .tb .r2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 8px;
+      }
+      .sheetc .tb .r3 {
+        font-size: 58px;
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -1.5px;
+        margin-top: 8px;
+      }
+      .sheetc .tb .r4 {
+        font-size: 17px;
+        line-height: 1.2;
+        margin-top: 10px;
+      }
+      #ok {
+        position: absolute;
+        left: 760px;
+        top: 470px;
+        width: 400px;
+        padding: 14px 0 10px;
+        border: 7px double var(--gold);
+        border-radius: 10px;
+        color: var(--gold);
+        text-align: center;
+        background: rgba(26, 26, 46, 0.9);
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: 3px;
+      }
+
+      /* scene F: payoff */
+      .pw {
+        position: absolute;
+        left: 150px;
+        font-size: 132px;
+        font-weight: 900;
+        letter-spacing: -5px;
+        line-height: 1;
+      }
+      .fw {
+        position: absolute;
+        left: 1200px;
+        font-size: 58px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .fw i {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--gold);
+        border-radius: 8px;
+        position: relative;
+      }
+      .fw i b {
+        position: absolute;
+        left: 9px;
+        top: 2px;
+        width: 13px;
+        height: 22px;
+        border-right: 5px solid var(--gold);
+        border-bottom: 5px solid var(--gold);
+        transform: rotate(45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="30" data-track-index="0"></div>
+      <audio id="music" src="assets/audio.m4a" data-start="0" data-duration="30" data-track-index="10" data-volume="1"></audio>
+
+      <!-- drafting frame + logo bug through the body (0–26) -->
+      <div id="frame" class="clip" data-start="0" data-duration="26" data-track-index="7">
+        <div id="frame-i" class="in">
+          <div class="tick" id="tk1"></div>
+          <div class="tick" id="tk2"></div>
+          <div class="tick" id="tk3"></div>
+          <div class="tick" id="tk4"></div>
+          <div id="sheet" class="mono">OPTIONS STUDY &middot; A-101</div>
+          <img id="bug" src="assets/logo.png" alt="Home Estimator" />
+        </div>
+      </div>
+
+      <!-- SA 0–8: the hook, the bid, the redraw loop -->
+      <section id="sa" class="scene clip" data-start="0" data-duration="8" data-track-index="1">
+        <div class="in" id="sa-i">
+          <div class="half-hl h0" id="hlA" style="left: 140px">
+            <div class="l1">Your client loves</div>
+            <div class="l2 g">Option A.</div>
+          </div>
+          <div class="half-hl h0" id="hlB" style="left: 1066px">
+            <div class="l1">Their budget loves</div>
+            <div class="l2">Option B.</div>
+          </div>
+          <div class="abs" id="pa" style="left: 140px; top: 400px; width: 714px; height: 500px">
+            <div class="planA" data-rev="0" style="width: 714px; height: 500px"></div>
+          </div>
+          <div class="abs" id="pb" style="left: 1066px; top: 400px; width: 714px; height: 500px">
+            <div class="planB" style="width: 714px; height: 500px"></div>
+          </div>
+          <div class="cap mono h0" id="capA" style="left: 140px">OPEN PLAN &middot; 2-STOREY GLASS WALL</div>
+          <div class="cap mono h0" id="capB" style="left: 1066px">SPLIT PLAN &middot; STANDARD GLAZING</div>
+          <div id="chip" class="h0"><span class="mono">BUDGET</span>$600,000</div>
+          <div class="ctr-hl h0" id="t1">The bids come back&hellip;</div>
+          <div class="ctr-hl h0" id="t2" data-layout-allow-overlap>Back to the drawing board.</div>
+          <div id="stamp" class="h0" data-layout-allow-overlap><div class="t">OVER BUDGET</div><div class="n mono">LOW BID $648,000</div></div>
+          <div class="big h0" id="w1" style="top: 250px">Redraw.</div>
+          <div class="big h0" id="w2" style="top: 430px">Rebid.</div>
+          <div class="big h0 g" id="w3" style="top: 610px">Repeat.</div>
+        </div>
+      </section>
+
+      <!-- SB 8–10: the question + click -->
+      <section id="sb" class="scene clip" data-start="8" data-duration="2" data-track-index="2">
+        <div class="in" id="sb-i">
+          <div id="b1" class="h0" style="top: 300px">What if you priced both options</div>
+          <div id="b2" class="h0 g" style="top: 420px">before you go out to bid?</div>
+          <div id="btn" class="h0">
+            <svg width="44" height="44" viewBox="0 0 44 44"><path d="M6 15 H34 M26 7 L34 15 L26 23 M38 29 H10 M18 21 L10 29 L18 37" fill="none" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            Compare options
+          </div>
+        </div>
+      </section>
+
+      <!-- SC 10–18: side-by-side pricing, then swap one spec -->
+      <section id="sc" class="scene clip" data-start="10" data-duration="8" data-track-index="1">
+        <div class="in" id="sc-i">
+          <div class="swap-hl h0" id="h1">Both options. <span class="g">Priced side by side.</span></div>
+          <div class="swap-hl h0" id="h2" data-layout-allow-overlap>The glass wall is the <span class="g">$44,900</span> difference.</div>
+          <div class="swap-hl h0" id="h3" data-layout-allow-overlap>Swap one spec. <span class="g">Keep the design.</span></div>
+          <div class="swap-hl h0" id="h4" data-layout-allow-overlap>Same design. <span class="g">Under budget.</span></div>
+          <div id="win" class="h0">
+            <div class="hdr">
+              <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+              <div class="ttl mono">ALEX &middot; COMPARE OPTIONS</div>
+              <div class="bud mono">BUDGET $600,000</div>
+            </div>
+            <div class="div"></div>
+            <div id="hlg" class="h0" data-layout-allow-overlap></div>
+            <div id="hlg2" class="h0" data-layout-allow-overlap></div>
+            <div class="col" id="colA">
+              <div class="thumb"><div class="planA" data-rev="1" data-thumb="1" style="width: 220px; height: 154px"></div></div>
+              <div class="opt mono">OPTION A</div>
+              <div class="nm">Open plan &middot; glass wall</div>
+              <div class="tot" id="totA">$0</div>
+              <div class="trk"></div>
+              <div class="fill" id="fA" style="background: rgba(255, 255, 255, 0.85)"></div>
+              <div class="mk"></div>
+              <div class="mkl mono">$600K BUDGET</div>
+              <div class="gap over h0" id="gA1">+$12,400 over</div>
+              <div class="gap under h0" id="gA2" data-layout-allow-overlap>$1,400 under &#10003;</div>
+              <div class="row" style="top: 380px">Structure &amp; framing<span class="v">$142,800</span><span class="car"></span></div>
+              <div class="row" style="top: 434px">Glazing<span class="v" id="vGA">$86,200</span><span class="car">&#9662;</span></div>
+              <div class="row" style="top: 488px">Roof &amp; envelope<span class="v">$74,600</span><span class="car"></span></div>
+              <div class="row" style="top: 542px">Interior finishes<span class="v">$118,900</span><span class="car"></span></div>
+              <div class="more mono">+ 9 MORE CATEGORIES</div>
+              <div id="dd" class="h0" data-layout-allow-overlap>
+                <i id="ddsel"></i>
+                <div class="cur">2-storey glass wall<span>$86,200</span></div>
+                <div>Clerestory + sliders<span>$72,400</span></div>
+                <div>Standard windows<span>$41,300</span></div>
+              </div>
+              <div id="note" class="mono">EXAMPLE PROJECT &middot; EVERY PROJECT&rsquo;S ESTIMATE DIFFERS</div>
+            </div>
+            <div class="col" id="colB">
+              <div class="thumb"><div class="planB" data-thumb="1" style="width: 220px; height: 154px"></div></div>
+              <div class="opt mono">OPTION B</div>
+              <div class="nm">Split plan &middot; standard glazing</div>
+              <div class="tot" id="totB">$0</div>
+              <div class="trk"></div>
+              <div class="fill" id="fB" style="background: var(--gold)"></div>
+              <div class="mk"></div>
+              <div class="mkl mono">$600K BUDGET</div>
+              <div class="gap under h0" id="gB">$12,050 under &#10003;</div>
+              <div class="row" style="top: 380px">Structure &amp; framing<span class="v">$128,600</span><span class="car"></span></div>
+              <div class="row" style="top: 434px">Glazing<span class="v">$41,300</span><span class="car"></span></div>
+              <div class="row" style="top: 488px">Roof &amp; envelope<span class="v">$66,900</span><span class="car"></span></div>
+              <div class="row" style="top: 542px">Interior finishes<span class="v">$104,350</span><span class="car"></span></div>
+              <div class="more mono">+ 9 MORE CATEGORIES</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SE 18–22: every option on the table, client picks -->
+      <section id="se" class="scene clip" data-start="18" data-duration="4" data-track-index="2">
+        <div class="in" id="se-i">
+          <div class="ctr-hl h0" id="e1" style="top: 70px">Walk into the client meeting</div>
+          <div class="ctr-hl h0 g" id="e2" style="top: 160px">with every option priced.</div>
+          <div class="sheetc h0" id="sh1" style="left: 180px">
+            <div class="pl"><div class="planA" data-rev="0" style="width: 420px; height: 294px"></div></div>
+            <div class="tb" data-layout-allow-overlap>
+              <div class="r1 mono">OPTION A &middot; REV 0</div>
+              <div class="r2">Open plan &middot; glass wall</div>
+              <div class="r3">$612,400</div>
+              <div class="r4 mono s">+$12,400 OVER BUDGET</div>
+            </div>
+          </div>
+          <div class="sheetc h0" id="sh2" style="left: 720px">
+            <div class="pl"><div class="planA" data-rev="1" style="width: 420px; height: 294px"></div></div>
+            <div class="tb" data-layout-allow-overlap>
+              <div class="r1 mono">OPTION A &middot; REV 1</div>
+              <div class="r2">Open plan &middot; clerestory</div>
+              <div class="r3 g">$598,600</div>
+              <div class="r4 mono g">$1,400 UNDER BUDGET</div>
+            </div>
+          </div>
+          <div class="sheetc h0" id="sh3" style="left: 1260px">
+            <div class="pl"><div class="planB" style="width: 420px; height: 294px"></div></div>
+            <div class="tb" data-layout-allow-overlap>
+              <div class="r1 mono">OPTION B</div>
+              <div class="r2">Split plan &middot; standard</div>
+              <div class="r3">$587,950</div>
+              <div class="r4 mono s">$12,050 UNDER BUDGET</div>
+            </div>
+          </div>
+          <div id="ok" class="h0" data-layout-allow-overlap>CLIENT APPROVED</div>
+        </div>
+      </section>
+
+      <!-- SF 22–26: payoff -->
+      <section id="sf" class="scene clip" data-start="22" data-duration="4" data-track-index="1">
+        <div class="in" id="sf-i">
+          <div class="pw h0" id="p1" style="top: 250px">Design with</div>
+          <div class="pw h0" id="p2" style="top: 390px">the price</div>
+          <div class="pw h0 g" id="p3" style="top: 530px">in view.</div>
+          <svg class="abs" id="dim" width="1620" height="60" viewBox="0 0 1620 60" style="left: 150px; top: 760px; overflow: visible">
+            <path id="dimp" d="M0 30 H1620 M0 14 V46 M1620 14 V46 M0 30 L14 22 M0 30 L14 38 M1620 30 L1606 22 M1620 30 L1606 38" fill="none" stroke="#b8c0cc" stroke-width="2" pathLength="100" stroke-dasharray="100" />
+          </svg>
+          <div class="abs mono h0" id="diml" style="left: 150px; right: 150px; top: 810px; text-align: center; font-size: 20px; color: var(--sand)">DESIGN INTENT &harr; BUDGET &middot; ONE CONVERSATION</div>
+          <div class="fw h0" id="f1" style="top: 290px"><i><b></b></i>Fewer redraws.</div>
+          <div class="fw h0" id="f2" style="top: 410px"><i><b></b></i>Fewer rebids.</div>
+          <div class="fw h0" id="f3" style="top: 530px"><i><b></b></i><span class="g">Happier clients.</span></div>
+        </div>
+      </section>
+
+      <!-- SG 26–30: CTA on the final chord -->
+      <section id="sg" class="scene clip" data-start="26" data-duration="4" data-track-index="2">
+        <div class="in" id="sg-i">
+          <div id="sg-in" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
+            <div id="kick" class="mono h0" style="font-size: 24px; color: var(--logo); letter-spacing: 6px; margin-bottom: 38px">FOR ARCHITECTS &amp; DESIGNERS</div>
+            <img id="sg-logo" class="h0" src="assets/logo.png" alt="Home Estimator" style="width: 470px" />
+            <i id="sg-rule" class="h0" style="display: block; width: 390px; height: 4px; background: var(--logo); margin: 56px 0 40px"></i>
+            <div id="cta1" class="h0" style="font-size: 56px; font-weight: 700">Visit <span style="color: var(--logo)">HomeEstimator.ai</span> <span class="tl">to learn more</span></div>
+            <div id="cta2" class="h0" style="font-size: 44px; font-weight: 500; color: var(--gray); margin-top: 18px">&mdash; or book a demo.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- oversized cursor (9–18) -->
+      <div id="curc" class="clip" data-start="9" data-duration="9" data-track-index="9">
+        <svg id="cur" class="h0" viewBox="0 0 44 62">
+          <path d="M3 3 L3 50 L14 39 L22 58 L30 54 L22 36 L38 36 Z" fill="#ffffff" stroke="#1a1a2e" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      // ---------- floor plans (built once at setup; deterministic) ----------
+      const P = (d, c) => `<path class="${c}" d="${d}" pathLength="100"/>`;
+      function planA(rev, thumb) {
+        const walls = ["M40 40 H560 V300 H400 V380 H40 Z"].map((d) => P(d, "w")).join("");
+        const inner = ["M220 40 V170", "M220 230 V300", "M400 40 V150", "M400 210 V300", "M40 200 H120", "M400 300 H560"].map((d) => P(d, "wi")).join("");
+        const glass = rev == "0" ? P("M60 388 H380 M60 374 H380", "gl") : `<path class="gl2" d="M60 388 H130 M170 388 H240 M280 388 H350 M60 374 H130 M170 374 H240 M280 374 H350"/><path class="gl2d" d="M60 360 H380"/>`;
+        const ghost = thumb && rev == "1" ? `<path id="gA0" class="gl2" d="M60 388 H380 M60 374 H380"/>` : "";
+        const extras = ghost + `<path class="vd" d="M240 190 H380 V290 H240 Z M240 190 L380 290 M380 190 L240 290"/>` + `<g class="st">${[130, 142, 154, 166, 178, 190].map((x) => `<line x1="${x}" y1="230" x2="${x}" y2="300"/>`).join("")}</g>` + P("M280 170 A60 60 0 0 1 220 230 M220 170 H280", "dr") + P("M460 150 A50 50 0 0 0 410 200", "dr");
+        const labels = thumb ? "" : `<path class="dl" d="M40 16 H560 M40 8 V24 M560 8 V24"/><text x="300" y="10">18.6 m</text>` + `<text class="lab" x="310" y="110">KITCHEN</text><text class="lab" x="480" y="100">BED 1</text><text class="lab" x="480" y="260">BED 2</text><text class="lab" x="130" y="120">ENTRY</text><text class="lab" x="310" y="345">LIVING</text><text class="lab" x="310" y="178">DOUBLE HEIGHT</text>`;
+        return `<svg class="plan" viewBox="0 0 600 420" width="100%" height="100%">${walls}${inner}${glass}${extras}${labels}</svg>`;
+      }
+      function planB(thumb) {
+        const walls = P("M80 60 H520 V360 H80 Z", "w");
+        const inner = ["M260 60 V200", "M260 260 V360", "M380 60 V160", "M380 220 V360", "M80 210 H200", "M380 220 H520"].map((d) => P(d, "wi")).join("");
+        const glass = P("M120 366 H200 M120 354 H200 M300 366 H350 M300 354 H350 M440 366 H500 M440 354 H500 M526 250 V320 M514 250 V320", "gl");
+        const extras = P("M260 200 A60 60 0 0 1 320 260 M260 200 V260", "dr") + P("M200 210 A50 50 0 0 1 150 260", "dr");
+        const labels = thumb ? "" : `<path class="dl" d="M80 36 H520 M80 28 V44 M520 28 V44"/><text x="300" y="30">15.2 m</text>` + `<text class="lab" x="320" y="120">KITCHEN</text><text class="lab" x="450" y="120">BED 1</text><text class="lab" x="450" y="300">BED 2</text><text class="lab" x="170" y="140">STUDY</text><text class="lab" x="170" y="300">ENTRY</text><text class="lab" x="320" y="300">LIVING</text>`;
+        return `<svg class="plan" viewBox="0 0 600 420" width="100%" height="100%">${walls}${inner}${glass}${extras}${labels}</svg>`;
+      }
+      document.querySelectorAll(".planA").forEach((el) => (el.innerHTML = planA(el.dataset.rev, el.dataset.thumb)));
+      document.querySelectorAll(".planB").forEach((el) => (el.innerHTML = planB(el.dataset.thumb)));
+
+      // layout constants per aspect (read once at setup)
+      const V = document.getElementById("root").dataset.width === "1080";
+      const L = V
+        ? { paMid: { x: 0, y: 330, scale: 1.08 }, paSide: { x: 0, y: 840, scale: 0.92 }, curIn: [900, 1980], btn: [560, 1270], zo: "540px 1252px", cur2In: [1100, 1500], caret: [850, 780], opt2: [700, 898], curOut: [1100, 1980], winEnd: { scale: 1.03, x: 0 } }
+        : { paMid: { x: 463, y: 30, scale: 1.08 }, paSide: { x: 900, y: 40, scale: 0.92 }, curIn: [1560, 1120], btn: [1000, 700], zo: "960px 682px", cur2In: [1640, 900], caret: [910, 600], opt2: [790, 722], curOut: [1300, 1150], winEnd: { scale: 1.05, x: 120 } };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const B = 0.5;
+      const IN = "power3.out";
+      const SNAP = "power4.out";
+      const OUT = "power3.in";
+      const fmt = (v) => "$" + Math.round(v).toLocaleString("en-US");
+      const slam = (sel, t, s = 1.45, d = 0.32) => tl.fromTo(sel, { opacity: 0, scale: s }, { opacity: 1, scale: 1, duration: d, ease: SNAP }, t);
+      const rise = (sel, t, y = 60, d = 0.42) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: IN }, t);
+      const pop = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.34, ease: "back.out(2.2)" }, t);
+      const hide = (sel, t, d = 0.2) => {
+        tl.to(sel, { opacity: 0, y: -30, duration: d, ease: OUT }, t - d);
+        tl.set(sel, { opacity: 0 }, t);
+      };
+      const draw = (sel, t, d, stagger = 0) => tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease: "power2.inOut", stagger }, t);
+      const counter = (sel, t, from, to, d) => {
+        const o = { v: from };
+        tl.fromTo(o, { v: from }, { v: to, duration: d, ease: "power2.out", onUpdate: () => (document.querySelector(sel).textContent = fmt(o.v)) }, t);
+      };
+      const stampIn = (sel, t, r) => tl.fromTo(sel, { opacity: 0, scale: 2.4, rotation: r - 14 }, { opacity: 1, scale: 1, rotation: r, duration: 0.22, ease: SNAP }, t);
+      const shake = (sel, t) => [0, 0.05, 0.1, 0.15].forEach((d, i) => tl.to(sel, { x: i === 3 ? 0 : i % 2 ? 8 : -8, duration: 0.05, ease: "none" }, t + d));
+
+      // drafting frame
+      tl.fromTo([".tick", "#sheet", "#bug"], { opacity: 0 }, { opacity: (i, el) => (el.id === "sheet" ? 0.7 : 1), duration: 0.6, ease: "power2.out" }, 0.1);
+      tl.to("#frame-i", { opacity: 0, duration: 0.3, ease: OUT }, 25.7);
+      tl.set("#frame-i", { opacity: 0 }, 26.0);
+
+      // ---------- SA 0–8 ----------
+      // Option A draws itself on the swell
+      tl.set("#pa .vd, #pa .st, #pa .dl, #pa text, #pb .dl, #pb text", { opacity: 0 }, 0);
+      draw("#pa .w", 0.0, 1.3);
+      draw("#pa .wi", 0.4, 0.9, 0.08);
+      draw("#pa .dr", 1.0, 0.6);
+      draw("#pa .gl", 1.05, 0.7);
+      tl.to("#pa .vd, #pa .st, #pa .dl, #pa text", { opacity: 1, duration: 0.5, ease: "power2.out" }, 1.2);
+      rise("#hlA .l1", 0.0, 40, 0.3);
+      slam("#hlA .l2", 0.35, 1.35, 0.4);
+      tl.set("#hlA", { opacity: 1 }, 0);
+      rise("#capA", 1.2, 20, 0.35);
+      // Option B snaps in on the first kick
+      draw("#pb .w", 2.0, 0.55);
+      draw("#pb .wi", 2.15, 0.5, 0.04);
+      draw("#pb .gl, #pb .dr", 2.4, 0.4);
+      tl.to("#pb .dl, #pb text", { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.5);
+      tl.set("#hlB", { opacity: 1 }, 2.0);
+      rise("#hlB .l1", 2.0, 40, 0.35);
+      slam("#hlB .l2", 2.5, 1.35, 0.35);
+      rise("#capB", 2.6, 20, 0.35);
+      pop("#chip", 3.0);
+      tl.fromTo("#sa-i", { scale: 1 }, { scale: 1.03, duration: 0.8, ease: "none" }, 3.15);
+      // 4.0: Option B and the headlines clear, A moves centre for the bid
+      tl.to(["#hlA", "#hlB", "#capA", "#capB"], { opacity: 0, y: -40, duration: 0.22, ease: OUT }, 3.8);
+      tl.set(["#hlA", "#hlB", "#capA", "#capB"], { opacity: 0 }, 4.0);
+      tl.to("#pb", { x: 700, opacity: 0, duration: 0.4, ease: OUT }, 3.85);
+      tl.set("#pb", { opacity: 0 }, 4.3);
+      tl.to("#sa-i", { scale: 1, duration: 0.4, ease: SNAP }, 3.95);
+      tl.to("#pa", { ...L.paMid, duration: 0.5, ease: "power3.inOut" }, 3.85);
+      rise("#t1", 4.0, 40, 0.35);
+      stampIn("#stamp", 4.5, -8);
+      shake("#pa .planA", 4.5);
+      hide("#t1", 5.0);
+      rise("#t2", 5.0, 40, 0.35);
+      // 6.0: redraw loop — plan slides right and un-draws, words slam on the beat
+      hide("#t2", 6.0);
+      tl.to("#stamp", { opacity: 0, scale: 0.8, duration: 0.2, ease: OUT }, 5.85);
+      tl.set("#stamp", { opacity: 0 }, 6.05);
+      tl.to("#pa", { ...L.paSide, duration: 0.45, ease: "power3.inOut" }, 5.8);
+      tl.to("#chip", { opacity: 0, duration: 0.2, ease: OUT }, 5.8);
+      tl.set("#chip", { opacity: 0 }, 6.0);
+      tl.to("#pa .w, #pa .wi, #pa .dr, #pa .gl", { strokeDashoffset: -100, duration: 1.3, ease: "power1.in", stagger: 0.04 }, 6.1);
+      tl.to("#pa .vd, #pa .st, #pa .dl, #pa text", { opacity: 0, duration: 0.6, ease: "power1.in" }, 6.4);
+      slam("#w1", 6.0, 1.5, 0.26);
+      slam("#w2", 6.5, 1.5, 0.26);
+      slam("#w3", 7.0, 1.5, 0.26);
+      // 7.5: everything collapses to a point before the impact
+      tl.to("#sa-i", { scale: 0.15, opacity: 0, duration: 0.4, ease: "power3.in" }, 7.6);
+      tl.set("#sa-i", { opacity: 0 }, 8.0);
+
+      // ---------- SB 8–10 ----------
+      slam("#b1", 8.0, 1.25, 0.38);
+      rise("#b2", 8.5, 40, 0.38);
+      pop("#btn", 9.0);
+      tl.set("#cur", { opacity: 1, x: L.curIn[0], y: L.curIn[1], scale: 1 }, 9.1);
+      tl.to("#cur", { x: L.btn[0], y: L.btn[1], duration: 0.5, ease: "power3.out" }, 9.1);
+      tl.to("#cur", { scale: 0.85, duration: 0.06, ease: "power2.out" }, 9.75);
+      tl.to("#cur", { scale: 1, duration: 0.1, ease: "power2.out" }, 9.81);
+      tl.to("#btn", { scale: 0.93, duration: 0.06, ease: "power2.out" }, 9.75);
+      tl.to("#btn", { scale: 1, duration: 0.1, ease: "power2.out" }, 9.81);
+      tl.to("#cur", { opacity: 0, duration: 0.1, ease: "none" }, 9.85);
+      // zoom-through the button into the app
+      tl.to("#sb-i", { scale: 3.2, opacity: 0, transformOrigin: L.zo, duration: 0.15, ease: "power4.in" }, 9.85);
+      tl.set("#sb-i", { opacity: 0 }, 10.0);
+
+      // ---------- SC 10–18 ----------
+      tl.fromTo("#win", { opacity: 0, scale: 0.55, transformOrigin: "50% 60%" }, { opacity: 1, scale: 1, duration: 0.45, ease: SNAP }, 10.0);
+      rise("#h1", 10.1, 30, 0.35);
+      counter("#totA", 10.2, 0, 612400, 1.0);
+      counter("#totB", 10.2, 0, 587950, 1.0);
+      draw("#colA .w, #colA .wi, #colB .w, #colB .wi", 10.2, 0.8);
+      tl.set("#colA .gl2, #colA .gl2d", { opacity: 0 }, 10.0);
+      tl.fromTo("#colA .dr, #colB .dr, #colB .gl", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 10.6);
+      // thumb A starts as the glass wall (draw rev-0 glazing over the rev-1 thumb)
+      tl.fromTo("#gA0", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 10.6);
+      tl.fromTo("#fA", { scaleX: 0 }, { scaleX: 563 / 700, duration: 0.8, ease: "power3.out" }, 10.9);
+      tl.fromTo("#fB", { scaleX: 0 }, { scaleX: 373 / 700, duration: 0.8, ease: "power3.out" }, 10.9);
+      pop("#gA1", 11.5);
+      pop("#gB", 11.5);
+      // 12.0 punch-in: glazing row lights up across both options
+      tl.to("#win", { scale: 1.025, transformOrigin: "50% 30%", duration: 0.5, ease: SNAP }, 12.0);
+      tl.fromTo("#hlg, #hlg2", { opacity: 0, scaleX: 0.96 }, { opacity: 1, scaleX: 1, duration: 0.3, ease: IN }, 12.5);
+      hide("#h1", 13.0);
+      rise("#h2", 13.0, 30, 0.35);
+      // 14.0 swap one spec
+      hide("#h2", 14.0);
+      rise("#h3", 14.0, 30, 0.35);
+      tl.to("#win", { scale: 1, duration: 0.4, ease: "power3.inOut" }, 13.8);
+      tl.to("#hlg, #hlg2", { opacity: 0, duration: 0.25 }, 13.9);
+      tl.to("#colB", { opacity: 0.55, filter: "grayscale(1)", duration: 0.3 }, 14.0);
+      tl.set("#cur", { opacity: 1, x: L.cur2In[0], y: L.cur2In[1], scale: 1 }, 14.0);
+      tl.to("#cur", { x: L.caret[0], y: L.caret[1], duration: 0.42, ease: "power3.out" }, 14.0);
+      tl.to("#cur", { scale: 0.85, duration: 0.06 }, 14.5);
+      tl.to("#cur", { scale: 1, duration: 0.1 }, 14.56);
+      tl.fromTo("#dd", { opacity: 0, scaleY: 0.6 }, { opacity: 1, scaleY: 1, duration: 0.18, ease: IN }, 14.5);
+      tl.to("#cur", { x: L.opt2[0], y: L.opt2[1], duration: 0.3, ease: "power2.inOut" }, 14.65);
+      tl.to("#cur", { scale: 0.85, duration: 0.06 }, 15.0);
+      tl.to("#cur", { scale: 1, duration: 0.1 }, 15.06);
+      tl.to("#dd", { opacity: 0, scaleY: 0.7, duration: 0.14, ease: OUT }, 15.1);
+      tl.set("#dd", { opacity: 0 }, 15.25);
+      tl.to("#cur", { x: L.curOut[0], y: L.curOut[1], duration: 0.5, ease: "power2.in" }, 15.3);
+      tl.set("#cur", { opacity: 0 }, 15.8);
+      counter("#vGA", 15.05, 86200, 72400, 0.6);
+      counter("#totA", 15.05, 612400, 598600, 0.8);
+      tl.to("#fA", { scaleX: 456 / 700, duration: 0.7, ease: "power3.out" }, 15.1);
+      tl.to("#fA", { backgroundColor: "#d4af37", duration: 0.2 }, 15.6);
+      tl.to("#gA1", { opacity: 0, scale: 0.6, duration: 0.15 }, 15.75);
+      tl.set("#gA1", { opacity: 0 }, 15.9);
+      pop("#gA2", 15.9);
+      // thumb: glass wall becomes clerestory + sliders
+      tl.to("#gA0", { opacity: 0, duration: 0.2 }, 15.1);
+      tl.to("#colA .gl2, #colA .gl2d", { opacity: 1, duration: 0.3 }, 15.2);
+      tl.fromTo("#totA", { scale: 1 }, { scale: 1.08, duration: 0.12, ease: "power2.out", transformOrigin: "0% 50%" }, 15.9);
+      tl.to("#totA", { scale: 1, color: "#d4af37", duration: 0.3, ease: "power2.inOut" }, 16.02);
+      hide("#h3", 16.0);
+      rise("#h4", 16.0, 30, 0.35);
+      tl.to("#win", { ...L.winEnd, duration: 1.4, ease: "power1.inOut" }, 16.2);
+      // 18.0 sheet slide: up and out
+      tl.to("#sc-i", { y: -260, opacity: 0, duration: 0.25, ease: "power3.in" }, 17.75);
+      tl.set("#sc-i", { opacity: 0 }, 18.0);
+
+      // ---------- SE 18–22 ----------
+      rise("#e1", 18.0, 40, 0.35);
+      rise("#e2", 18.5, 40, 0.35);
+      ["#sh1", "#sh2", "#sh3"].forEach((s, i) => {
+        tl.fromTo(s, { opacity: 0, y: 320, rotation: [-6, 3, 7][i] }, { opacity: 1, y: 0, rotation: [-3, 0, 3][i], duration: 0.45, ease: "back.out(1.3)" }, 18.0 + i * 0.25);
+      });
+      tl.set("#se .gl2, #se .gl2d", { opacity: 1 }, 18.0);
+      tl.to(["#sh1", "#sh3"], { opacity: 0.5, filter: "grayscale(1)", scale: 0.95, duration: 0.3, ease: "power2.out" }, 19.5);
+      tl.to("#sh2", { y: -24, scale: 1.08, borderColor: "#d4af37", boxShadow: "0 0 80px rgba(212,175,55,0.45)", duration: 0.35, ease: SNAP }, 19.5);
+      stampIn("#ok", 20.0, -6);
+      shake("#sh2", 20.0);
+      tl.to("#se-i", { scale: 1.04, duration: 1.4, ease: "none" }, 20.25);
+      tl.to("#se-i", { y: -260, opacity: 0, duration: 0.25, ease: "power3.in" }, 21.75);
+      tl.set("#se-i", { opacity: 0 }, 22.0);
+
+      // ---------- SF 22–26 ----------
+      ["#p1", "#p2", "#p3"].forEach((s, i) => tl.fromTo(s, { opacity: 0, y: 120 }, { opacity: 1, y: 0, duration: 0.35, ease: SNAP }, 22.0 + i * B));
+      draw("#dimp", 22.2, 1.2);
+      rise("#diml", 23.2, 20, 0.35);
+      ["#f1", "#f2", "#f3"].forEach((s, i) => {
+        const t = 24.0 + i * B;
+        tl.fromTo(s, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.3, ease: SNAP }, t);
+        tl.fromTo(s + " i b", { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(2.5)" }, t + 0.08);
+      });
+      tl.to("#sf-i", { scaleY: 0.02, opacity: 0, duration: 0.3, ease: "power3.in", transformOrigin: "50% 76%" }, 25.7);
+      tl.set("#sf-i", { opacity: 0 }, 26.0);
+
+      // ---------- SG 26–30: CTA, rings out with the last chord ----------
+      rise("#kick", 26.0, 20, 0.4);
+      tl.fromTo("#sg-logo", { opacity: 0, scale: 1.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: SNAP }, 26.0);
+      tl.fromTo("#sg-rule", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: IN }, 26.45);
+      rise("#cta1", 26.9, 30);
+      rise("#cta2", 27.4, 24);
+      tl.to("#sg-logo", { scale: 1.03, duration: 2.0, ease: "none" }, 26.4);
+      tl.to("#sg-in", { opacity: 0, duration: 0.8, ease: "power2.in" }, 29.2);
+      tl.set("#sg-in", { opacity: 0 }, 30.0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

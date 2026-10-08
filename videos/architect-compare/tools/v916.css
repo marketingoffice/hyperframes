@@ -1,0 +1,49 @@
+      /* ===== 9:16 vertical overrides (Reels / Shorts) ===== */
+      #hlA { left: 150px !important; top: 150px !important; }
+      #hlB { left: 150px !important; top: 1000px !important; }
+      #pa { left: 183px !important; top: 400px !important; }
+      #pb { left: 183px !important; top: 1240px !important; }
+      #capA { left: 183px !important; top: 905px !important; }
+      #capB { left: 183px !important; top: 1745px !important; }
+      #chip { left: 340px; top: 1810px; }
+      #sheet { top: 52px; bottom: auto !important; }
+      .ctr-hl { top: 420px; font-size: 66px; padding: 0 50px; }
+      #stamp { left: 340px; top: 900px; }
+      #w1 { top: 260px !important; }
+      #w2 { top: 430px !important; }
+      #w3 { top: 600px !important; }
+      .big { left: 90px; }
+      #b1, #b2 { font-size: 88px; }
+      #b1 { padding: 0 110px; }
+      #b2 { padding: 0 170px; }
+      #b1 { top: 560px !important; }
+      #b2 { top: 790px !important; }
+      #btn { left: 290px; top: 1200px; }
+      .swap-hl { top: 120px; font-size: 62px; padding: 0 60px; }
+      #h1 .g, #h3 .g, #h4 .g { display: block; }
+      #win { left: 60px; top: 330px; width: 960px; height: 1420px; }
+      #win .div { left: 40px; top: 690px; width: 880px; height: 1.5px; }
+      #colA { left: 80px; top: 0; }
+      #colB { left: 80px; top: 680px; }
+      #hlg { left: 102px; top: 432px; width: 716px; }
+      #hlg2 { display: block; position: absolute; left: 102px; top: 1112px; width: 716px; height: 58px; border: 2px solid var(--gold); border-radius: 10px; background: rgba(212, 175, 55, 0.1); }
+      #note { top: 1360px; }
+      #e1 { top: 600px !important; font-size: 62px; }
+      #e2 { top: 690px !important; font-size: 62px; }
+      .sheetc { zoom: 0.72; top: 1250px; }
+      #sh1 { left: 14px !important; }
+      #sh2 { left: 510px !important; }
+      #sh3 { left: 1006px !important; }
+      #ok { left: 340px; top: 990px; font-size: 38px; }
+      .pw { left: 90px; font-size: 128px; }
+      #p1 { top: 330px !important; }
+      #p2 { top: 465px !important; }
+      #p3 { top: 600px !important; }
+      #dim { left: 90px !important; top: 800px !important; width: 900px; }
+      #diml { left: 60px !important; right: 60px !important; top: 860px !important; font-size: 17px !important; }
+      .fw { left: 90px; font-size: 60px; }
+      #f1 { top: 1060px !important; }
+      #f2 { top: 1170px !important; }
+      #f3 { top: 1280px !important; }
+      #cta1 { font-size: 54px !important; }
+      #cta1 .tl { display: block; }

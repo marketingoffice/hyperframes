@@ -1,0 +1,32 @@
+---
+workflow: general-video
+flow: automation
+storyboard: no
+format: 1080x1920 (generated from ../architect-compare by tools/make916.py)
+duration: 30
+---
+
+# Two designs. One budget. HomeEstimator.ai for architects
+
+**Angle (user):** compare design options. Audience: architects and residential designers.
+**Hook:** "Your client loves Option A. Their budget loves Option B." Then the pain (bids come back over budget,
+redraw / rebid / repeat), the turn ("What if you priced both options before you go out to bid?"), the
+product (Alex compares options side by side, swap one spec and see the price move), the payoff (client approves
+the priced revision), and the CTA.
+
+**Look:** distinct from Months → Minutes. Plain navy ground with drafting-line accents: plans drawn stroke by stroke,
+dimension lines, corner registration ticks, a sheet label, mono annotations (JetBrains Mono) and a dark blueprint-panel
+UI instead of light app windows. Vertical "sheet slide" seams and a zoom-through on the click instead of whips.
+
+**Music (Claude's choice, user said "you have the control"):** "AI Technology Background" (Nicolas T), 120 BPM.
+The 30s edit uses the swell (0–6 = S0–6), the pre-drop impact (V8 = S16) and the drop (V10 = S18), straight through
+to S34, then the song's own final chord (V26 = S146), faded 28.8–30. Bar-aligned splices with 10 ms crossfades.
+**SFX** (bundled Pixabay-licensed library): clicks on every cursor press and the budget chip, key-press slams on
+Redraw / Rebid / Repeat and the payoff list, whooshes on seams, stamp thuds, an in-key chime (A6 + D7) when
+Option A drops under budget, bass impact on the CTA. Event list in tools/mix.py.
+
+**Example numbers:** budget $600,000. A $612,400 (+$12,400 over), B $587,950 ($12,050 under),
+A rev 1 (clerestory + sliders, glazing $86,200 → $72,400) $598,600 ($1,400 under). Note on screen:
+"Example project · every project's estimate differs."
+
+**CTA:** "Visit HomeEstimator.ai to learn more — or book a demo." HomeEstimator.ai only in the CTA. No "free" language.
