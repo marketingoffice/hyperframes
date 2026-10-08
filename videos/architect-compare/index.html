@@ -541,9 +541,9 @@
       }
       #res {
         position: absolute;
-        left: 360px;
+        left: 230px;
         top: 360px;
-        width: 1200px;
+        width: 1460px;
         padding: 40px 0 46px;
         border-radius: 22px;
         background: var(--navy);
@@ -569,7 +569,7 @@
       }
       #res .c .n {
         white-space: nowrap;
-        font-size: 76px;
+        font-size: 72px;
         font-weight: 900;
         letter-spacing: -2px;
         line-height: 1;
@@ -730,11 +730,6 @@
       <!-- drafting frame + logo bug through the body (0–26) -->
       <div id="frame" class="clip" data-start="0" data-duration="26" data-track-index="7">
         <div id="frame-i" class="in">
-          <div class="tick" id="tk1"></div>
-          <div class="tick" id="tk2"></div>
-          <div class="tick" id="tk3"></div>
-          <div class="tick" id="tk4"></div>
-          <div id="sheet" class="mono">OPTIONS STUDY &middot; A-101</div>
           <img id="bug" src="assets/logo.png" alt="Home Estimator" />
         </div>
       </div>
@@ -976,7 +971,7 @@
       const shake = (sel, t) => [0, 0.05, 0.1, 0.15].forEach((d, i) => tl.to(sel, { x: i === 3 ? 0 : i % 2 ? 8 : -8, duration: 0.05, ease: "none" }, t + d));
 
       // drafting frame
-      tl.fromTo([".tick", "#sheet", "#bug"], { opacity: 0 }, { opacity: (i, el) => (el.id === "sheet" ? 0.7 : 1), duration: 0.6, ease: "power2.out" }, 0.1);
+      tl.fromTo("#bug", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.1);
       tl.to("#frame-i", { opacity: 0, duration: 0.3, ease: OUT }, 25.7);
       tl.set("#frame-i", { opacity: 0 }, 26.0);
 
