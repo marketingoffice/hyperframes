@@ -42,6 +42,13 @@ Use another voice only for a documented reason, and write the reason down.
 | 2     | ElevenLabs        | `$ELEVENLABS_API_KEY`                       | UUIDs from elevenlabs.io dashboard          | No                                        | mp3 → wav via ffmpeg |
 | 3     | Kokoro-82M        | always (local fallback)                     | `am_michael`, `af_heart`, … (54 voices)     | No                                        | wav direct           |
 
+Opt-in route (never auto-picked): **VoiceStudio**, a local voice studio with cloning/design.
+Run its backend (default `http://localhost:3900`, override `$VOICESTUDIO_URL`), then
+`audio.mjs --provider voicestudio --voice <saved-profile-id>`. Discover profile ids with
+`GET /v1/audio/voices`; the default `alloy` is only an OpenAI-compat alias. No word timestamps
+(transcribed afterwards like Kokoro). Clone only voices you are authorized to use. VoiceStudio is
+AGPL-3.0 — we only call its HTTP API, we do not bundle it.
+
 ```bash
 # Local Kokoro CLI
 npx hyperframes tts "Welcome to HyperFrames" -o narration.wav

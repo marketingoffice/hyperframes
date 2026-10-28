@@ -84,13 +84,14 @@ Rules that keep this a help, not nagware: **grounded, not generic** (no signal â
 
 ## Where to look â€” read only the file your task needs
 
-| Task                                                                      | Read                             |
-| ------------------------------------------------------------------------- | -------------------------------- |
-| resolve / reuse / adopt / ingest, flags, cascade, inventory               | `references/resolve.md`          |
-| color grading, LUTs, smart grade (`--for`), grade-compare                 | `references/grading.md`          |
-| voiceover / TTS, music, SFX, captions, transcription (audio engine)       | `references/audio.md`            |
-| cut / reframe / transform existing media, exact error diffusion, HEVC     | `references/operations.md`       |
-| source-aware creative treatments, realtime effects, overlays, reveals     | `references/media-treatments.md` |
-| install + auth, provider table, RAM ladders, `--local-only`, `--provider` | `references/setup-providers.md`  |
-| remembered preferences + frozen recipes (user memory)                     | `references/memory.md`           |
-| ownership matrix, usage stats, telemetry, privacy (maintainer-facing)     | `references/meta.md`             |
+| Task                                                                       | Read                             |
+| -------------------------------------------------------------------------- | -------------------------------- |
+| resolve / reuse / adopt / ingest, flags, cascade, inventory                | `references/resolve.md`          |
+| color grading, LUTs, smart grade (`--for`), grade-compare                  | `references/grading.md`          |
+| voiceover / TTS, music, SFX, captions, transcription (audio engine)        | `references/audio.md`            |
+| judge, rank, trim or critique audio (earshot); CC-licensed SFX (Openverse) | `references/earshot.md`          |
+| cut / reframe / transform existing media, exact error diffusion, HEVC      | `references/operations.md`       |
+| source-aware creative treatments, realtime effects, overlays, reveals      | `references/media-treatments.md` |
+| install + auth, provider table, RAM ladders, `--local-only`, `--provider`  | `references/setup-providers.md`  |
+| remembered preferences + frozen recipes (user memory)                      | `references/memory.md`           |
+| ownership matrix, usage stats, telemetry, privacy (maintainer-facing)      | `references/meta.md`             |

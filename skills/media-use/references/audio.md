@@ -17,3 +17,5 @@ node <SKILL_DIR>/audio/scripts/audio.mjs --request ./audio_request.json --out ./
 Single-shot helpers: `audio/scripts/heygen-tts.mjs` (one voice file). Transcription / background removal / captions use the `hyperframes` CLI (`transcribe`, `remove-background`), see the per-topic guides in `audio/references/` (`tts.md`, `bgm.md`, `sfx.md`, `transcribe.md`, `remove-background.md`, `captions/`).
 
 Transcription defaults to Parakeet (better than whisper.cpp: 6.05% vs 7.44% WER, 5-10x faster) via `scripts/transcribe.mjs`, with whisper.cpp auto-fallback (see `references/operations.md`).
+
+Opt-in extras: `--provider voicestudio` (local voice cloning TTS, see `audio/references/tts.md`), `audio/scripts/openverse.mjs` (CC-licensed SFX/music with credits, see `audio/references/sfx.md`), and `references/earshot.md` (listen to / critique audio before and after render).

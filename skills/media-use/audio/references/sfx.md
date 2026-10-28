@@ -33,6 +33,17 @@ A cue that matches nothing is **skipped** (recorded as an anomaly); SFX never bl
 
 21 curated files in `assets/sfx/`, indexed by `manifest.json` — `{ file, duration, description }` per key (e.g. `whoosh`, `pop`, `click`, `chime`, `riser`, `impact-bass-1`, `glitch-1`, `typing`, …). A cue name resolves by **manifest key, file basename, or slug**, so `whoosh`, `whoosh.mp3`, or `"ui click"` (→ slug) all match. Matched files are copied into the project's `assets/sfx/`; `duration_s` comes from the manifest, so timing is known **offline** — e.g. `riser` is 10.03s, so trigger it at `climax − 10.03s`. The manifest's `description` field carries placement hints per effect; read `assets/sfx/manifest.json` for the full set and usage.
 
+## Openverse (opt-in, openly licensed)
+
+Longer tail than the bundled 21, no HeyGen credential needed. Openverse indexes CC0 / CC-BY audio; search is commercial-safe by default.
+
+```bash
+node <SKILL_DIR>/audio/scripts/openverse.mjs "glass shatter" --project <dir> --list   # candidates
+node <SKILL_DIR>/audio/scripts/openverse.mjs "glass shatter" --project <dir> --pick 2 # download
+```
+
+Writes `assets/openverse/<slug>.<ext>` plus `assets/openverse/credits.json`. **CC-BY and similar need attribution** — the resolve line says `ATTRIBUTION REQUIRED`; put every such entry's `attribution` string in the video description/credits. CC0 needs none. Optional `$OPENVERSE_TOKEN` lifts anonymous rate limits. Add the clip to the composition as an ordinary SFX cue (volume ~0.35).
+
 ## Rules
 
 - **Volume ~0.35.** SFX must sit under narration and BGM, not fight them.

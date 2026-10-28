@@ -155,3 +155,41 @@ test("synthResult names a non-zero subprocess exit", () => {
   assert.equal(res.ok, false);
   assert.match(res.error, /kokoro .* exited with status 2/);
 });
+
+import { pickProvider, synthesizeVoicestudio } from "./tts.mjs";
+
+test("pickProvider accepts voicestudio explicitly and never auto-picks it", () => {
+  assert.equal(pickProvider("voicestudio"), "voicestudio");
+});
+
+test("synthesizeVoicestudio posts OpenAI-compat speech and transcodes", async () => {
+  let call;
+  const r = await synthesizeVoicestudio(
+    { text: "hi", voiceId: "alloy", speed: 1, wavAbs: "/tmp/x.wav" },
+    {
+      baseUrl: "http://vs",
+      fetch: async (url, init) => {
+        call = { url, body: JSON.parse(init.body) };
+        return { ok: true, arrayBuffer: async () => new ArrayBuffer(4) };
+      },
+      transcodeToWav: () => true,
+    },
+  );
+  assert.equal(r.ok, true);
+  assert.equal(call.url, "http://vs/v1/audio/speech");
+  assert.equal(call.body.input, "hi");
+});
+
+test("synthesizeVoicestudio reports an unreachable backend", async () => {
+  const r = await synthesizeVoicestudio(
+    { text: "hi", voiceId: "alloy", speed: 1, wavAbs: "/tmp/x.wav" },
+    {
+      baseUrl: "http://vs",
+      fetch: async () => {
+        throw new Error("ECONNREFUSED");
+      },
+    },
+  );
+  assert.equal(r.ok, false);
+  assert.match(r.error, /unreachable/);
+});

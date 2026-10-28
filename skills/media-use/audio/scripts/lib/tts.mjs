@@ -9,6 +9,11 @@
 //        word timings → caller chains transcribeWav().
 //   3. Kokoro-82M (local) — always available, via the published `hyperframes tts`
 //        CLI. No word timings → caller chains transcribeWav().
+//   +  VoiceStudio (local, opt-in) — a running VoiceStudio backend
+//        ($VOICESTUDIO_URL, default http://localhost:3900), OpenAI-compatible
+//        /v1/audio/speech. Never auto-picked: only via provider=voicestudio.
+//        Voice cloning / design live in the app; pass a saved profile as --voice.
+//        No word timings → caller chains transcribeWav().
 //
 // "HeyGen available" is decided by CREDENTIAL presence (heygenCredential), never
 // by the CLI — see the note above.
@@ -33,11 +38,19 @@ export function elevenlabsAvailable() {
   return r.status === 0;
 }
 
+export function voicestudioBaseUrl(env = process.env) {
+  return (env.VOICESTUDIO_URL || "http://localhost:3900").replace(/\/+$/, "");
+}
+
 // First available provider wins; an explicit choice is honored (and validated).
+// voicestudio is explicit-only: it needs a running local backend, so it is never
+// the silent default.
 export function pickProvider(userProvider) {
   if (userProvider) {
-    if (!["heygen", "elevenlabs", "kokoro"].includes(userProvider))
-      throw new Error(`invalid provider "${userProvider}" (heygen | elevenlabs | kokoro)`);
+    if (!["heygen", "elevenlabs", "kokoro", "voicestudio"].includes(userProvider))
+      throw new Error(
+        `invalid provider "${userProvider}" (heygen | elevenlabs | kokoro | voicestudio)`,
+      );
     if (userProvider === "heygen" && !heygenAvailable())
       throw new Error(
         "provider=heygen but no HeyGen credentials (set $HEYGEN_API_KEY or run `npx hyperframes auth login`)",
@@ -56,6 +69,7 @@ export function pickProvider(userProvider) {
 export async function resolveVoiceId({ provider, userVoice, lang = "en" }) {
   if (userVoice) return userVoice;
   if (provider === "elevenlabs") return "21m00Tcm4TlvDq8ikWAM"; // Rachel
+  if (provider === "voicestudio") return "alloy"; // OpenAI-compat alias; pass a saved profile id for a real voice
   if (provider === "kokoro") {
     if (lang === "en") return "am_michael";
     throw new Error("Kokoro non-English needs an explicit --voice (see references/tts.md)");
@@ -251,6 +265,7 @@ export async function synthesizeOne({
   hyperframesDir,
 }) {
   if (provider === "heygen") return synthesizeHeygen({ text, voiceId, lang, speed, wavAbs });
+  if (provider === "voicestudio") return synthesizeVoicestudio({ text, voiceId, speed, wavAbs });
   if (provider === "elevenlabs") {
     // The Python helper writes straight to wavAbs; unlike heygen (transcodeToWav)
     // and kokoro (the `hyperframes tts` CLI), it does NOT create the parent dir,
@@ -340,6 +355,45 @@ export async function synthesizeHeygen({ text, voiceId, lang, speed, wavAbs }, d
     return { ok: true, words };
   } catch (e) {
     return { ok: false, words: null, error: e?.message ? String(e.message) : String(e) };
+  }
+}
+
+// VoiceStudio's OpenAI-compatible speech endpoint. Returns wav bytes directly;
+// no word timings (caller chains transcribeWav). `deps` is injectable for tests.
+export async function synthesizeVoicestudio({ text, voiceId, speed, wavAbs }, deps = {}) {
+  const fetchImpl = deps.fetch ?? fetch;
+  const transcode = deps.transcodeToWav ?? transcodeToWav;
+  const base = deps.baseUrl ?? voicestudioBaseUrl();
+  try {
+    const res = await fetchImpl(`${base}/v1/audio/speech`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "tts-1",
+        voice: voiceId,
+        input: text,
+        response_format: "wav",
+        speed,
+      }),
+    });
+    if (!res.ok) {
+      return {
+        ok: false,
+        words: null,
+        error: `VoiceStudio ${base} returned HTTP ${res.status} (is the backend running? GET ${base}/health)`,
+      };
+    }
+    const bytes = Buffer.from(await res.arrayBuffer());
+    if (!transcode(bytes, wavAbs)) {
+      return { ok: false, words: null, error: "VoiceStudio audio was not decodable (ffmpeg)" };
+    }
+    return { ok: true, words: null };
+  } catch (e) {
+    return {
+      ok: false,
+      words: null,
+      error: `VoiceStudio unreachable at ${base}: ${e?.message ?? e}`,
+    };
   }
 }
 
